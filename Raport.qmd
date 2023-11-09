@@ -1,0 +1,74 @@
+---
+title: "Projekt z zakresu analizy danych"
+author: Karol Kowal, Marcin Kamiński
+execute: 
+  echo: false
+  warning: false
+format: html
+editor: visual
+---
+
+```{r}
+# PACZKI
+library(ggplot2)
+library(flextable)
+library(dplyr)
+```
+
+```{r}
+# WCZYTANIE DANYCH
+dane <- read.csv("C:\\Premier League Project\\dane.csv")
+```
+
+```{r}
+knitr::include_graphics("figures\\Baner.png")
+```
+
+## Wstęp
+
+Tematem projektu jest analiza wybranych statystyk drużyn piłkarskich uczestniczących w rozgrywkach Premier League, czyli na najwyższym poziomie w angielskiej piłce w latach 2017-2022.
+
+## Dane
+
+Dane z których będziemy korzystać do analizy pozyskaliśmy ze strony [bref.com](https://fbref.com/). Strona ta nie ma opcji pobierania gotowych zestawień, więc użyliśmy metod web scrappingu poznanych podczas studiów. Poniżej znajduje się część całego zestawienia oraz objaśnienie zmiennych.
+
+```{r}
+#| column: page
+head(dane) %>% flextable(theme_fun = theme_zebra(odd_header = "#3D195B"))
+```
+
+`Rk` - Miejsce w tabeli
+
+`Squad` - Nazwa drużyny
+
+`Matchhes.played` - Rozegrane mecze
+
+`Wins` - Mecze wygrane
+
+`Draws` - Remisy
+
+`Loses` - Mecze przegrane
+
+`Goals.for` - Bramki zdobyte
+
+`Goals.against` - Bramki stracone
+
+`Goal.difference` - Różnica bramek
+
+`Points` - Punkty
+
+`Points.per.match` - Średnia punktów zdobytych na mecz
+
+`Expected.goals` - Oczekiwane bramki zdobyte wg. Opta (nie uwzględnia rzutów karnych wykonywanych po dogrywce)
+
+`Expected.goals.allowed` - Oczekiwane bramki stracone wg. Opta (nie uwzględnia rzutów karnych wykonywanych po dogrywce)
+
+`Expected.goals.difference` - Oczekiwana różnica bramek wg. Opta (nie uwzględnia rzutów karnych wykonywanych po dogrywce)
+
+`Expected.goals.per.90.minutes` - Średnia oczekiwana różnica bramek na 90 minut wg. Opta (nie uwzględnia rzutów karnych wykonywanych po dogrywce)
+
+`Attendance` - Średnia Frekwencja na meczach domowych 
+
+`Season` - Okres rozgrywek w latach.
+
+Wszystkie dane które pobraliśmy z ww. strony były kompletne, więc nie musimy martwić się ich uzupełnianiem.

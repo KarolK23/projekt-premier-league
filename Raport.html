@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Karol Kowal, Marcin Kamiński">
+
+<title>Projekt z zakresu analizy danych</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="Raport_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Raport_files/libs/quarto-html/quarto.js"></script>
+<script src="Raport_files/libs/quarto-html/popper.min.js"></script>
+<script src="Raport_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Raport_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Raport_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Raport_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Raport_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Raport_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Raport_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="Raport_files/libs/tabwid-1.1.3/tabwid.css" rel="stylesheet">
+<script src="Raport_files/libs/tabwid-1.1.3/tabwid.js"></script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Projekt z zakresu analizy danych</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Karol Kowal, Marcin Kamiński </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+
+</div>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="figures\Baner.png" class="img-fluid" width="600"></p>
+</div>
+</div>
+<section id="wstęp" class="level2">
+<h2 class="anchored" data-anchor-id="wstęp">Wstęp</h2>
+<p>Tematem projektu jest analiza wybranych statystyk drużyn piłkarskich uczestniczących w rozgrywkach Premier League, czyli na najwyższym poziomie w angielskiej piłce w latach 2017-2022.</p>
+</section>
+<section id="dane" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="dane">Dane</h2>
+<p>Dane z których będziemy korzystać do analizy pozyskaliśmy ze strony <a href="https://fbref.com/">bref.com</a>. Strona ta nie ma opcji pobierania gotowych zestawień, więc użyliśmy metod web scrappingu poznanych podczas studiów. Poniżej znajduje się część całego zestawienia oraz objaśnienie zmiennych.</p>
+<div class="cell page-columns page-full">
+<div class="cell-output-display column-page">
+
+<div class="tabwid"><style>.cl-32729692{}.cl-3268f970{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-326d2572{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-326d257c{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-326d3bb6{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-326d3bb7{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-326d3bc0{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-326d3bc1{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-326d3bc2{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-326d3bca{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-32729692"><thead><tr style="overflow-wrap:break-word;"><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Rk</span></p></th><th class="cl-326d3bb7"><p class="cl-326d257c"><span class="cl-3268f970">Squad</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Matches.played</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Wins</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Draws</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Loses</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Goals.for</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Goals.against</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Goal.difference</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Points</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Points.per.match</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Expected.goals</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Expected.goals.allowed</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Expected.goals.difference</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Expected.goals.difference.per.90.minutes</span></p></th><th class="cl-326d3bb7"><p class="cl-326d257c"><span class="cl-3268f970">Attendance</span></p></th><th class="cl-326d3bb7"><p class="cl-326d257c"><span class="cl-3268f970">Season</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">1</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">Manchester City</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">38</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">32</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">5</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">2</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">106</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">27</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">79</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">100</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">2.63</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">78.6</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">23.8</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">54.8</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">1.44</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">54,070</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">2022/2023</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">2</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">Manchester Utd</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">38</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">25</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">6</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">7</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">68</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">28</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">40</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">81</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">2.13</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">55.7</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">40.7</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">15.0</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">0.40</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">74,976</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">2022/2023</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">3</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">Tottenham</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">38</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">23</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">6</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">7</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">74</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">36</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">38</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">77</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">2.03</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">64.7</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">33.9</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">30.8</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">0.81</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">67,953</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">2022/2023</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">4</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">Liverpool</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">38</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">21</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">14</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">5</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">84</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">38</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">46</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">75</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">1.97</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">72.9</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">33.8</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">39.1</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">1.03</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">53,049</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">2022/2023</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">5</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">Chelsea</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">38</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">21</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">10</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">10</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">62</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">38</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">24</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">70</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">1.84</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">54.4</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">33.8</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">20.6</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">0.54</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">41,282</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">2022/2023</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">6</span></p></td><td class="cl-326d3bca"><p class="cl-326d257c"><span class="cl-3268f970">Arsenal</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">38</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">19</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">8</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">13</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">74</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">51</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">23</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">63</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">1.66</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">68.3</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">47.8</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">20.5</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">0.54</span></p></td><td class="cl-326d3bca"><p class="cl-326d257c"><span class="cl-3268f970">59,323</span></p></td><td class="cl-326d3bca"><p class="cl-326d257c"><span class="cl-3268f970">2022/2023</span></p></td></tr></tbody></table></div>
+</div>
+</div>
+<p><code>Rk</code> - Miejsce w tabeli</p>
+<p><code>Squad</code> - Nazwa drużyny</p>
+<p><code>Matchhes.played</code> - Rozegrane mecze</p>
+<p><code>Wins</code> - Mecze wygrane</p>
+<p><code>Draws</code> - Remisy</p>
+<p><code>Loses</code> - Mecze przegrane</p>
+<p><code>Goals.for</code> - Bramki zdobyte</p>
+<p><code>Goals.against</code> - Bramki stracone</p>
+<p><code>Goal.difference</code> - Różnica bramek</p>
+<p><code>Points</code> - Punkty</p>
+<p><code>Points.per.match</code> - Średnia punktów zdobytych na mecz</p>
+<p><code>Expected.goals</code> - Oczekiwane bramki zdobyte wg. Opta (nie uwzględnia rzutów karnych wykonywanych po dogrywce)</p>
+<p><code>Expected.goals.allowed</code> - Oczekiwane bramki stracone wg. Opta (nie uwzględnia rzutów karnych wykonywanych po dogrywce)</p>
+<p><code>Expected.goals.difference</code> - Oczekiwana różnica bramek wg. Opta (nie uwzględnia rzutów karnych wykonywanych po dogrywce)</p>
+<p><code>Expected.goals.per.90.minutes</code> - Średnia oczekiwana różnica bramek na 90 minut wg. Opta (nie uwzględnia rzutów karnych wykonywanych po dogrywce)</p>
+<p><code>Attendance</code> - Średnia Frekwencja na meczach domowych</p>
+<p><code>Season</code> - Okres rozgrywek w latach.</p>
+<p>Wszystkie dane które pobraliśmy z ww. strony były kompletne, więc nie musimy martwić się ich uzupełnianiem.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
