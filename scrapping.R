@@ -26,6 +26,7 @@ Yellow.cards <- c()
 Red.cards <- c()
 Progressive.carries <- c()
 Progressive.passes <- c()
+Age <- c()
 Squad2 <- c()
 Season <- c()
 #link <- "https://fbref.com/en/comps/9/2018-2019/2018-2019-Premier-League-Stats"
@@ -136,6 +137,10 @@ Progressive.carries <- c(Progressive.carries, Progressive.carriesx)
 Progressive.passesx <- page %>% html_nodes("#stats_squads_standard_for .right:nth-child(22)") %>% html_text()
 Progressive.passes <- c(Progressive.passes, Progressive.passesx)
 
+
+Agex <- page %>% html_nodes("#stats_squads_standard_for .right+ .center") %>% html_text()
+Age <- c(Age, Agex)
+
 Squad2x <- page %>% html_nodes("#stats_squads_standard_for .left") %>% html_text()
 Squad2 <- c(Squad2, Squad2x)
 
@@ -149,11 +154,12 @@ df1 <- data.frame(Rk, Squad, Matches.played, Wins, Draws, Loses, Goals.for,
                  Expected.goals, Expected.goals.allowed, Expected.goals.difference,
                  Expected.goals.difference.per.90.minutes, Attendance, "Season"=rev(Season))
 df2 <- data.frame("Squad"=Squad2, Assists, Penalty.kicks.attempted, Penalty.kicks.made, Yellow.cards,
-                  Red.cards, Progressive.carries, Progressive.passes, "Season"=rev(Season))
+                  Red.cards, Progressive.carries, Progressive.passes, Age, "Season"=rev(Season))
 
 
 df <- merge(df1, df2, by = c("Squad","Season"))
 df %>% head()
-df_order <- df %>% arrange(desc(Season), Rk)
+df_order <- df %>% arrange(Season, Rk)
+df_order$Season <- rev(df_order$Season)
 
 write.csv(df_order, "C:\\Premier League Project\\dane.csv", row.names = FALSE)
