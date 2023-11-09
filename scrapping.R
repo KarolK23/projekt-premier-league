@@ -161,5 +161,5 @@ df <- merge(df1, df2, by = c("Squad","Season"))
 df %>% head()
 df_order <- df %>% arrange(Season, Rk)
 df_order$Season <- rev(df_order$Season)
-
+#
 write.csv(df_order, "C:\\Premier League Project\\dane.csv", row.names = FALSE)
