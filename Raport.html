@@ -34,8 +34,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="Raport_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="Raport_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="Raport_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<link href="Raport_files/libs/tabwid-1.1.3/tabwid.css" rel="stylesheet">
-<script src="Raport_files/libs/tabwid-1.1.3/tabwid.js"></script>
+
+<script src="Raport_files/libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="Raport_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
 
 </head>
@@ -86,13 +87,887 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="dane" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="dane">Dane</h2>
-<p>Dane z których będziemy korzystać do analizy pozyskaliśmy ze strony <a href="https://fbref.com/">bref.com</a>. Strona ta nie ma opcji pobierania gotowych zestawień, więc użyliśmy metod web scrappingu poznanych podczas studiów. Poniżej znajduje się część całego zestawienia oraz objaśnienie zmiennych.</p>
+<p>Dane z których będziemy korzystać do analizy pozyskaliśmy ze stron <a href="https://fbref.com/">bref.com</a> oraz <a href="https://www.espn.com/">espn.com</a>. Strony ta nie mają opcji pobierania gotowych zestawień, więc użyliśmy metod web scrappingu poznanych podczas studiów. Poniżej znajduje się część całego zestawienia oraz objaśnienie zmiennych.</p>
 <div class="cell page-columns page-full">
 <div class="cell-output-display column-page">
 
-<div class="tabwid"><style>.cl-32729692{}.cl-3268f970{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-326d2572{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-326d257c{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-326d3bb6{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-326d3bb7{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-326d3bc0{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-326d3bc1{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-326d3bc2{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-326d3bca{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-32729692"><thead><tr style="overflow-wrap:break-word;"><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Rk</span></p></th><th class="cl-326d3bb7"><p class="cl-326d257c"><span class="cl-3268f970">Squad</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Matches.played</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Wins</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Draws</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Loses</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Goals.for</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Goals.against</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Goal.difference</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Points</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Points.per.match</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Expected.goals</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Expected.goals.allowed</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Expected.goals.difference</span></p></th><th class="cl-326d3bb6"><p class="cl-326d2572"><span class="cl-3268f970">Expected.goals.difference.per.90.minutes</span></p></th><th class="cl-326d3bb7"><p class="cl-326d257c"><span class="cl-3268f970">Attendance</span></p></th><th class="cl-326d3bb7"><p class="cl-326d257c"><span class="cl-3268f970">Season</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">1</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">Manchester City</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">38</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">32</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">5</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">2</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">106</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">27</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">79</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">100</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">2.63</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">78.6</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">23.8</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">54.8</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">1.44</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">54,070</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">2022/2023</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">2</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">Manchester Utd</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">38</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">25</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">6</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">7</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">68</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">28</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">40</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">81</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">2.13</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">55.7</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">40.7</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">15.0</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">0.40</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">74,976</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">2022/2023</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">3</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">Tottenham</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">38</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">23</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">6</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">7</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">74</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">36</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">38</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">77</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">2.03</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">64.7</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">33.9</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">30.8</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">0.81</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">67,953</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">2022/2023</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">4</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">Liverpool</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">38</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">21</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">14</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">5</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">84</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">38</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">46</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">75</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">1.97</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">72.9</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">33.8</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">39.1</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">1.03</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">53,049</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">2022/2023</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">5</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">Chelsea</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">38</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">21</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">10</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">10</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">62</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">38</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">24</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">70</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">1.84</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">54.4</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">33.8</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">20.6</span></p></td><td class="cl-326d3bc0"><p class="cl-326d2572"><span class="cl-3268f970">0.54</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">41,282</span></p></td><td class="cl-326d3bc1"><p class="cl-326d257c"><span class="cl-3268f970">2022/2023</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">6</span></p></td><td class="cl-326d3bca"><p class="cl-326d257c"><span class="cl-3268f970">Arsenal</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">38</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">19</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">8</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">13</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">74</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">51</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">23</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">63</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">1.66</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">68.3</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">47.8</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">20.5</span></p></td><td class="cl-326d3bc2"><p class="cl-326d2572"><span class="cl-3268f970">0.54</span></p></td><td class="cl-326d3bca"><p class="cl-326d257c"><span class="cl-3268f970">59,323</span></p></td><td class="cl-326d3bca"><p class="cl-326d257c"><span class="cl-3268f970">2022/2023</span></p></td></tr></tbody></table></div>
+<table class=" lightable-material lightable-striped lightable-hover" style="font-family: &quot;Source Sans Pro&quot;, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Squad </th>
+   <th style="text-align:right;"> Rk </th>
+   <th style="text-align:right;"> Matches.played </th>
+   <th style="text-align:right;"> Wins </th>
+   <th style="text-align:right;"> Draws </th>
+   <th style="text-align:right;"> Loses </th>
+   <th style="text-align:right;"> Goals.for </th>
+   <th style="text-align:right;"> Goals.against </th>
+   <th style="text-align:right;"> Goal.difference </th>
+   <th style="text-align:right;"> Points </th>
+   <th style="text-align:right;"> Points.per.match </th>
+   <th style="text-align:right;"> Expected.goals </th>
+   <th style="text-align:right;"> Expected.goals.allowed </th>
+   <th style="text-align:right;"> Expected.goals.difference </th>
+   <th style="text-align:right;"> Expected.goals.difference.per.90.minutes </th>
+   <th style="text-align:right;"> Attendance </th>
+   <th style="text-align:right;"> Age </th>
+   <th style="text-align:right;"> Assists </th>
+   <th style="text-align:right;"> Passes.completed </th>
+   <th style="text-align:right;"> Passes.attempted </th>
+   <th style="text-align:right;"> Short.passes.completed </th>
+   <th style="text-align:right;"> Short.passes.attempted </th>
+   <th style="text-align:right;"> Medium.passes.completed </th>
+   <th style="text-align:right;"> Medium.passes.attempted </th>
+   <th style="text-align:right;"> Long.passes.completed </th>
+   <th style="text-align:right;"> Long.passes.attempted </th>
+   <th style="text-align:right;"> Progressive.passes </th>
+   <th style="text-align:right;"> Live.ball.passes </th>
+   <th style="text-align:right;"> Dead.ball.passes </th>
+   <th style="text-align:right;"> Passes.from.free.kicks </th>
+   <th style="text-align:right;"> Through.balls </th>
+   <th style="text-align:right;"> Switches </th>
+   <th style="text-align:right;"> Crosses </th>
+   <th style="text-align:right;"> Throw.in.taken </th>
+   <th style="text-align:right;"> Corner.kicks </th>
+   <th style="text-align:right;"> Corner.kicks.in </th>
+   <th style="text-align:right;"> Corner.kicks.out </th>
+   <th style="text-align:right;"> Corner.kicks.straight </th>
+   <th style="text-align:right;"> Passes.offside </th>
+   <th style="text-align:right;"> Passes.blocked </th>
+   <th style="text-align:right;"> Shoots.total </th>
+   <th style="text-align:right;"> Shoots.on.target </th>
+   <th style="text-align:right;"> Average.shot.distance </th>
+   <th style="text-align:right;"> Free.kick.shots </th>
+   <th style="text-align:right;"> Shot.creating.actions </th>
+   <th style="text-align:right;"> SCA.Live.ball.pass </th>
+   <th style="text-align:right;"> SCA.Dead.ball.pass </th>
+   <th style="text-align:right;"> SCA.Take.on </th>
+   <th style="text-align:right;"> SCA.Shot </th>
+   <th style="text-align:right;"> SCA.Fouls.drawn </th>
+   <th style="text-align:right;"> SCA.Deffensive.action </th>
+   <th style="text-align:right;"> Goal.creatiing.actions </th>
+   <th style="text-align:right;"> GCA.Live.ball.pass </th>
+   <th style="text-align:right;"> GCA.Dead.ball.pass </th>
+   <th style="text-align:right;"> GCA.Take.on </th>
+   <th style="text-align:right;"> GCA.Shot </th>
+   <th style="text-align:right;"> GCA.Fouls.drawn </th>
+   <th style="text-align:right;"> GCA.Deffensive.action </th>
+   <th style="text-align:right;"> Penalty.kicks.attempted </th>
+   <th style="text-align:right;"> Penalty.kicks.made </th>
+   <th style="text-align:right;"> Tackles </th>
+   <th style="text-align:right;"> Tackles.won </th>
+   <th style="text-align:right;"> Tackles.def.3rd </th>
+   <th style="text-align:right;"> Tackles.mid.3rd </th>
+   <th style="text-align:right;"> Tackles.att.3rd </th>
+   <th style="text-align:right;"> Dribblers.tackled </th>
+   <th style="text-align:right;"> Dribblers.challenged </th>
+   <th style="text-align:right;"> Challenges.lost </th>
+   <th style="text-align:right;"> Blocks </th>
+   <th style="text-align:right;"> Shots.blocked </th>
+   <th style="text-align:right;"> Blocked.passes </th>
+   <th style="text-align:right;"> Interceptions </th>
+   <th style="text-align:right;"> Clearances </th>
+   <th style="text-align:right;"> Errors </th>
+   <th style="text-align:right;"> Ball.recoveries </th>
+   <th style="text-align:right;"> Fouls.commited </th>
+   <th style="text-align:right;"> Yellow.cards </th>
+   <th style="text-align:right;"> Second.yellow.card </th>
+   <th style="text-align:right;"> Red.cards </th>
+   <th style="text-align:right;"> Own.goals </th>
+   <th style="text-align:right;"> Possession </th>
+   <th style="text-align:right;"> Touches </th>
+   <th style="text-align:right;"> Touches.def.pen </th>
+   <th style="text-align:right;"> Touches.def.3rd </th>
+   <th style="text-align:right;"> Touches.mid.3rd </th>
+   <th style="text-align:right;"> Touches.att.3rd </th>
+   <th style="text-align:right;"> Touches.att.pen </th>
+   <th style="text-align:right;"> Takes.on.attempted </th>
+   <th style="text-align:right;"> Takes.on.succesful </th>
+   <th style="text-align:right;"> Times.tackled.during.take.on </th>
+   <th style="text-align:right;"> Carries </th>
+   <th style="text-align:right;"> Total.carrying.distance </th>
+   <th style="text-align:right;"> Progressive.carrying.distance </th>
+   <th style="text-align:right;"> Progressive.carries </th>
+   <th style="text-align:right;"> Carries.into.final.third </th>
+   <th style="text-align:right;"> Carreis.into.penalty.area </th>
+   <th style="text-align:right;"> Miscontrols </th>
+   <th style="text-align:right;"> Dispossessed </th>
+   <th style="text-align:right;"> Fouls.drawn </th>
+   <th style="text-align:right;"> Passes.recived </th>
+   <th style="text-align:right;"> Progressive.passes.recived </th>
+   <th style="text-align:right;"> Aerials.won </th>
+   <th style="text-align:right;"> Aerial.lost </th>
+   <th style="text-align:right;"> Substitute.apperances </th>
+   <th style="text-align:right;"> Matchehs.as.unused.sub </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Manchester City </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 38 </td>
+   <td style="text-align:right;"> 28 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 94 </td>
+   <td style="text-align:right;"> 33 </td>
+   <td style="text-align:right;"> 61 </td>
+   <td style="text-align:right;"> 89 </td>
+   <td style="text-align:right;"> 2.34 </td>
+   <td style="text-align:right;"> 78.7 </td>
+   <td style="text-align:right;"> 32.1 </td>
+   <td style="text-align:right;"> 46.6 </td>
+   <td style="text-align:right;"> 1.23 </td>
+   <td style="text-align:right;"> 53249 </td>
+   <td style="text-align:right;"> 27.2 </td>
+   <td style="text-align:right;"> 69 </td>
+   <td style="text-align:right;"> 23263 </td>
+   <td style="text-align:right;"> 23263 </td>
+   <td style="text-align:right;"> 11020 </td>
+   <td style="text-align:right;"> 11888 </td>
+   <td style="text-align:right;"> 9848 </td>
+   <td style="text-align:right;"> 10836 </td>
+   <td style="text-align:right;"> 1932 </td>
+   <td style="text-align:right;"> 2849 </td>
+   <td style="text-align:right;"> 2073 </td>
+   <td style="text-align:right;"> 25047 </td>
+   <td style="text-align:right;"> 1544 </td>
+   <td style="text-align:right;"> 440 </td>
+   <td style="text-align:right;"> 94 </td>
+   <td style="text-align:right;"> 177 </td>
+   <td style="text-align:right;"> 742 </td>
+   <td style="text-align:right;"> 614 </td>
+   <td style="text-align:right;"> 238 </td>
+   <td style="text-align:right;"> 72 </td>
+   <td style="text-align:right;"> 87 </td>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 51 </td>
+   <td style="text-align:right;"> 350 </td>
+   <td style="text-align:right;"> 590 </td>
+   <td style="text-align:right;"> 205 </td>
+   <td style="text-align:right;"> 16.6 </td>
+   <td style="text-align:right;"> 20 </td>
+   <td style="text-align:right;"> 1099 </td>
+   <td style="text-align:right;"> 826 </td>
+   <td style="text-align:right;"> 81 </td>
+   <td style="text-align:right;"> 53 </td>
+   <td style="text-align:right;"> 76 </td>
+   <td style="text-align:right;"> 49 </td>
+   <td style="text-align:right;"> 14 </td>
+   <td style="text-align:right;"> 168 </td>
+   <td style="text-align:right;"> 130 </td>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 471 </td>
+   <td style="text-align:right;"> 272 </td>
+   <td style="text-align:right;"> 185 </td>
+   <td style="text-align:right;"> 198 </td>
+   <td style="text-align:right;"> 88 </td>
+   <td style="text-align:right;"> 212 </td>
+   <td style="text-align:right;"> 455 </td>
+   <td style="text-align:right;"> 243 </td>
+   <td style="text-align:right;"> 339 </td>
+   <td style="text-align:right;"> 95 </td>
+   <td style="text-align:right;"> 244 </td>
+   <td style="text-align:right;"> 223 </td>
+   <td style="text-align:right;"> 694 </td>
+   <td style="text-align:right;"> 402 </td>
+   <td style="text-align:right;"> 1866 </td>
+   <td style="text-align:right;"> 347 </td>
+   <td style="text-align:right;"> 44 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 64.7 </td>
+   <td style="text-align:right;"> 29895 </td>
+   <td style="text-align:right;"> 2170 </td>
+   <td style="text-align:right;"> 7410 </td>
+   <td style="text-align:right;"> 14372 </td>
+   <td style="text-align:right;"> 8301 </td>
+   <td style="text-align:right;"> 1277 </td>
+   <td style="text-align:right;"> 702 </td>
+   <td style="text-align:right;"> 334 </td>
+   <td style="text-align:right;"> 239 </td>
+   <td style="text-align:right;"> 19120 </td>
+   <td style="text-align:right;"> 104039 </td>
+   <td style="text-align:right;"> 56163 </td>
+   <td style="text-align:right;"> 987 </td>
+   <td style="text-align:right;"> 753 </td>
+   <td style="text-align:right;"> 279 </td>
+   <td style="text-align:right;"> 406 </td>
+   <td style="text-align:right;"> 298 </td>
+   <td style="text-align:right;"> 384 </td>
+   <td style="text-align:right;"> 22992 </td>
+   <td style="text-align:right;"> 2054 </td>
+   <td style="text-align:right;"> 438 </td>
+   <td style="text-align:right;"> 364 </td>
+   <td style="text-align:right;"> 123 </td>
+   <td style="text-align:right;"> 219 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Manchester Utd </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 38 </td>
+   <td style="text-align:right;"> 23 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 58 </td>
+   <td style="text-align:right;"> 43 </td>
+   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:right;"> 75 </td>
+   <td style="text-align:right;"> 1.97 </td>
+   <td style="text-align:right;"> 67.7 </td>
+   <td style="text-align:right;"> 50.4 </td>
+   <td style="text-align:right;"> 17.3 </td>
+   <td style="text-align:right;"> 0.45 </td>
+   <td style="text-align:right;"> 73671 </td>
+   <td style="text-align:right;"> 26.9 </td>
+   <td style="text-align:right;"> 42 </td>
+   <td style="text-align:right;"> 16603 </td>
+   <td style="text-align:right;"> 16603 </td>
+   <td style="text-align:right;"> 8273 </td>
+   <td style="text-align:right;"> 9294 </td>
+   <td style="text-align:right;"> 6359 </td>
+   <td style="text-align:right;"> 7306 </td>
+   <td style="text-align:right;"> 1438 </td>
+   <td style="text-align:right;"> 2651 </td>
+   <td style="text-align:right;"> 1595 </td>
+   <td style="text-align:right;"> 18827 </td>
+   <td style="text-align:right;"> 1619 </td>
+   <td style="text-align:right;"> 325 </td>
+   <td style="text-align:right;"> 105 </td>
+   <td style="text-align:right;"> 165 </td>
+   <td style="text-align:right;"> 517 </td>
+   <td style="text-align:right;"> 715 </td>
+   <td style="text-align:right;"> 196 </td>
+   <td style="text-align:right;"> 71 </td>
+   <td style="text-align:right;"> 47 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 79 </td>
+   <td style="text-align:right;"> 420 </td>
+   <td style="text-align:right;"> 590 </td>
+   <td style="text-align:right;"> 206 </td>
+   <td style="text-align:right;"> 17.8 </td>
+   <td style="text-align:right;"> 20 </td>
+   <td style="text-align:right;"> 1051 </td>
+   <td style="text-align:right;"> 840 </td>
+   <td style="text-align:right;"> 58 </td>
+   <td style="text-align:right;"> 46 </td>
+   <td style="text-align:right;"> 63 </td>
+   <td style="text-align:right;"> 35 </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 99 </td>
+   <td style="text-align:right;"> 79 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 658 </td>
+   <td style="text-align:right;"> 400 </td>
+   <td style="text-align:right;"> 343 </td>
+   <td style="text-align:right;"> 231 </td>
+   <td style="text-align:right;"> 84 </td>
+   <td style="text-align:right;"> 301 </td>
+   <td style="text-align:right;"> 598 </td>
+   <td style="text-align:right;"> 297 </td>
+   <td style="text-align:right;"> 496 </td>
+   <td style="text-align:right;"> 146 </td>
+   <td style="text-align:right;"> 350 </td>
+   <td style="text-align:right;"> 352 </td>
+   <td style="text-align:right;"> 1010 </td>
+   <td style="text-align:right;"> 771 </td>
+   <td style="text-align:right;"> 2190 </td>
+   <td style="text-align:right;"> 424 </td>
+   <td style="text-align:right;"> 78 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 53.7 </td>
+   <td style="text-align:right;"> 24848 </td>
+   <td style="text-align:right;"> 2639 </td>
+   <td style="text-align:right;"> 8093 </td>
+   <td style="text-align:right;"> 10389 </td>
+   <td style="text-align:right;"> 6570 </td>
+   <td style="text-align:right;"> 1036 </td>
+   <td style="text-align:right;"> 730 </td>
+   <td style="text-align:right;"> 317 </td>
+   <td style="text-align:right;"> 338 </td>
+   <td style="text-align:right;"> 14245 </td>
+   <td style="text-align:right;"> 70351 </td>
+   <td style="text-align:right;"> 37126 </td>
+   <td style="text-align:right;"> 711 </td>
+   <td style="text-align:right;"> 515 </td>
+   <td style="text-align:right;"> 239 </td>
+   <td style="text-align:right;"> 497 </td>
+   <td style="text-align:right;"> 293 </td>
+   <td style="text-align:right;"> 297 </td>
+   <td style="text-align:right;"> 16447 </td>
+   <td style="text-align:right;"> 1578 </td>
+   <td style="text-align:right;"> 465 </td>
+   <td style="text-align:right;"> 434 </td>
+   <td style="text-align:right;"> 149 </td>
+   <td style="text-align:right;"> 192 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Liverpool </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 38 </td>
+   <td style="text-align:right;"> 19 </td>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 75 </td>
+   <td style="text-align:right;"> 47 </td>
+   <td style="text-align:right;"> 28 </td>
+   <td style="text-align:right;"> 67 </td>
+   <td style="text-align:right;"> 1.76 </td>
+   <td style="text-align:right;"> 72.6 </td>
+   <td style="text-align:right;"> 50.9 </td>
+   <td style="text-align:right;"> 21.7 </td>
+   <td style="text-align:right;"> 0.57 </td>
+   <td style="text-align:right;"> 53163 </td>
+   <td style="text-align:right;"> 27.4 </td>
+   <td style="text-align:right;"> 58 </td>
+   <td style="text-align:right;"> 20043 </td>
+   <td style="text-align:right;"> 20043 </td>
+   <td style="text-align:right;"> 9023 </td>
+   <td style="text-align:right;"> 10114 </td>
+   <td style="text-align:right;"> 8561 </td>
+   <td style="text-align:right;"> 9758 </td>
+   <td style="text-align:right;"> 1962 </td>
+   <td style="text-align:right;"> 3283 </td>
+   <td style="text-align:right;"> 1992 </td>
+   <td style="text-align:right;"> 22466 </td>
+   <td style="text-align:right;"> 1811 </td>
+   <td style="text-align:right;"> 416 </td>
+   <td style="text-align:right;"> 103 </td>
+   <td style="text-align:right;"> 198 </td>
+   <td style="text-align:right;"> 799 </td>
+   <td style="text-align:right;"> 860 </td>
+   <td style="text-align:right;"> 235 </td>
+   <td style="text-align:right;"> 56 </td>
+   <td style="text-align:right;"> 155 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 84 </td>
+   <td style="text-align:right;"> 383 </td>
+   <td style="text-align:right;"> 601 </td>
+   <td style="text-align:right;"> 203 </td>
+   <td style="text-align:right;"> 16.2 </td>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> 1046 </td>
+   <td style="text-align:right;"> 778 </td>
+   <td style="text-align:right;"> 85 </td>
+   <td style="text-align:right;"> 55 </td>
+   <td style="text-align:right;"> 75 </td>
+   <td style="text-align:right;"> 33 </td>
+   <td style="text-align:right;"> 20 </td>
+   <td style="text-align:right;"> 129 </td>
+   <td style="text-align:right;"> 97 </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 590 </td>
+   <td style="text-align:right;"> 370 </td>
+   <td style="text-align:right;"> 228 </td>
+   <td style="text-align:right;"> 250 </td>
+   <td style="text-align:right;"> 112 </td>
+   <td style="text-align:right;"> 281 </td>
+   <td style="text-align:right;"> 648 </td>
+   <td style="text-align:right;"> 367 </td>
+   <td style="text-align:right;"> 350 </td>
+   <td style="text-align:right;"> 74 </td>
+   <td style="text-align:right;"> 276 </td>
+   <td style="text-align:right;"> 333 </td>
+   <td style="text-align:right;"> 923 </td>
+   <td style="text-align:right;"> 568 </td>
+   <td style="text-align:right;"> 2211 </td>
+   <td style="text-align:right;"> 405 </td>
+   <td style="text-align:right;"> 57 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 60.8 </td>
+   <td style="text-align:right;"> 28399 </td>
+   <td style="text-align:right;"> 2310 </td>
+   <td style="text-align:right;"> 8119 </td>
+   <td style="text-align:right;"> 13329 </td>
+   <td style="text-align:right;"> 7149 </td>
+   <td style="text-align:right;"> 1252 </td>
+   <td style="text-align:right;"> 691 </td>
+   <td style="text-align:right;"> 320 </td>
+   <td style="text-align:right;"> 282 </td>
+   <td style="text-align:right;"> 17146 </td>
+   <td style="text-align:right;"> 82458 </td>
+   <td style="text-align:right;"> 41527 </td>
+   <td style="text-align:right;"> 719 </td>
+   <td style="text-align:right;"> 569 </td>
+   <td style="text-align:right;"> 234 </td>
+   <td style="text-align:right;"> 584 </td>
+   <td style="text-align:right;"> 413 </td>
+   <td style="text-align:right;"> 321 </td>
+   <td style="text-align:right;"> 19921 </td>
+   <td style="text-align:right;"> 1974 </td>
+   <td style="text-align:right;"> 482 </td>
+   <td style="text-align:right;"> 455 </td>
+   <td style="text-align:right;"> 164 </td>
+   <td style="text-align:right;"> 178 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Aston Villa </td>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> 38 </td>
+   <td style="text-align:right;"> 18 </td>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> 51 </td>
+   <td style="text-align:right;"> 46 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 61 </td>
+   <td style="text-align:right;"> 1.61 </td>
+   <td style="text-align:right;"> 50.2 </td>
+   <td style="text-align:right;"> 52.5 </td>
+   <td style="text-align:right;"> -2.2 </td>
+   <td style="text-align:right;"> -0.06 </td>
+   <td style="text-align:right;"> 39485 </td>
+   <td style="text-align:right;"> 27.0 </td>
+   <td style="text-align:right;"> 35 </td>
+   <td style="text-align:right;"> 13782 </td>
+   <td style="text-align:right;"> 13782 </td>
+   <td style="text-align:right;"> 6109 </td>
+   <td style="text-align:right;"> 6945 </td>
+   <td style="text-align:right;"> 5981 </td>
+   <td style="text-align:right;"> 6936 </td>
+   <td style="text-align:right;"> 1345 </td>
+   <td style="text-align:right;"> 2579 </td>
+   <td style="text-align:right;"> 1242 </td>
+   <td style="text-align:right;"> 15544 </td>
+   <td style="text-align:right;"> 1794 </td>
+   <td style="text-align:right;"> 599 </td>
+   <td style="text-align:right;"> 54 </td>
+   <td style="text-align:right;"> 101 </td>
+   <td style="text-align:right;"> 561 </td>
+   <td style="text-align:right;"> 684 </td>
+   <td style="text-align:right;"> 162 </td>
+   <td style="text-align:right;"> 97 </td>
+   <td style="text-align:right;"> 19 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 58 </td>
+   <td style="text-align:right;"> 325 </td>
+   <td style="text-align:right;"> 427 </td>
+   <td style="text-align:right;"> 145 </td>
+   <td style="text-align:right;"> 18.0 </td>
+   <td style="text-align:right;"> 18 </td>
+   <td style="text-align:right;"> 751 </td>
+   <td style="text-align:right;"> 565 </td>
+   <td style="text-align:right;"> 50 </td>
+   <td style="text-align:right;"> 48 </td>
+   <td style="text-align:right;"> 38 </td>
+   <td style="text-align:right;"> 40 </td>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:right;"> 84 </td>
+   <td style="text-align:right;"> 55 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 633 </td>
+   <td style="text-align:right;"> 338 </td>
+   <td style="text-align:right;"> 305 </td>
+   <td style="text-align:right;"> 251 </td>
+   <td style="text-align:right;"> 77 </td>
+   <td style="text-align:right;"> 313 </td>
+   <td style="text-align:right;"> 646 </td>
+   <td style="text-align:right;"> 333 </td>
+   <td style="text-align:right;"> 438 </td>
+   <td style="text-align:right;"> 118 </td>
+   <td style="text-align:right;"> 320 </td>
+   <td style="text-align:right;"> 324 </td>
+   <td style="text-align:right;"> 957 </td>
+   <td style="text-align:right;"> 714 </td>
+   <td style="text-align:right;"> 1847 </td>
+   <td style="text-align:right;"> 417 </td>
+   <td style="text-align:right;"> 80 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 49.3 </td>
+   <td style="text-align:right;"> 21501 </td>
+   <td style="text-align:right;"> 2783 </td>
+   <td style="text-align:right;"> 7912 </td>
+   <td style="text-align:right;"> 9077 </td>
+   <td style="text-align:right;"> 4706 </td>
+   <td style="text-align:right;"> 746 </td>
+   <td style="text-align:right;"> 681 </td>
+   <td style="text-align:right;"> 292 </td>
+   <td style="text-align:right;"> 279 </td>
+   <td style="text-align:right;"> 12294 </td>
+   <td style="text-align:right;"> 65583 </td>
+   <td style="text-align:right;"> 33156 </td>
+   <td style="text-align:right;"> 637 </td>
+   <td style="text-align:right;"> 434 </td>
+   <td style="text-align:right;"> 174 </td>
+   <td style="text-align:right;"> 565 </td>
+   <td style="text-align:right;"> 371 </td>
+   <td style="text-align:right;"> 498 </td>
+   <td style="text-align:right;"> 13587 </td>
+   <td style="text-align:right;"> 1227 </td>
+   <td style="text-align:right;"> 442 </td>
+   <td style="text-align:right;"> 465 </td>
+   <td style="text-align:right;"> 144 </td>
+   <td style="text-align:right;"> 193 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Brentford </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 38 </td>
+   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:right;"> 14 </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 58 </td>
+   <td style="text-align:right;"> 46 </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> 59 </td>
+   <td style="text-align:right;"> 1.55 </td>
+   <td style="text-align:right;"> 56.8 </td>
+   <td style="text-align:right;"> 49.9 </td>
+   <td style="text-align:right;"> 6.8 </td>
+   <td style="text-align:right;"> 0.18 </td>
+   <td style="text-align:right;"> 17078 </td>
+   <td style="text-align:right;"> 26.2 </td>
+   <td style="text-align:right;"> 36 </td>
+   <td style="text-align:right;"> 11317 </td>
+   <td style="text-align:right;"> 11317 </td>
+   <td style="text-align:right;"> 5142 </td>
+   <td style="text-align:right;"> 6116 </td>
+   <td style="text-align:right;"> 4475 </td>
+   <td style="text-align:right;"> 5602 </td>
+   <td style="text-align:right;"> 1438 </td>
+   <td style="text-align:right;"> 2947 </td>
+   <td style="text-align:right;"> 1131 </td>
+   <td style="text-align:right;"> 13766 </td>
+   <td style="text-align:right;"> 1713 </td>
+   <td style="text-align:right;"> 453 </td>
+   <td style="text-align:right;"> 53 </td>
+   <td style="text-align:right;"> 107 </td>
+   <td style="text-align:right;"> 661 </td>
+   <td style="text-align:right;"> 738 </td>
+   <td style="text-align:right;"> 163 </td>
+   <td style="text-align:right;"> 83 </td>
+   <td style="text-align:right;"> 34 </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> 72 </td>
+   <td style="text-align:right;"> 303 </td>
+   <td style="text-align:right;"> 400 </td>
+   <td style="text-align:right;"> 147 </td>
+   <td style="text-align:right;"> 15.7 </td>
+   <td style="text-align:right;"> 14 </td>
+   <td style="text-align:right;"> 702 </td>
+   <td style="text-align:right;"> 475 </td>
+   <td style="text-align:right;"> 99 </td>
+   <td style="text-align:right;"> 32 </td>
+   <td style="text-align:right;"> 45 </td>
+   <td style="text-align:right;"> 44 </td>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> 98 </td>
+   <td style="text-align:right;"> 65 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> 587 </td>
+   <td style="text-align:right;"> 337 </td>
+   <td style="text-align:right;"> 270 </td>
+   <td style="text-align:right;"> 228 </td>
+   <td style="text-align:right;"> 89 </td>
+   <td style="text-align:right;"> 253 </td>
+   <td style="text-align:right;"> 599 </td>
+   <td style="text-align:right;"> 346 </td>
+   <td style="text-align:right;"> 456 </td>
+   <td style="text-align:right;"> 168 </td>
+   <td style="text-align:right;"> 288 </td>
+   <td style="text-align:right;"> 341 </td>
+   <td style="text-align:right;"> 928 </td>
+   <td style="text-align:right;"> 822 </td>
+   <td style="text-align:right;"> 1959 </td>
+   <td style="text-align:right;"> 354 </td>
+   <td style="text-align:right;"> 57 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 43.8 </td>
+   <td style="text-align:right;"> 19750 </td>
+   <td style="text-align:right;"> 2632 </td>
+   <td style="text-align:right;"> 7290 </td>
+   <td style="text-align:right;"> 7802 </td>
+   <td style="text-align:right;"> 4835 </td>
+   <td style="text-align:right;"> 827 </td>
+   <td style="text-align:right;"> 597 </td>
+   <td style="text-align:right;"> 264 </td>
+   <td style="text-align:right;"> 248 </td>
+   <td style="text-align:right;"> 10408 </td>
+   <td style="text-align:right;"> 49009 </td>
+   <td style="text-align:right;"> 23987 </td>
+   <td style="text-align:right;"> 392 </td>
+   <td style="text-align:right;"> 299 </td>
+   <td style="text-align:right;"> 102 </td>
+   <td style="text-align:right;"> 520 </td>
+   <td style="text-align:right;"> 335 </td>
+   <td style="text-align:right;"> 399 </td>
+   <td style="text-align:right;"> 11203 </td>
+   <td style="text-align:right;"> 1121 </td>
+   <td style="text-align:right;"> 665 </td>
+   <td style="text-align:right;"> 618 </td>
+   <td style="text-align:right;"> 171 </td>
+   <td style="text-align:right;"> 171 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Crystal Palace </td>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 38 </td>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:right;"> 40 </td>
+   <td style="text-align:right;"> 49 </td>
+   <td style="text-align:right;"> -9 </td>
+   <td style="text-align:right;"> 45 </td>
+   <td style="text-align:right;"> 1.18 </td>
+   <td style="text-align:right;"> 39.3 </td>
+   <td style="text-align:right;"> 48.1 </td>
+   <td style="text-align:right;"> -8.8 </td>
+   <td style="text-align:right;"> -0.23 </td>
+   <td style="text-align:right;"> 24952 </td>
+   <td style="text-align:right;"> 26.7 </td>
+   <td style="text-align:right;"> 29 </td>
+   <td style="text-align:right;"> 13395 </td>
+   <td style="text-align:right;"> 13395 </td>
+   <td style="text-align:right;"> 6005 </td>
+   <td style="text-align:right;"> 6901 </td>
+   <td style="text-align:right;"> 5794 </td>
+   <td style="text-align:right;"> 6772 </td>
+   <td style="text-align:right;"> 1309 </td>
+   <td style="text-align:right;"> 2751 </td>
+   <td style="text-align:right;"> 1243 </td>
+   <td style="text-align:right;"> 15416 </td>
+   <td style="text-align:right;"> 1834 </td>
+   <td style="text-align:right;"> 525 </td>
+   <td style="text-align:right;"> 41 </td>
+   <td style="text-align:right;"> 118 </td>
+   <td style="text-align:right;"> 591 </td>
+   <td style="text-align:right;"> 763 </td>
+   <td style="text-align:right;"> 186 </td>
+   <td style="text-align:right;"> 84 </td>
+   <td style="text-align:right;"> 60 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 58 </td>
+   <td style="text-align:right;"> 350 </td>
+   <td style="text-align:right;"> 423 </td>
+   <td style="text-align:right;"> 133 </td>
+   <td style="text-align:right;"> 17.6 </td>
+   <td style="text-align:right;"> 23 </td>
+   <td style="text-align:right;"> 746 </td>
+   <td style="text-align:right;"> 497 </td>
+   <td style="text-align:right;"> 67 </td>
+   <td style="text-align:right;"> 56 </td>
+   <td style="text-align:right;"> 49 </td>
+   <td style="text-align:right;"> 59 </td>
+   <td style="text-align:right;"> 18 </td>
+   <td style="text-align:right;"> 67 </td>
+   <td style="text-align:right;"> 43 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 690 </td>
+   <td style="text-align:right;"> 421 </td>
+   <td style="text-align:right;"> 354 </td>
+   <td style="text-align:right;"> 246 </td>
+   <td style="text-align:right;"> 90 </td>
+   <td style="text-align:right;"> 281 </td>
+   <td style="text-align:right;"> 532 </td>
+   <td style="text-align:right;"> 251 </td>
+   <td style="text-align:right;"> 463 </td>
+   <td style="text-align:right;"> 119 </td>
+   <td style="text-align:right;"> 344 </td>
+   <td style="text-align:right;"> 359 </td>
+   <td style="text-align:right;"> 1049 </td>
+   <td style="text-align:right;"> 807 </td>
+   <td style="text-align:right;"> 2093 </td>
+   <td style="text-align:right;"> 446 </td>
+   <td style="text-align:right;"> 82 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 46.3 </td>
+   <td style="text-align:right;"> 21713 </td>
+   <td style="text-align:right;"> 2580 </td>
+   <td style="text-align:right;"> 7668 </td>
+   <td style="text-align:right;"> 9275 </td>
+   <td style="text-align:right;"> 4991 </td>
+   <td style="text-align:right;"> 766 </td>
+   <td style="text-align:right;"> 784 </td>
+   <td style="text-align:right;"> 367 </td>
+   <td style="text-align:right;"> 314 </td>
+   <td style="text-align:right;"> 11687 </td>
+   <td style="text-align:right;"> 60301 </td>
+   <td style="text-align:right;"> 30015 </td>
+   <td style="text-align:right;"> 556 </td>
+   <td style="text-align:right;"> 393 </td>
+   <td style="text-align:right;"> 206 </td>
+   <td style="text-align:right;"> 643 </td>
+   <td style="text-align:right;"> 457 </td>
+   <td style="text-align:right;"> 479 </td>
+   <td style="text-align:right;"> 13304 </td>
+   <td style="text-align:right;"> 1238 </td>
+   <td style="text-align:right;"> 496 </td>
+   <td style="text-align:right;"> 578 </td>
+   <td style="text-align:right;"> 138 </td>
+   <td style="text-align:right;"> 204 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Wolves </td>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> 38 </td>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 19 </td>
+   <td style="text-align:right;"> 31 </td>
+   <td style="text-align:right;"> 58 </td>
+   <td style="text-align:right;"> -27 </td>
+   <td style="text-align:right;"> 41 </td>
+   <td style="text-align:right;"> 1.08 </td>
+   <td style="text-align:right;"> 36.8 </td>
+   <td style="text-align:right;"> 59.9 </td>
+   <td style="text-align:right;"> -23.1 </td>
+   <td style="text-align:right;"> -0.61 </td>
+   <td style="text-align:right;"> 31482 </td>
+   <td style="text-align:right;"> 26.7 </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> 14554 </td>
+   <td style="text-align:right;"> 14554 </td>
+   <td style="text-align:right;"> 6350 </td>
+   <td style="text-align:right;"> 7195 </td>
+   <td style="text-align:right;"> 6306 </td>
+   <td style="text-align:right;"> 7257 </td>
+   <td style="text-align:right;"> 1574 </td>
+   <td style="text-align:right;"> 2890 </td>
+   <td style="text-align:right;"> 1343 </td>
+   <td style="text-align:right;"> 16575 </td>
+   <td style="text-align:right;"> 1657 </td>
+   <td style="text-align:right;"> 430 </td>
+   <td style="text-align:right;"> 49 </td>
+   <td style="text-align:right;"> 149 </td>
+   <td style="text-align:right;"> 661 </td>
+   <td style="text-align:right;"> 663 </td>
+   <td style="text-align:right;"> 185 </td>
+   <td style="text-align:right;"> 61 </td>
+   <td style="text-align:right;"> 86 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 62 </td>
+   <td style="text-align:right;"> 355 </td>
+   <td style="text-align:right;"> 409 </td>
+   <td style="text-align:right;"> 119 </td>
+   <td style="text-align:right;"> 18.0 </td>
+   <td style="text-align:right;"> 18 </td>
+   <td style="text-align:right;"> 713 </td>
+   <td style="text-align:right;"> 521 </td>
+   <td style="text-align:right;"> 62 </td>
+   <td style="text-align:right;"> 30 </td>
+   <td style="text-align:right;"> 47 </td>
+   <td style="text-align:right;"> 42 </td>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 44 </td>
+   <td style="text-align:right;"> 32 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 661 </td>
+   <td style="text-align:right;"> 370 </td>
+   <td style="text-align:right;"> 364 </td>
+   <td style="text-align:right;"> 222 </td>
+   <td style="text-align:right;"> 75 </td>
+   <td style="text-align:right;"> 286 </td>
+   <td style="text-align:right;"> 609 </td>
+   <td style="text-align:right;"> 323 </td>
+   <td style="text-align:right;"> 497 </td>
+   <td style="text-align:right;"> 175 </td>
+   <td style="text-align:right;"> 322 </td>
+   <td style="text-align:right;"> 279 </td>
+   <td style="text-align:right;"> 940 </td>
+   <td style="text-align:right;"> 817 </td>
+   <td style="text-align:right;"> 2052 </td>
+   <td style="text-align:right;"> 463 </td>
+   <td style="text-align:right;"> 85 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 49.9 </td>
+   <td style="text-align:right;"> 22539 </td>
+   <td style="text-align:right;"> 2921 </td>
+   <td style="text-align:right;"> 8544 </td>
+   <td style="text-align:right;"> 9262 </td>
+   <td style="text-align:right;"> 4960 </td>
+   <td style="text-align:right;"> 686 </td>
+   <td style="text-align:right;"> 772 </td>
+   <td style="text-align:right;"> 375 </td>
+   <td style="text-align:right;"> 302 </td>
+   <td style="text-align:right;"> 12373 </td>
+   <td style="text-align:right;"> 67215 </td>
+   <td style="text-align:right;"> 35065 </td>
+   <td style="text-align:right;"> 610 </td>
+   <td style="text-align:right;"> 421 </td>
+   <td style="text-align:right;"> 142 </td>
+   <td style="text-align:right;"> 516 </td>
+   <td style="text-align:right;"> 327 </td>
+   <td style="text-align:right;"> 389 </td>
+   <td style="text-align:right;"> 14452 </td>
+   <td style="text-align:right;"> 1331 </td>
+   <td style="text-align:right;"> 465 </td>
+   <td style="text-align:right;"> 542 </td>
+   <td style="text-align:right;"> 165 </td>
+   <td style="text-align:right;"> 175 </td>
+  </tr>
+</tbody>
+</table>
+
 </div>
 </div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Objaśnienie zmiennych
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p><code>Rk</code> - Miejsce w tabeli</p>
 <p><code>Squad</code> - Nazwa drużyny</p>
 <p><code>Matchhes.played</code> - Rozegrane mecze</p>
@@ -110,7 +985,99 @@ ul.task-list li input[type="checkbox"] {
 <p><code>Expected.goals.per.90.minutes</code> - Średnia oczekiwana różnica bramek na 90 minut wg. Opta (nie uwzględnia rzutów karnych wykonywanych po dogrywce)</p>
 <p><code>Attendance</code> - Średnia Frekwencja na meczach domowych</p>
 <p><code>Season</code> - Okres rozgrywek w latach.</p>
-<p>Wszystkie dane które pobraliśmy z ww. strony były kompletne, więc nie musimy martwić się ich uzupełnianiem.</p>
+<p><code>Age</code> - średnia ważona (względem rozegranych minut) wieku zawodników w drużynie</p>
+<p><code>Assists</code> - liczba asyst</p>
+<p><code>Passes.completed</code> - ilość celnych podań</p>
+<p><code>Passes.attempted</code> - ilość podań ogółem</p>
+<p><code>Short.passes.completed</code>- ilość celnych krótkich podań</p>
+<p><code>Short.passes.attempted</code> - ilość krótkich podań ogółem</p>
+<p><code>Medium.passes.completed</code> - ilość celnych średnich podań</p>
+<p><code>Medium.passes.attempted</code> - ilość średnich podań ogółem</p>
+<p><code>Long.passes.completed</code> - ilość celnych długich podań</p>
+<p><code>Long.passes.attempted</code> - ilość długich podań ogółem</p>
+<p><code>Progressive.passes</code> - Podania celne które przesuwają piłkę w stronę bramki przeciwnika co najmniej 10 yardów od jej najdalszego punktu przez ostatnie 6 podań, lub jakiekolwiek celne podanie w pole karne przeciwnika. Nie dotyczy podań z defensywy (40% boiska od strony własnej bramki)</p>
+<p><code>Live.ball.passes</code> - podania piłki w grze</p>
+<p><code>Dead.ball.passes</code> - podania piłki ze stałych fragmentów gry (rzuty wolne, rzuty rożne, rozpoczęcie gry, wyrzut z autu i rozpoczęcie od bramki)</p>
+<p><code>Passes.from.free.kicks</code> - podania z rzutów wolnych</p>
+<p><code>Through.balls</code> - celne podania między obrońcami na wolne pole</p>
+<p><code>Switches</code> - podania kóre przebyły co najmniej 40 yardów w poprzek boiska</p>
+<p><code>Crosses</code> - dośrodkowania</p>
+<p><code>Throw.in.taken</code> - wrzuty z autu</p>
+<p><code>Corner.kicks</code> - rzuty rożne</p>
+<p><code>Corner.kicks.in</code> -</p>
+<p><code>Corner.kicks.out</code></p>
+<p><code>Corner.kicks.straight</code></p>
+<p><code>Passes.offside</code> - spalone</p>
+<p><code>Passes.blocked</code> - podania zablokowane</p>
+<p><code>Shoots.total</code> - liczba strzałów ogółem</p>
+<p><code>Shoots.on.target</code> - liczba strzałów celnych</p>
+<p><code>Average.shot.distance</code> - średni dystans strzału w yardach (rzuty karne się nie liczą)</p>
+<p><code>Free.kick.shots</code> - strzały z rzutów wolnych</p>
+<p><code>Shot.creating.actions</code> - dwie ofensywne akcje które prowadzą do oddania strzału, takie jak - podania, odbiory i wymuszone faule. Jeden gracz może wykonać wiele takich akcji. Możemy także uznać, strzelca za twórce akcji.</p>
+<p><code>SCA.Live.ball.pass</code> - celne podania “z gry” które doprowadziły do strzału</p>
+<p><code>SCA.Dead.ball.pass</code> - celne podania po stałym fragmencie które doprowadziły do strzału</p>
+<p><code>SCA.Take.on</code> - ominięcia przeciwnika doprowadziły do strzału</p>
+<p><code>SCA.Shot</code> - strzały, które doprowadziły do ponownego strzału</p>
+<p><code>SCA.Fouls.drawn</code> - sprowokowane faule, które doprowadziły do strzału</p>
+<p><code>SCA.Deffensive.action</code> - akcje defensywne które doprowadziły do oddania strzału</p>
+<p><code>Goal.creatiing.actions</code> - dwie ofensywne akcje które prowadzą do strzelenia bramki, takie jak - podania, odbiory i wymuszone faule. Jeden gracz może wykonać wiele takich akcji. Możemy także uznać, strzelca za twórce akcji.</p>
+<p><code>GCA.Live.ball.pass</code> - celne podania “z gry” które doprowadziły do strzelenia bramki</p>
+<p><code>GCA.Dead.ball.pass</code> - celne podania po stałym fragmencie które doprowadziły do strzelenia bramki</p>
+<p><code>GCA.Take.on</code> - ominięcia przeciwnika które doprowadziły do strzelenia bramki</p>
+<p><code>GCA.Shot</code> - strzały, które doprowadziły do ponownego strzelenia bramki</p>
+<p><code>GCA.Fouls.drawn</code> - sprowokowane faule, które doprowadziły do strzelenia bramki</p>
+<p><code>GCA.Deffensive.action</code> - akcje defensywne które doprowadziły do oddania strzelenia bramki</p>
+<p><code>Penalty.kicks.attempted</code> - rzuty karne ogółem (do bramki przeciwnika)</p>
+<p><code>Penalty.kicks.made</code> - wykorzystane rzuty karne</p>
+<p><code>Tackles</code> - próby odbioru</p>
+<p><code>Tackles.won</code> - skuteczne próby odbioru</p>
+<p><code>Tackles.def.3rd</code> - próby odbioru w defensywnej tercji boiska</p>
+<p><code>Tackles.mid.3rd</code> - próby odbioru w środkowej tercji boiska</p>
+<p><code>Tackles.att.3rd</code> - próby odbioru w ofensywnej tercji boiska</p>
+<p><code>Dribblers.tackled</code> - odbiory piłki z dryblingu</p>
+<p><code>Dribblers.challenged</code> - próby odbiorów piłki z dryblingu</p>
+<p><code>Challenges.lost</code> - nieudane próby odbiorów piłki z dryblingu</p>
+<p><code>Blocks</code> - zablokowane piłki (zawodnik stał na lini lotu piłki)</p>
+<p><code>Shots.blocked</code> - zablokowane strzały</p>
+<p><code>Blocked.passes</code> - zablokowane podania</p>
+<p><code>Interceptions</code> - przechwyty</p>
+<p><code>Clearances</code> - wybicia piłki</p>
+<p><code>Errors</code> - błędy prowadzące do oddania strzału przez przeciwnika</p>
+<p><code>Ball.recoveries</code> - odzyskane piłki</p>
+<p><code>Fouls.commited</code> - popełnione faule</p>
+<p><code>Yellow.cards</code> - żółte kartki</p>
+<p><code>Second.yellow.card</code> - drugie zółte kartki</p>
+<p><code>Red.cards</code> - czerwone kartki</p>
+<p><code>Own.goals</code> - bramki samobójcze</p>
+<p><code>Possession</code> - posiadanie piłki (liczone jako procent wykonanych podań podczas meczu)</p>
+<p><code>Touches</code> - liczba dotknięć piłki przez gracza (jeżeli zawodnik odebrał podanie, wykonał drybling i podał piłkę dalej liczone jest to jako jedno dotknięcie)</p>
+<p><code>Touches.def.pen</code> - liczba dotknięć piłki we własnym polu karnym</p>
+<p><code>Touches.def.3rd</code> - liczba dotknięć piłki w obronnej tercji boiska</p>
+<p><code>Touches.mid.3rd</code> - liczba dotknięć piłki w środkowej tercji boiska</p>
+<p><code>Touches.att.3rd</code> - liczba dotknięć piłki w ofensywnej tercji boiska</p>
+<p><code>Touches.att.pen</code> - liczba dotknięć piłki w polu karnym przeciwnika</p>
+<p><code>Takes.on.attempted</code> - próby ominięcia przeciwnika</p>
+<p><code>Takes.on.succesful</code> - udane próby ominięcia przeciwnika</p>
+<p><code>Times.tackled.during.take.on</code> - liczba sytuacji w której przeciwnik podczas mijania próbował odebrać piłkę</p>
+<p><code>Carries</code> - liczba sytuacji w których gracz kotnrolował piłkę stopą</p>
+<p><code>Total.carrying.distance</code> - dystanas w yardach który zawodnik przebył z piłką</p>
+<p><code>Progressive.carrying.distance</code> - dystanas w yardach który zawodnik przebył z piłką w strone bramki przeciwnika</p>
+<p><code>Progressive.carries</code> - sytuacje w których zawodnik prowadził piłkę w storne bramki linii bramki przeciwnika co najmniej 10 yardów od jej najdalszego punktu przez ostatnie 6 podań, lub jakiekolwiek doprowadzenie piłki w pole karne przeciwnika.</p>
+<p><code>Carries.into.final.third</code> - doprowadzenia piłki do ofensywnej tercji boiska</p>
+<p><code>Carreis.into.penalty.area</code> - doprowadzenia piłki w pole karne</p>
+<p><code>Miscontrols</code> - nieudane próby opanowania piłki</p>
+<p><code>Dispossessed</code> - straty piłki po odbiorach przeciwnika (nie liczą się odbiory po próbie ominięcia zawodnika)</p>
+<p><code>Fouls.drawn</code> - sytuacje w której zawodnik został sfaulowany</p>
+<p><code>Passes.recived</code> - otrzymane podania</p>
+<p><code>Progressive.passes.recived</code> - otrzymane podania progresywne</p>
+<p><code>Aerials.won</code> - wygrane walki w powietrzu</p>
+<p><code>Aerial.lost</code> - przegrane walki w powietrzu</p>
+<p><code>Substitute.apperances</code> - ilość dokonanych zmian</p>
+<p><code>Matchehs.as.unused.sub</code> - mecze bez wykorzystania wszystkich zmian</p>
+</div>
+</div>
+</div>
+<p>Wszystkie dane które pobraliśmy z ww. stron były kompletne, więc nie musimy martwić się ich uzupełnianiem.</p>
 </section>
 
 </main>

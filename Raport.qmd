@@ -13,6 +13,8 @@ editor: visual
 library(ggplot2)
 library(flextable)
 library(dplyr)
+library(stringr)
+library(kableExtra)
 ```
 
 ```{r}
@@ -30,12 +32,15 @@ Tematem projektu jest analiza wybranych statystyk drużyn piłkarskich uczestnic
 
 ## Dane
 
-Dane z których będziemy korzystać do analizy pozyskaliśmy ze strony [bref.com](https://fbref.com/). Strona ta nie ma opcji pobierania gotowych zestawień, więc użyliśmy metod web scrappingu poznanych podczas studiów. Poniżej znajduje się część całego zestawienia oraz objaśnienie zmiennych.
+Dane z których będziemy korzystać do analizy pozyskaliśmy ze stron [bref.com](https://fbref.com/) oraz [espn.com](https://www.espn.com/). Strony ta nie mają opcji pobierania gotowych zestawień, więc użyliśmy metod web scrappingu poznanych podczas studiów. Poniżej znajduje się część całego zestawienia oraz objaśnienie zmiennych.
 
 ```{r}
 #| column: page
-head(dane) %>% flextable(theme_fun = theme_zebra(odd_header = "#3D195B"))
+head(dane[-1], 7) %>% kable() %>% kable_material(c("striped", "hover"))
 ```
+
+::: {.callout-note collapse="true"}
+## Objaśnienie zmiennych
 
 `Rk` - Miejsce w tabeli
 
@@ -67,8 +72,189 @@ head(dane) %>% flextable(theme_fun = theme_zebra(odd_header = "#3D195B"))
 
 `Expected.goals.per.90.minutes` - Średnia oczekiwana różnica bramek na 90 minut wg. Opta (nie uwzględnia rzutów karnych wykonywanych po dogrywce)
 
-`Attendance` - Średnia Frekwencja na meczach domowych 
+`Attendance` - Średnia Frekwencja na meczach domowych
 
 `Season` - Okres rozgrywek w latach.
 
-Wszystkie dane które pobraliśmy z ww. strony były kompletne, więc nie musimy martwić się ich uzupełnianiem.
+`Age` - średnia ważona (względem rozegranych minut) wieku zawodników w drużynie 
+
+`Assists` - liczba asyst
+
+`Passes.completed` - ilość celnych podań
+
+`Passes.attempted` - ilość podań ogółem
+
+`Short.passes.completed`- ilość celnych krótkich podań
+
+`Short.passes.attempted` - ilość krótkich podań ogółem
+
+`Medium.passes.completed` - ilość celnych średnich podań
+
+`Medium.passes.attempted` - ilość średnich podań ogółem
+
+`Long.passes.completed` - ilość celnych długich podań
+
+`Long.passes.attempted` - ilość długich podań ogółem 
+
+`Progressive.passes` - Podania celne które przesuwają piłkę w stronę bramki przeciwnika co najmniej 10 yardów od jej najdalszego punktu przez ostatnie 6 podań, lub jakiekolwiek celne podanie w pole karne przeciwnika. Nie dotyczy podań z defensywy (40% boiska od strony własnej bramki)
+
+`Live.ball.passes` - podania piłki w grze
+
+`Dead.ball.passes` - podania piłki ze stałych fragmentów gry (rzuty wolne, rzuty rożne, rozpoczęcie gry, wyrzut z autu i rozpoczęcie od bramki)
+
+`Passes.from.free.kicks` - podania z rzutów wolnych
+
+`Through.balls` - celne podania między obrońcami na wolne pole
+
+`Switches` - podania kóre przebyły co najmniej 40 yardów w poprzek boiska
+
+`Crosses` - dośrodkowania 
+
+`Throw.in.taken` - wrzuty z autu
+
+`Corner.kicks` - rzuty rożne
+
+`Corner.kicks.in` - 
+
+`Corner.kicks.out`
+
+`Corner.kicks.straight`
+
+`Passes.offside` - spalone
+
+`Passes.blocked` - podania zablokowane
+
+`Shoots.total` - liczba strzałów ogółem
+
+`Shoots.on.target` - liczba strzałów celnych
+
+`Average.shot.distance` - średni dystans strzału w yardach (rzuty karne się nie liczą)
+
+`Free.kick.shots` - strzały z rzutów wolnych
+
+`Shot.creating.actions` - dwie ofensywne akcje które prowadzą do oddania strzału, takie jak - podania, odbiory i wymuszone faule. Jeden gracz może wykonać wiele takich akcji. Możemy także uznać, strzelca za twórce akcji.
+
+`SCA.Live.ball.pass` - celne podania "z gry" które doprowadziły do strzału
+
+`SCA.Dead.ball.pass` - celne podania po stałym fragmencie które doprowadziły do strzału
+
+`SCA.Take.on` - ominięcia przeciwnika doprowadziły do strzału
+
+`SCA.Shot` - strzały, które doprowadziły do ponownego strzału
+
+`SCA.Fouls.drawn` - sprowokowane faule, które doprowadziły do strzału
+
+`SCA.Deffensive.action` - akcje defensywne które doprowadziły do oddania strzału
+
+`Goal.creatiing.actions` - dwie ofensywne akcje które prowadzą do strzelenia bramki, takie jak - podania, odbiory i wymuszone faule. Jeden gracz może wykonać wiele takich akcji. Możemy także uznać, strzelca za twórce akcji.
+
+`GCA.Live.ball.pass` - celne podania "z gry" które doprowadziły do strzelenia bramki
+
+`GCA.Dead.ball.pass` - celne podania po stałym fragmencie które doprowadziły do strzelenia bramki
+
+`GCA.Take.on` - ominięcia przeciwnika które doprowadziły do strzelenia bramki
+
+`GCA.Shot` - strzały, które doprowadziły do ponownego strzelenia bramki
+
+`GCA.Fouls.drawn` - sprowokowane faule, które doprowadziły do strzelenia bramki
+
+`GCA.Deffensive.action` - akcje defensywne które doprowadziły do oddania strzelenia bramki
+
+`Penalty.kicks.attempted` - rzuty karne ogółem (do bramki przeciwnika)
+
+`Penalty.kicks.made` - wykorzystane rzuty karne
+
+`Tackles` - próby odbioru
+
+`Tackles.won` - skuteczne próby odbioru
+
+`Tackles.def.3rd` - próby odbioru w defensywnej tercji boiska
+
+`Tackles.mid.3rd` - próby odbioru w środkowej tercji boiska
+
+`Tackles.att.3rd` - próby odbioru w ofensywnej tercji boiska
+
+`Dribblers.tackled` - odbiory piłki z dryblingu
+
+`Dribblers.challenged` - próby odbiorów piłki z dryblingu
+
+`Challenges.lost` - nieudane próby odbiorów piłki z dryblingu
+
+`Blocks` - zablokowane piłki (zawodnik stał na lini lotu piłki)
+
+`Shots.blocked` - zablokowane strzały
+
+`Blocked.passes` - zablokowane podania
+
+`Interceptions` - przechwyty
+
+`Clearances` - wybicia piłki
+
+`Errors` - błędy prowadzące do oddania strzału przez przeciwnika
+
+`Ball.recoveries` - odzyskane piłki
+
+`Fouls.commited` - popełnione faule
+
+`Yellow.cards` - żółte kartki
+
+`Second.yellow.card` - drugie zółte kartki
+
+`Red.cards` - czerwone kartki
+
+`Own.goals` - bramki samobójcze
+
+`Possession` - posiadanie piłki (liczone jako procent wykonanych podań podczas meczu)
+
+`Touches` - liczba dotknięć piłki przez gracza (jeżeli zawodnik odebrał podanie, wykonał drybling i podał piłkę dalej liczone jest to jako jedno dotknięcie)
+
+`Touches.def.pen` - liczba dotknięć piłki we własnym polu karnym
+
+`Touches.def.3rd` - liczba dotknięć piłki w obronnej tercji boiska
+
+`Touches.mid.3rd` - liczba dotknięć piłki w środkowej tercji boiska
+
+`Touches.att.3rd` - liczba dotknięć piłki w ofensywnej tercji boiska
+
+`Touches.att.pen` - liczba dotknięć piłki w polu karnym przeciwnika
+
+`Takes.on.attempted` - próby ominięcia przeciwnika
+
+`Takes.on.succesful` - udane próby ominięcia przeciwnika
+
+`Times.tackled.during.take.on` - liczba sytuacji w której przeciwnik podczas mijania próbował odebrać piłkę
+
+`Carries` - liczba sytuacji w których gracz kotnrolował piłkę stopą
+
+`Total.carrying.distance` - dystanas w yardach który zawodnik przebył z piłką
+
+`Progressive.carrying.distance` - dystanas w yardach który zawodnik przebył z piłką w strone bramki przeciwnika
+
+`Progressive.carries` - sytuacje w których zawodnik prowadził piłkę w storne bramki linii bramki przeciwnika co najmniej 10 yardów od jej najdalszego punktu przez ostatnie 6 podań, lub jakiekolwiek doprowadzenie piłki w pole karne przeciwnika.
+
+`Carries.into.final.third` - doprowadzenia piłki do ofensywnej tercji boiska
+
+`Carreis.into.penalty.area` - doprowadzenia piłki w pole karne
+
+`Miscontrols` - nieudane próby opanowania piłki
+
+`Dispossessed` - straty piłki po odbiorach przeciwnika (nie liczą się odbiory po próbie ominięcia zawodnika)
+
+`Fouls.drawn` - sytuacje w której zawodnik został sfaulowany
+
+`Passes.recived` - otrzymane podania
+
+`Progressive.passes.recived` - otrzymane podania progresywne
+
+`Aerials.won` - wygrane walki w powietrzu
+
+`Aerial.lost` - przegrane walki w powietrzu
+
+`Substitute.apperances` - ilość dokonanych zmian
+
+`Matchehs.as.unused.sub` - mecze bez wykorzystania wszystkich zmian
+:::
+
+Wszystkie dane które pobraliśmy z ww. stron były kompletne, więc nie musimy martwić się ich uzupełnianiem.
+
+
