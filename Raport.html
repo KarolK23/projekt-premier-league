@@ -37,6 +37,14 @@ ul.task-list li input[type="checkbox"] {
 
 <script src="Raport_files/libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="Raport_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<script src="Raport_files/libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="Raport_files/libs/plotly-binding-4.10.3/plotly.js"></script>
+<script src="Raport_files/libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="Raport_files/libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="Raport_files/libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="Raport_files/libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="Raport_files/libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="Raport_files/libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
 
 
 </head>
@@ -110,7 +118,6 @@ ul.task-list li input[type="checkbox"] {
    <th style="text-align:right;"> Expected.goals.difference </th>
    <th style="text-align:right;"> Expected.goals.difference.per.90.minutes </th>
    <th style="text-align:right;"> Attendance </th>
-   <th style="text-align:right;"> Age </th>
    <th style="text-align:right;"> Assists </th>
    <th style="text-align:right;"> Passes.completed </th>
    <th style="text-align:right;"> Passes.attempted </th>
@@ -134,6 +141,7 @@ ul.task-list li input[type="checkbox"] {
    <th style="text-align:right;"> Corner.kicks.straight </th>
    <th style="text-align:right;"> Passes.offside </th>
    <th style="text-align:right;"> Passes.blocked </th>
+   <th style="text-align:right;"> Passes.into.penalty.area </th>
    <th style="text-align:right;"> Shoots.total </th>
    <th style="text-align:right;"> Shoots.on.target </th>
    <th style="text-align:right;"> Average.shot.distance </th>
@@ -174,6 +182,7 @@ ul.task-list li input[type="checkbox"] {
    <th style="text-align:right;"> Second.yellow.card </th>
    <th style="text-align:right;"> Red.cards </th>
    <th style="text-align:right;"> Own.goals </th>
+   <th style="text-align:right;"> Cleansheets </th>
    <th style="text-align:right;"> Possession </th>
    <th style="text-align:right;"> Touches </th>
    <th style="text-align:right;"> Touches.def.pen </th>
@@ -197,6 +206,7 @@ ul.task-list li input[type="checkbox"] {
    <th style="text-align:right;"> Progressive.passes.recived </th>
    <th style="text-align:right;"> Aerials.won </th>
    <th style="text-align:right;"> Aerial.lost </th>
+   <th style="text-align:right;"> Age </th>
    <th style="text-align:right;"> Substitute.apperances </th>
    <th style="text-align:right;"> Matchehs.as.unused.sub </th>
   </tr>
@@ -219,10 +229,9 @@ ul.task-list li input[type="checkbox"] {
    <td style="text-align:right;"> 46.6 </td>
    <td style="text-align:right;"> 1.23 </td>
    <td style="text-align:right;"> 53249 </td>
-   <td style="text-align:right;"> 27.2 </td>
    <td style="text-align:right;"> 69 </td>
    <td style="text-align:right;"> 23263 </td>
-   <td style="text-align:right;"> 23263 </td>
+   <td style="text-align:right;"> 26642 </td>
    <td style="text-align:right;"> 11020 </td>
    <td style="text-align:right;"> 11888 </td>
    <td style="text-align:right;"> 9848 </td>
@@ -243,6 +252,7 @@ ul.task-list li input[type="checkbox"] {
    <td style="text-align:right;"> 11 </td>
    <td style="text-align:right;"> 51 </td>
    <td style="text-align:right;"> 350 </td>
+   <td style="text-align:right;"> 445 </td>
    <td style="text-align:right;"> 590 </td>
    <td style="text-align:right;"> 205 </td>
    <td style="text-align:right;"> 16.6 </td>
@@ -283,6 +293,7 @@ ul.task-list li input[type="checkbox"] {
    <td style="text-align:right;"> 0 </td>
    <td style="text-align:right;"> 1 </td>
    <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 13 </td>
    <td style="text-align:right;"> 64.7 </td>
    <td style="text-align:right;"> 29895 </td>
    <td style="text-align:right;"> 2170 </td>
@@ -306,8 +317,118 @@ ul.task-list li input[type="checkbox"] {
    <td style="text-align:right;"> 2054 </td>
    <td style="text-align:right;"> 438 </td>
    <td style="text-align:right;"> 364 </td>
+   <td style="text-align:right;"> 27.2 </td>
    <td style="text-align:right;"> 123 </td>
    <td style="text-align:right;"> 219 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Arsenal </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 38 </td>
+   <td style="text-align:right;"> 26 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 88 </td>
+   <td style="text-align:right;"> 43 </td>
+   <td style="text-align:right;"> 45 </td>
+   <td style="text-align:right;"> 84 </td>
+   <td style="text-align:right;"> 2.21 </td>
+   <td style="text-align:right;"> 71.9 </td>
+   <td style="text-align:right;"> 42.0 </td>
+   <td style="text-align:right;"> 29.9 </td>
+   <td style="text-align:right;"> 0.79 </td>
+   <td style="text-align:right;"> 60191 </td>
+   <td style="text-align:right;"> 64 </td>
+   <td style="text-align:right;"> 18281 </td>
+   <td style="text-align:right;"> 21969 </td>
+   <td style="text-align:right;"> 8542 </td>
+   <td style="text-align:right;"> 9478 </td>
+   <td style="text-align:right;"> 7825 </td>
+   <td style="text-align:right;"> 8821 </td>
+   <td style="text-align:right;"> 1454 </td>
+   <td style="text-align:right;"> 2548 </td>
+   <td style="text-align:right;"> 2049 </td>
+   <td style="text-align:right;"> 20293 </td>
+   <td style="text-align:right;"> 1620 </td>
+   <td style="text-align:right;"> 516 </td>
+   <td style="text-align:right;"> 86 </td>
+   <td style="text-align:right;"> 97 </td>
+   <td style="text-align:right;"> 674 </td>
+   <td style="text-align:right;"> 615 </td>
+   <td style="text-align:right;"> 223 </td>
+   <td style="text-align:right;"> 154 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 56 </td>
+   <td style="text-align:right;"> 379 </td>
+   <td style="text-align:right;"> 459 </td>
+   <td style="text-align:right;"> 589 </td>
+   <td style="text-align:right;"> 194 </td>
+   <td style="text-align:right;"> 16.0 </td>
+   <td style="text-align:right;"> 16 </td>
+   <td style="text-align:right;"> 1045 </td>
+   <td style="text-align:right;"> 776 </td>
+   <td style="text-align:right;"> 78 </td>
+   <td style="text-align:right;"> 57 </td>
+   <td style="text-align:right;"> 73 </td>
+   <td style="text-align:right;"> 43 </td>
+   <td style="text-align:right;"> 18 </td>
+   <td style="text-align:right;"> 150 </td>
+   <td style="text-align:right;"> 121 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 568 </td>
+   <td style="text-align:right;"> 343 </td>
+   <td style="text-align:right;"> 238 </td>
+   <td style="text-align:right;"> 212 </td>
+   <td style="text-align:right;"> 118 </td>
+   <td style="text-align:right;"> 249 </td>
+   <td style="text-align:right;"> 506 </td>
+   <td style="text-align:right;"> 257 </td>
+   <td style="text-align:right;"> 362 </td>
+   <td style="text-align:right;"> 86 </td>
+   <td style="text-align:right;"> 276 </td>
+   <td style="text-align:right;"> 237 </td>
+   <td style="text-align:right;"> 805 </td>
+   <td style="text-align:right;"> 599 </td>
+   <td style="text-align:right;"> 1984 </td>
+   <td style="text-align:right;"> 373 </td>
+   <td style="text-align:right;"> 51 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 14 </td>
+   <td style="text-align:right;"> 59.3 </td>
+   <td style="text-align:right;"> 25909 </td>
+   <td style="text-align:right;"> 1994 </td>
+   <td style="text-align:right;"> 6632 </td>
+   <td style="text-align:right;"> 11452 </td>
+   <td style="text-align:right;"> 8015 </td>
+   <td style="text-align:right;"> 1296 </td>
+   <td style="text-align:right;"> 751 </td>
+   <td style="text-align:right;"> 351 </td>
+   <td style="text-align:right;"> 290 </td>
+   <td style="text-align:right;"> 15923 </td>
+   <td style="text-align:right;"> 84011 </td>
+   <td style="text-align:right;"> 44201 </td>
+   <td style="text-align:right;"> 824 </td>
+   <td style="text-align:right;"> 583 </td>
+   <td style="text-align:right;"> 281 </td>
+   <td style="text-align:right;"> 526 </td>
+   <td style="text-align:right;"> 378 </td>
+   <td style="text-align:right;"> 435 </td>
+   <td style="text-align:right;"> 18101 </td>
+   <td style="text-align:right;"> 2024 </td>
+   <td style="text-align:right;"> 486 </td>
+   <td style="text-align:right;"> 559 </td>
+   <td style="text-align:right;"> 24.7 </td>
+   <td style="text-align:right;"> 150 </td>
+   <td style="text-align:right;"> 192 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> Manchester Utd </td>
@@ -326,10 +447,9 @@ ul.task-list li input[type="checkbox"] {
    <td style="text-align:right;"> 17.3 </td>
    <td style="text-align:right;"> 0.45 </td>
    <td style="text-align:right;"> 73671 </td>
-   <td style="text-align:right;"> 26.9 </td>
    <td style="text-align:right;"> 42 </td>
    <td style="text-align:right;"> 16603 </td>
-   <td style="text-align:right;"> 16603 </td>
+   <td style="text-align:right;"> 20525 </td>
    <td style="text-align:right;"> 8273 </td>
    <td style="text-align:right;"> 9294 </td>
    <td style="text-align:right;"> 6359 </td>
@@ -350,6 +470,7 @@ ul.task-list li input[type="checkbox"] {
    <td style="text-align:right;"> 4 </td>
    <td style="text-align:right;"> 79 </td>
    <td style="text-align:right;"> 420 </td>
+   <td style="text-align:right;"> 398 </td>
    <td style="text-align:right;"> 590 </td>
    <td style="text-align:right;"> 206 </td>
    <td style="text-align:right;"> 17.8 </td>
@@ -390,6 +511,7 @@ ul.task-list li input[type="checkbox"] {
    <td style="text-align:right;"> 0 </td>
    <td style="text-align:right;"> 2 </td>
    <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 17 </td>
    <td style="text-align:right;"> 53.7 </td>
    <td style="text-align:right;"> 24848 </td>
    <td style="text-align:right;"> 2639 </td>
@@ -413,8 +535,118 @@ ul.task-list li input[type="checkbox"] {
    <td style="text-align:right;"> 1578 </td>
    <td style="text-align:right;"> 465 </td>
    <td style="text-align:right;"> 434 </td>
+   <td style="text-align:right;"> 26.9 </td>
    <td style="text-align:right;"> 149 </td>
    <td style="text-align:right;"> 192 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Newcastle Utd </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 38 </td>
+   <td style="text-align:right;"> 19 </td>
+   <td style="text-align:right;"> 14 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 68 </td>
+   <td style="text-align:right;"> 33 </td>
+   <td style="text-align:right;"> 35 </td>
+   <td style="text-align:right;"> 71 </td>
+   <td style="text-align:right;"> 1.87 </td>
+   <td style="text-align:right;"> 72.0 </td>
+   <td style="text-align:right;"> 39.6 </td>
+   <td style="text-align:right;"> 32.4 </td>
+   <td style="text-align:right;"> 0.85 </td>
+   <td style="text-align:right;"> 52127 </td>
+   <td style="text-align:right;"> 42 </td>
+   <td style="text-align:right;"> 13925 </td>
+   <td style="text-align:right;"> 17837 </td>
+   <td style="text-align:right;"> 6433 </td>
+   <td style="text-align:right;"> 7370 </td>
+   <td style="text-align:right;"> 5580 </td>
+   <td style="text-align:right;"> 6605 </td>
+   <td style="text-align:right;"> 1523 </td>
+   <td style="text-align:right;"> 2774 </td>
+   <td style="text-align:right;"> 1618 </td>
+   <td style="text-align:right;"> 16020 </td>
+   <td style="text-align:right;"> 1746 </td>
+   <td style="text-align:right;"> 447 </td>
+   <td style="text-align:right;"> 88 </td>
+   <td style="text-align:right;"> 142 </td>
+   <td style="text-align:right;"> 740 </td>
+   <td style="text-align:right;"> 728 </td>
+   <td style="text-align:right;"> 270 </td>
+   <td style="text-align:right;"> 106 </td>
+   <td style="text-align:right;"> 90 </td>
+   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:right;"> 71 </td>
+   <td style="text-align:right;"> 370 </td>
+   <td style="text-align:right;"> 403 </td>
+   <td style="text-align:right;"> 565 </td>
+   <td style="text-align:right;"> 184 </td>
+   <td style="text-align:right;"> 15.6 </td>
+   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:right;"> 1008 </td>
+   <td style="text-align:right;"> 690 </td>
+   <td style="text-align:right;"> 110 </td>
+   <td style="text-align:right;"> 62 </td>
+   <td style="text-align:right;"> 77 </td>
+   <td style="text-align:right;"> 57 </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> 106 </td>
+   <td style="text-align:right;"> 64 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 607 </td>
+   <td style="text-align:right;"> 360 </td>
+   <td style="text-align:right;"> 268 </td>
+   <td style="text-align:right;"> 254 </td>
+   <td style="text-align:right;"> 85 </td>
+   <td style="text-align:right;"> 307 </td>
+   <td style="text-align:right;"> 642 </td>
+   <td style="text-align:right;"> 335 </td>
+   <td style="text-align:right;"> 448 </td>
+   <td style="text-align:right;"> 116 </td>
+   <td style="text-align:right;"> 332 </td>
+   <td style="text-align:right;"> 333 </td>
+   <td style="text-align:right;"> 940 </td>
+   <td style="text-align:right;"> 680 </td>
+   <td style="text-align:right;"> 2065 </td>
+   <td style="text-align:right;"> 406 </td>
+   <td style="text-align:right;"> 61 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 14 </td>
+   <td style="text-align:right;"> 52.3 </td>
+   <td style="text-align:right;"> 22106 </td>
+   <td style="text-align:right;"> 2088 </td>
+   <td style="text-align:right;"> 6757 </td>
+   <td style="text-align:right;"> 9053 </td>
+   <td style="text-align:right;"> 6516 </td>
+   <td style="text-align:right;"> 1161 </td>
+   <td style="text-align:right;"> 783 </td>
+   <td style="text-align:right;"> 349 </td>
+   <td style="text-align:right;"> 322 </td>
+   <td style="text-align:right;"> 12021 </td>
+   <td style="text-align:right;"> 64166 </td>
+   <td style="text-align:right;"> 32968 </td>
+   <td style="text-align:right;"> 694 </td>
+   <td style="text-align:right;"> 493 </td>
+   <td style="text-align:right;"> 227 </td>
+   <td style="text-align:right;"> 576 </td>
+   <td style="text-align:right;"> 363 </td>
+   <td style="text-align:right;"> 399 </td>
+   <td style="text-align:right;"> 13803 </td>
+   <td style="text-align:right;"> 1599 </td>
+   <td style="text-align:right;"> 553 </td>
+   <td style="text-align:right;"> 427 </td>
+   <td style="text-align:right;"> 27.3 </td>
+   <td style="text-align:right;"> 155 </td>
+   <td style="text-align:right;"> 185 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> Liverpool </td>
@@ -433,10 +665,9 @@ ul.task-list li input[type="checkbox"] {
    <td style="text-align:right;"> 21.7 </td>
    <td style="text-align:right;"> 0.57 </td>
    <td style="text-align:right;"> 53163 </td>
-   <td style="text-align:right;"> 27.4 </td>
    <td style="text-align:right;"> 58 </td>
    <td style="text-align:right;"> 20043 </td>
-   <td style="text-align:right;"> 20043 </td>
+   <td style="text-align:right;"> 24361 </td>
    <td style="text-align:right;"> 9023 </td>
    <td style="text-align:right;"> 10114 </td>
    <td style="text-align:right;"> 8561 </td>
@@ -457,6 +688,7 @@ ul.task-list li input[type="checkbox"] {
    <td style="text-align:right;"> 1 </td>
    <td style="text-align:right;"> 84 </td>
    <td style="text-align:right;"> 383 </td>
+   <td style="text-align:right;"> 452 </td>
    <td style="text-align:right;"> 601 </td>
    <td style="text-align:right;"> 203 </td>
    <td style="text-align:right;"> 16.2 </td>
@@ -497,6 +729,7 @@ ul.task-list li input[type="checkbox"] {
    <td style="text-align:right;"> 0 </td>
    <td style="text-align:right;"> 1 </td>
    <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 14 </td>
    <td style="text-align:right;"> 60.8 </td>
    <td style="text-align:right;"> 28399 </td>
    <td style="text-align:right;"> 2310 </td>
@@ -520,8 +753,118 @@ ul.task-list li input[type="checkbox"] {
    <td style="text-align:right;"> 1974 </td>
    <td style="text-align:right;"> 482 </td>
    <td style="text-align:right;"> 455 </td>
+   <td style="text-align:right;"> 27.4 </td>
    <td style="text-align:right;"> 164 </td>
    <td style="text-align:right;"> 178 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Brighton </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 38 </td>
+   <td style="text-align:right;"> 18 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> 72 </td>
+   <td style="text-align:right;"> 53 </td>
+   <td style="text-align:right;"> 19 </td>
+   <td style="text-align:right;"> 62 </td>
+   <td style="text-align:right;"> 1.63 </td>
+   <td style="text-align:right;"> 73.3 </td>
+   <td style="text-align:right;"> 50.2 </td>
+   <td style="text-align:right;"> 23.1 </td>
+   <td style="text-align:right;"> 0.61 </td>
+   <td style="text-align:right;"> 31477 </td>
+   <td style="text-align:right;"> 46 </td>
+   <td style="text-align:right;"> 19210 </td>
+   <td style="text-align:right;"> 22888 </td>
+   <td style="text-align:right;"> 9346 </td>
+   <td style="text-align:right;"> 10305 </td>
+   <td style="text-align:right;"> 7892 </td>
+   <td style="text-align:right;"> 8919 </td>
+   <td style="text-align:right;"> 1463 </td>
+   <td style="text-align:right;"> 2462 </td>
+   <td style="text-align:right;"> 1849 </td>
+   <td style="text-align:right;"> 21109 </td>
+   <td style="text-align:right;"> 1709 </td>
+   <td style="text-align:right;"> 445 </td>
+   <td style="text-align:right;"> 81 </td>
+   <td style="text-align:right;"> 130 </td>
+   <td style="text-align:right;"> 694 </td>
+   <td style="text-align:right;"> 693 </td>
+   <td style="text-align:right;"> 233 </td>
+   <td style="text-align:right;"> 102 </td>
+   <td style="text-align:right;"> 88 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 70 </td>
+   <td style="text-align:right;"> 383 </td>
+   <td style="text-align:right;"> 391 </td>
+   <td style="text-align:right;"> 607 </td>
+   <td style="text-align:right;"> 219 </td>
+   <td style="text-align:right;"> 16.8 </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> 1074 </td>
+   <td style="text-align:right;"> 819 </td>
+   <td style="text-align:right;"> 73 </td>
+   <td style="text-align:right;"> 80 </td>
+   <td style="text-align:right;"> 63 </td>
+   <td style="text-align:right;"> 27 </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> 114 </td>
+   <td style="text-align:right;"> 83 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 616 </td>
+   <td style="text-align:right;"> 340 </td>
+   <td style="text-align:right;"> 270 </td>
+   <td style="text-align:right;"> 242 </td>
+   <td style="text-align:right;"> 104 </td>
+   <td style="text-align:right;"> 266 </td>
+   <td style="text-align:right;"> 560 </td>
+   <td style="text-align:right;"> 294 </td>
+   <td style="text-align:right;"> 392 </td>
+   <td style="text-align:right;"> 104 </td>
+   <td style="text-align:right;"> 288 </td>
+   <td style="text-align:right;"> 303 </td>
+   <td style="text-align:right;"> 919 </td>
+   <td style="text-align:right;"> 432 </td>
+   <td style="text-align:right;"> 2013 </td>
+   <td style="text-align:right;"> 427 </td>
+   <td style="text-align:right;"> 58 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> 60.2 </td>
+   <td style="text-align:right;"> 26727 </td>
+   <td style="text-align:right;"> 2471 </td>
+   <td style="text-align:right;"> 7844 </td>
+   <td style="text-align:right;"> 12212 </td>
+   <td style="text-align:right;"> 6873 </td>
+   <td style="text-align:right;"> 1102 </td>
+   <td style="text-align:right;"> 724 </td>
+   <td style="text-align:right;"> 343 </td>
+   <td style="text-align:right;"> 279 </td>
+   <td style="text-align:right;"> 16331 </td>
+   <td style="text-align:right;"> 83719 </td>
+   <td style="text-align:right;"> 43965 </td>
+   <td style="text-align:right;"> 809 </td>
+   <td style="text-align:right;"> 547 </td>
+   <td style="text-align:right;"> 250 </td>
+   <td style="text-align:right;"> 558 </td>
+   <td style="text-align:right;"> 324 </td>
+   <td style="text-align:right;"> 407 </td>
+   <td style="text-align:right;"> 18991 </td>
+   <td style="text-align:right;"> 1828 </td>
+   <td style="text-align:right;"> 444 </td>
+   <td style="text-align:right;"> 387 </td>
+   <td style="text-align:right;"> 26.3 </td>
+   <td style="text-align:right;"> 143 </td>
+   <td style="text-align:right;"> 199 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> Aston Villa </td>
@@ -540,10 +883,9 @@ ul.task-list li input[type="checkbox"] {
    <td style="text-align:right;"> -2.2 </td>
    <td style="text-align:right;"> -0.06 </td>
    <td style="text-align:right;"> 39485 </td>
-   <td style="text-align:right;"> 27.0 </td>
    <td style="text-align:right;"> 35 </td>
    <td style="text-align:right;"> 13782 </td>
-   <td style="text-align:right;"> 13782 </td>
+   <td style="text-align:right;"> 17396 </td>
    <td style="text-align:right;"> 6109 </td>
    <td style="text-align:right;"> 6945 </td>
    <td style="text-align:right;"> 5981 </td>
@@ -564,6 +906,7 @@ ul.task-list li input[type="checkbox"] {
    <td style="text-align:right;"> 4 </td>
    <td style="text-align:right;"> 58 </td>
    <td style="text-align:right;"> 325 </td>
+   <td style="text-align:right;"> 268 </td>
    <td style="text-align:right;"> 427 </td>
    <td style="text-align:right;"> 145 </td>
    <td style="text-align:right;"> 18.0 </td>
@@ -604,6 +947,7 @@ ul.task-list li input[type="checkbox"] {
    <td style="text-align:right;"> 0 </td>
    <td style="text-align:right;"> 1 </td>
    <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 12 </td>
    <td style="text-align:right;"> 49.3 </td>
    <td style="text-align:right;"> 21501 </td>
    <td style="text-align:right;"> 2783 </td>
@@ -627,329 +971,9 @@ ul.task-list li input[type="checkbox"] {
    <td style="text-align:right;"> 1227 </td>
    <td style="text-align:right;"> 442 </td>
    <td style="text-align:right;"> 465 </td>
+   <td style="text-align:right;"> 27.0 </td>
    <td style="text-align:right;"> 144 </td>
    <td style="text-align:right;"> 193 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Brentford </td>
-   <td style="text-align:right;"> 9 </td>
-   <td style="text-align:right;"> 38 </td>
-   <td style="text-align:right;"> 15 </td>
-   <td style="text-align:right;"> 14 </td>
-   <td style="text-align:right;"> 9 </td>
-   <td style="text-align:right;"> 58 </td>
-   <td style="text-align:right;"> 46 </td>
-   <td style="text-align:right;"> 12 </td>
-   <td style="text-align:right;"> 59 </td>
-   <td style="text-align:right;"> 1.55 </td>
-   <td style="text-align:right;"> 56.8 </td>
-   <td style="text-align:right;"> 49.9 </td>
-   <td style="text-align:right;"> 6.8 </td>
-   <td style="text-align:right;"> 0.18 </td>
-   <td style="text-align:right;"> 17078 </td>
-   <td style="text-align:right;"> 26.2 </td>
-   <td style="text-align:right;"> 36 </td>
-   <td style="text-align:right;"> 11317 </td>
-   <td style="text-align:right;"> 11317 </td>
-   <td style="text-align:right;"> 5142 </td>
-   <td style="text-align:right;"> 6116 </td>
-   <td style="text-align:right;"> 4475 </td>
-   <td style="text-align:right;"> 5602 </td>
-   <td style="text-align:right;"> 1438 </td>
-   <td style="text-align:right;"> 2947 </td>
-   <td style="text-align:right;"> 1131 </td>
-   <td style="text-align:right;"> 13766 </td>
-   <td style="text-align:right;"> 1713 </td>
-   <td style="text-align:right;"> 453 </td>
-   <td style="text-align:right;"> 53 </td>
-   <td style="text-align:right;"> 107 </td>
-   <td style="text-align:right;"> 661 </td>
-   <td style="text-align:right;"> 738 </td>
-   <td style="text-align:right;"> 163 </td>
-   <td style="text-align:right;"> 83 </td>
-   <td style="text-align:right;"> 34 </td>
-   <td style="text-align:right;"> 12 </td>
-   <td style="text-align:right;"> 72 </td>
-   <td style="text-align:right;"> 303 </td>
-   <td style="text-align:right;"> 400 </td>
-   <td style="text-align:right;"> 147 </td>
-   <td style="text-align:right;"> 15.7 </td>
-   <td style="text-align:right;"> 14 </td>
-   <td style="text-align:right;"> 702 </td>
-   <td style="text-align:right;"> 475 </td>
-   <td style="text-align:right;"> 99 </td>
-   <td style="text-align:right;"> 32 </td>
-   <td style="text-align:right;"> 45 </td>
-   <td style="text-align:right;"> 44 </td>
-   <td style="text-align:right;"> 7 </td>
-   <td style="text-align:right;"> 98 </td>
-   <td style="text-align:right;"> 65 </td>
-   <td style="text-align:right;"> 8 </td>
-   <td style="text-align:right;"> 4 </td>
-   <td style="text-align:right;"> 8 </td>
-   <td style="text-align:right;"> 11 </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 8 </td>
-   <td style="text-align:right;"> 7 </td>
-   <td style="text-align:right;"> 587 </td>
-   <td style="text-align:right;"> 337 </td>
-   <td style="text-align:right;"> 270 </td>
-   <td style="text-align:right;"> 228 </td>
-   <td style="text-align:right;"> 89 </td>
-   <td style="text-align:right;"> 253 </td>
-   <td style="text-align:right;"> 599 </td>
-   <td style="text-align:right;"> 346 </td>
-   <td style="text-align:right;"> 456 </td>
-   <td style="text-align:right;"> 168 </td>
-   <td style="text-align:right;"> 288 </td>
-   <td style="text-align:right;"> 341 </td>
-   <td style="text-align:right;"> 928 </td>
-   <td style="text-align:right;"> 822 </td>
-   <td style="text-align:right;"> 1959 </td>
-   <td style="text-align:right;"> 354 </td>
-   <td style="text-align:right;"> 57 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 43.8 </td>
-   <td style="text-align:right;"> 19750 </td>
-   <td style="text-align:right;"> 2632 </td>
-   <td style="text-align:right;"> 7290 </td>
-   <td style="text-align:right;"> 7802 </td>
-   <td style="text-align:right;"> 4835 </td>
-   <td style="text-align:right;"> 827 </td>
-   <td style="text-align:right;"> 597 </td>
-   <td style="text-align:right;"> 264 </td>
-   <td style="text-align:right;"> 248 </td>
-   <td style="text-align:right;"> 10408 </td>
-   <td style="text-align:right;"> 49009 </td>
-   <td style="text-align:right;"> 23987 </td>
-   <td style="text-align:right;"> 392 </td>
-   <td style="text-align:right;"> 299 </td>
-   <td style="text-align:right;"> 102 </td>
-   <td style="text-align:right;"> 520 </td>
-   <td style="text-align:right;"> 335 </td>
-   <td style="text-align:right;"> 399 </td>
-   <td style="text-align:right;"> 11203 </td>
-   <td style="text-align:right;"> 1121 </td>
-   <td style="text-align:right;"> 665 </td>
-   <td style="text-align:right;"> 618 </td>
-   <td style="text-align:right;"> 171 </td>
-   <td style="text-align:right;"> 171 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Crystal Palace </td>
-   <td style="text-align:right;"> 11 </td>
-   <td style="text-align:right;"> 38 </td>
-   <td style="text-align:right;"> 11 </td>
-   <td style="text-align:right;"> 12 </td>
-   <td style="text-align:right;"> 15 </td>
-   <td style="text-align:right;"> 40 </td>
-   <td style="text-align:right;"> 49 </td>
-   <td style="text-align:right;"> -9 </td>
-   <td style="text-align:right;"> 45 </td>
-   <td style="text-align:right;"> 1.18 </td>
-   <td style="text-align:right;"> 39.3 </td>
-   <td style="text-align:right;"> 48.1 </td>
-   <td style="text-align:right;"> -8.8 </td>
-   <td style="text-align:right;"> -0.23 </td>
-   <td style="text-align:right;"> 24952 </td>
-   <td style="text-align:right;"> 26.7 </td>
-   <td style="text-align:right;"> 29 </td>
-   <td style="text-align:right;"> 13395 </td>
-   <td style="text-align:right;"> 13395 </td>
-   <td style="text-align:right;"> 6005 </td>
-   <td style="text-align:right;"> 6901 </td>
-   <td style="text-align:right;"> 5794 </td>
-   <td style="text-align:right;"> 6772 </td>
-   <td style="text-align:right;"> 1309 </td>
-   <td style="text-align:right;"> 2751 </td>
-   <td style="text-align:right;"> 1243 </td>
-   <td style="text-align:right;"> 15416 </td>
-   <td style="text-align:right;"> 1834 </td>
-   <td style="text-align:right;"> 525 </td>
-   <td style="text-align:right;"> 41 </td>
-   <td style="text-align:right;"> 118 </td>
-   <td style="text-align:right;"> 591 </td>
-   <td style="text-align:right;"> 763 </td>
-   <td style="text-align:right;"> 186 </td>
-   <td style="text-align:right;"> 84 </td>
-   <td style="text-align:right;"> 60 </td>
-   <td style="text-align:right;"> 5 </td>
-   <td style="text-align:right;"> 58 </td>
-   <td style="text-align:right;"> 350 </td>
-   <td style="text-align:right;"> 423 </td>
-   <td style="text-align:right;"> 133 </td>
-   <td style="text-align:right;"> 17.6 </td>
-   <td style="text-align:right;"> 23 </td>
-   <td style="text-align:right;"> 746 </td>
-   <td style="text-align:right;"> 497 </td>
-   <td style="text-align:right;"> 67 </td>
-   <td style="text-align:right;"> 56 </td>
-   <td style="text-align:right;"> 49 </td>
-   <td style="text-align:right;"> 59 </td>
-   <td style="text-align:right;"> 18 </td>
-   <td style="text-align:right;"> 67 </td>
-   <td style="text-align:right;"> 43 </td>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:right;"> 4 </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 690 </td>
-   <td style="text-align:right;"> 421 </td>
-   <td style="text-align:right;"> 354 </td>
-   <td style="text-align:right;"> 246 </td>
-   <td style="text-align:right;"> 90 </td>
-   <td style="text-align:right;"> 281 </td>
-   <td style="text-align:right;"> 532 </td>
-   <td style="text-align:right;"> 251 </td>
-   <td style="text-align:right;"> 463 </td>
-   <td style="text-align:right;"> 119 </td>
-   <td style="text-align:right;"> 344 </td>
-   <td style="text-align:right;"> 359 </td>
-   <td style="text-align:right;"> 1049 </td>
-   <td style="text-align:right;"> 807 </td>
-   <td style="text-align:right;"> 2093 </td>
-   <td style="text-align:right;"> 446 </td>
-   <td style="text-align:right;"> 82 </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 46.3 </td>
-   <td style="text-align:right;"> 21713 </td>
-   <td style="text-align:right;"> 2580 </td>
-   <td style="text-align:right;"> 7668 </td>
-   <td style="text-align:right;"> 9275 </td>
-   <td style="text-align:right;"> 4991 </td>
-   <td style="text-align:right;"> 766 </td>
-   <td style="text-align:right;"> 784 </td>
-   <td style="text-align:right;"> 367 </td>
-   <td style="text-align:right;"> 314 </td>
-   <td style="text-align:right;"> 11687 </td>
-   <td style="text-align:right;"> 60301 </td>
-   <td style="text-align:right;"> 30015 </td>
-   <td style="text-align:right;"> 556 </td>
-   <td style="text-align:right;"> 393 </td>
-   <td style="text-align:right;"> 206 </td>
-   <td style="text-align:right;"> 643 </td>
-   <td style="text-align:right;"> 457 </td>
-   <td style="text-align:right;"> 479 </td>
-   <td style="text-align:right;"> 13304 </td>
-   <td style="text-align:right;"> 1238 </td>
-   <td style="text-align:right;"> 496 </td>
-   <td style="text-align:right;"> 578 </td>
-   <td style="text-align:right;"> 138 </td>
-   <td style="text-align:right;"> 204 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Wolves </td>
-   <td style="text-align:right;"> 13 </td>
-   <td style="text-align:right;"> 38 </td>
-   <td style="text-align:right;"> 11 </td>
-   <td style="text-align:right;"> 8 </td>
-   <td style="text-align:right;"> 19 </td>
-   <td style="text-align:right;"> 31 </td>
-   <td style="text-align:right;"> 58 </td>
-   <td style="text-align:right;"> -27 </td>
-   <td style="text-align:right;"> 41 </td>
-   <td style="text-align:right;"> 1.08 </td>
-   <td style="text-align:right;"> 36.8 </td>
-   <td style="text-align:right;"> 59.9 </td>
-   <td style="text-align:right;"> -23.1 </td>
-   <td style="text-align:right;"> -0.61 </td>
-   <td style="text-align:right;"> 31482 </td>
-   <td style="text-align:right;"> 26.7 </td>
-   <td style="text-align:right;"> 12 </td>
-   <td style="text-align:right;"> 14554 </td>
-   <td style="text-align:right;"> 14554 </td>
-   <td style="text-align:right;"> 6350 </td>
-   <td style="text-align:right;"> 7195 </td>
-   <td style="text-align:right;"> 6306 </td>
-   <td style="text-align:right;"> 7257 </td>
-   <td style="text-align:right;"> 1574 </td>
-   <td style="text-align:right;"> 2890 </td>
-   <td style="text-align:right;"> 1343 </td>
-   <td style="text-align:right;"> 16575 </td>
-   <td style="text-align:right;"> 1657 </td>
-   <td style="text-align:right;"> 430 </td>
-   <td style="text-align:right;"> 49 </td>
-   <td style="text-align:right;"> 149 </td>
-   <td style="text-align:right;"> 661 </td>
-   <td style="text-align:right;"> 663 </td>
-   <td style="text-align:right;"> 185 </td>
-   <td style="text-align:right;"> 61 </td>
-   <td style="text-align:right;"> 86 </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 62 </td>
-   <td style="text-align:right;"> 355 </td>
-   <td style="text-align:right;"> 409 </td>
-   <td style="text-align:right;"> 119 </td>
-   <td style="text-align:right;"> 18.0 </td>
-   <td style="text-align:right;"> 18 </td>
-   <td style="text-align:right;"> 713 </td>
-   <td style="text-align:right;"> 521 </td>
-   <td style="text-align:right;"> 62 </td>
-   <td style="text-align:right;"> 30 </td>
-   <td style="text-align:right;"> 47 </td>
-   <td style="text-align:right;"> 42 </td>
-   <td style="text-align:right;"> 11 </td>
-   <td style="text-align:right;"> 44 </td>
-   <td style="text-align:right;"> 32 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 661 </td>
-   <td style="text-align:right;"> 370 </td>
-   <td style="text-align:right;"> 364 </td>
-   <td style="text-align:right;"> 222 </td>
-   <td style="text-align:right;"> 75 </td>
-   <td style="text-align:right;"> 286 </td>
-   <td style="text-align:right;"> 609 </td>
-   <td style="text-align:right;"> 323 </td>
-   <td style="text-align:right;"> 497 </td>
-   <td style="text-align:right;"> 175 </td>
-   <td style="text-align:right;"> 322 </td>
-   <td style="text-align:right;"> 279 </td>
-   <td style="text-align:right;"> 940 </td>
-   <td style="text-align:right;"> 817 </td>
-   <td style="text-align:right;"> 2052 </td>
-   <td style="text-align:right;"> 463 </td>
-   <td style="text-align:right;"> 85 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 49.9 </td>
-   <td style="text-align:right;"> 22539 </td>
-   <td style="text-align:right;"> 2921 </td>
-   <td style="text-align:right;"> 8544 </td>
-   <td style="text-align:right;"> 9262 </td>
-   <td style="text-align:right;"> 4960 </td>
-   <td style="text-align:right;"> 686 </td>
-   <td style="text-align:right;"> 772 </td>
-   <td style="text-align:right;"> 375 </td>
-   <td style="text-align:right;"> 302 </td>
-   <td style="text-align:right;"> 12373 </td>
-   <td style="text-align:right;"> 67215 </td>
-   <td style="text-align:right;"> 35065 </td>
-   <td style="text-align:right;"> 610 </td>
-   <td style="text-align:right;"> 421 </td>
-   <td style="text-align:right;"> 142 </td>
-   <td style="text-align:right;"> 516 </td>
-   <td style="text-align:right;"> 327 </td>
-   <td style="text-align:right;"> 389 </td>
-   <td style="text-align:right;"> 14452 </td>
-   <td style="text-align:right;"> 1331 </td>
-   <td style="text-align:right;"> 465 </td>
-   <td style="text-align:right;"> 542 </td>
-   <td style="text-align:right;"> 165 </td>
-   <td style="text-align:right;"> 175 </td>
   </tr>
 </tbody>
 </table>
@@ -1078,6 +1102,78 @@ Objaśnienie zmiennych
 </div>
 </div>
 <p>Wszystkie dane które pobraliśmy z ww. stron były kompletne, więc nie musimy martwić się ich uzupełnianiem.</p>
+</section>
+<section id="podstawowe-wykresy" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="podstawowe-wykresy">Podstawowe wykresy</h2>
+<div class="cell column-screen">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Raport_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-0f3b89c8420af2b10007" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-0f3b89c8420af2b10007">{"x":{"data":[{"orientation":"v","width":[0.89999999999999991,0.90000000000000013,0.90000000000000036,0.90000000000000036,0.90000000000000036,0.90000000000000036],"base":[0,0,0,0,0,0],"x":[1,2,3,4,5,6],"y":[67.799999999999997,61,82.5,96.5,64.5,68.200000000000003],"text":["Squad: Arsenal<br />AvgGoals: 67.8<br />fill: Goals","Squad: Chelsea<br />AvgGoals: 61.0<br />fill: Goals","Squad: Liverpool<br />AvgGoals: 82.5<br />fill: Goals","Squad: Manchester City<br />AvgGoals: 96.5<br />fill: Goals","Squad: Manchester Utd<br />AvgGoals: 64.5<br />fill: Goals","Squad: Tottenham<br />AvgGoals: 68.2<br />fill: Goals"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,219,116,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"Goals","legendgroup":"Goals","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.20000000000000007,0.20000000000000018,0.20000000000000018,0.19999999999999973,0.19999999999999929,0.19999999999999929],"base":[0,0,0,0,0,0],"x":[1,2,3,4,5,6],"y":[59.899999999999999,59.600000000000001,74,81.799999999999997,60.5,56.5],"text":["Squad: Arsenal<br />AvgEg: 59.9<br />fill: Expected goals","Squad: Chelsea<br />AvgEg: 59.6<br />fill: Expected goals","Squad: Liverpool<br />AvgEg: 74.0<br />fill: Expected goals","Squad: Manchester City<br />AvgEg: 81.8<br />fill: Expected goals","Squad: Manchester Utd<br />AvgEg: 60.5<br />fill: Expected goals","Squad: Tottenham<br />AvgEg: 56.5<br />fill: Expected goals"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(224,0,94,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"Expected goals","legendgroup":"Expected goals","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":27.158156911581571,"r":7.9701120797011216,"b":43.835616438356169,"l":47.023661270236623},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(68,68,68,1)","family":"","size":15.940224159402243},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,6.5999999999999996],"tickmode":"array","ticktext":["Arsenal","Chelsea","Liverpool","Manchester City","Manchester Utd","Tottenham"],"tickvals":[1,2,3,3.9999999999999996,5,6],"categoryorder":"array","categoryarray":["Arsenal","Chelsea","Liverpool","Manchester City","Manchester Utd","Tottenham"],"nticks":null,"ticks":"outside","tickcolor":"rgba(110,110,110,1)","ticklen":3.9850560398505608,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(68,68,68,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":true,"linecolor":"rgba(110,110,110,1)","linewidth":0.66417600664176002,"showgrid":true,"gridcolor":"rgba(195,195,195,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Squad","font":{"color":"rgba(68,68,68,1)","family":"","size":15.940224159402243}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-4.8250000000000002,101.325],"tickmode":"array","ticktext":["0","25","50","75","100"],"tickvals":[0,25,50,75,100],"categoryorder":"array","categoryarray":["0","25","50","75","100"],"nticks":null,"ticks":"outside","tickcolor":"rgba(110,110,110,1)","ticklen":3.9850560398505608,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(68,68,68,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":true,"linecolor":"rgba(110,110,110,1)","linewidth":0.66417600664176002,"showgrid":true,"gridcolor":"rgba(195,195,195,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"AvgGoals","font":{"color":"rgba(68,68,68,1)","family":"","size":15.940224159402243}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"rgba(255,255,255,1)","borderwidth":1.8897637795275593,"font":{"color":"rgba(68,68,68,1)","family":"","size":12.7521793275218},"title":{"text":"fill","font":{"color":"rgba(68,68,68,1)","family":"","size":15.940224159402243}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"c044cf4de":{"x":{},"y":{},"fill":{},"type":"bar"},"c047bad803":{"x":{},"y":{},"fill":{},"width":{}}},"cur_data":"c044cf4de","visdat":{"c044cf4de":["function (y) ","x"],"c047bad803":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-10a59995bfb4919544d7" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-10a59995bfb4919544d7">{"x":{"data":[{"orientation":"v","width":[0.89999999999999991,0.90000000000000013,0.90000000000000036,0.90000000000000036,0.90000000000000036,0.90000000000000036,0.90000000000000036,0.89999999999999947,0.89999999999999858,0.89999999999999858,0.89999999999999858],"base":[0,0,0,0,0,0,0,0,0,0,0],"x":[1,2,3,4,5,6,7,8,9,10,11],"y":[34,38.700000000000003,25,50.700000000000003,24.5,38,43.200000000000003,35,28,41.5,33],"text":["Squad: Cardiff City<br />AvgGoals: 34.0<br />fill: Goals","Squad: Fulham<br />AvgGoals: 38.7<br />fill: Goals","Squad: Huddersfield<br />AvgGoals: 25.0<br />fill: Goals","Squad: Leeds United<br />AvgGoals: 50.7<br />fill: Goals","Squad: Norwich City<br />AvgGoals: 24.5<br />fill: Goals","Squad: Nott'ham Forest<br />AvgGoals: 38.0<br />fill: Goals","Squad: Southampton<br />AvgGoals: 43.2<br />fill: Goals","Squad: Stoke City<br />AvgGoals: 35.0<br />fill: Goals","Squad: Swansea City<br />AvgGoals: 28.0<br />fill: Goals","Squad: Watford<br />AvgGoals: 41.5<br />fill: Goals","Squad: West Brom<br />AvgGoals: 33.0<br />fill: Goals"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,219,116,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"Goals","legendgroup":"Goals","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.89999999999999991,0.90000000000000013,0.90000000000000036,0.90000000000000036,0.90000000000000036,0.90000000000000036,0.90000000000000036,0.89999999999999947,0.89999999999999858,0.89999999999999858,0.89999999999999858],"base":[0,0,0,0,0,0,0,0,0,0,0],"x":[1,2,3,4,5,6,7,8,9,10,11],"y":[42.399999999999999,42.700000000000003,30,49.100000000000001,34.600000000000001,39.299999999999997,44.399999999999999,36.5,31.600000000000001,45.5,36.100000000000001],"text":["Squad: Cardiff City<br />AvgEg: 42.4<br />fill: Expected goals","Squad: Fulham<br />AvgEg: 42.7<br />fill: Expected goals","Squad: Huddersfield<br />AvgEg: 30.0<br />fill: Expected goals","Squad: Leeds United<br />AvgEg: 49.1<br />fill: Expected goals","Squad: Norwich City<br />AvgEg: 34.6<br />fill: Expected goals","Squad: Nott'ham Forest<br />AvgEg: 39.3<br />fill: Expected goals","Squad: Southampton<br />AvgEg: 44.4<br />fill: Expected goals","Squad: Stoke City<br />AvgEg: 36.5<br />fill: Expected goals","Squad: Swansea City<br />AvgEg: 31.6<br />fill: Expected goals","Squad: Watford<br />AvgEg: 45.5<br />fill: Expected goals","Squad: West Brom<br />AvgEg: 36.1<br />fill: Expected goals"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(224,0,94,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"name":"Expected goals","legendgroup":"Expected goals","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":27.158156911581571,"r":7.9701120797011216,"b":43.835616438356169,"l":40.647571606475722},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(68,68,68,1)","family":"","size":15.940224159402243},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,11.6],"tickmode":"array","ticktext":["Cardiff City","Fulham","Huddersfield","Leeds United","Norwich City","Nott'ham Forest","Southampton","Stoke City","Swansea City","Watford","West Brom"],"tickvals":[1,2,3,4,5,6,7,8,9,10,11],"categoryorder":"array","categoryarray":["Cardiff City","Fulham","Huddersfield","Leeds United","Norwich City","Nott'ham Forest","Southampton","Stoke City","Swansea City","Watford","West Brom"],"nticks":null,"ticks":"outside","tickcolor":"rgba(110,110,110,1)","ticklen":3.9850560398505608,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(68,68,68,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":true,"linecolor":"rgba(110,110,110,1)","linewidth":0.66417600664176002,"showgrid":true,"gridcolor":"rgba(195,195,195,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Squad","font":{"color":"rgba(68,68,68,1)","family":"","size":15.940224159402243}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-2.5350000000000001,53.234999999999999],"tickmode":"array","ticktext":["0","10","20","30","40","50"],"tickvals":[0,10,20,29.999999999999996,40,50],"categoryorder":"array","categoryarray":["0","10","20","30","40","50"],"nticks":null,"ticks":"outside","tickcolor":"rgba(110,110,110,1)","ticklen":3.9850560398505608,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(68,68,68,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":true,"linecolor":"rgba(110,110,110,1)","linewidth":0.66417600664176002,"showgrid":true,"gridcolor":"rgba(195,195,195,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"AvgGoals","font":{"color":"rgba(68,68,68,1)","family":"","size":15.940224159402243}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"rgba(255,255,255,1)","borderwidth":1.8897637795275593,"font":{"color":"rgba(68,68,68,1)","family":"","size":12.7521793275218},"title":{"text":"fill","font":{"color":"rgba(68,68,68,1)","family":"","size":15.940224159402243}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"c044a34141":{"x":{},"y":{},"fill":{},"type":"bar"},"c04278bd10":{"x":{},"y":{},"fill":{}}},"cur_data":"c044a34141","visdat":{"c044a34141":["function (y) ","x"],"c04278bd10":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>K-means clustering with 3 clusters of sizes 18, 7, 4
+
+Cluster means:
+  proc.short     proc.mid  proc.long
+1 -0.1234563 -0.005720248  0.1059656
+2  1.1386128  0.841077369 -1.2530932
+3 -1.4370191 -1.446144279  1.7160678
+
+Clustering vector:
+ [1] 2 1 1 1 1 3 3 2 1 1 1 1 1 2 2 2 2 1 1 1 1 1 3 1 2 1 3 1 1
+
+Within cluster sum of squares by cluster:
+[1] 20.037481  7.282887  2.778946
+ (between_SS / total_SS =  64.2 %)
+
+Available components:
+
+[1] "cluster"      "centers"      "totss"        "withinss"     "tot.withinss"
+[6] "betweenss"    "size"         "iter"         "ifault"      </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 29 × 5
+   Squad          proc.short proc.mid proc.long Cluster
+   &lt;chr&gt;               &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;  
+ 1 Arsenal             0.422    0.398     0.124 2      
+ 2 Aston Villa         0.395    0.378     0.169 1      
+ 3 Bournemouth         0.411    0.373     0.160 1      
+ 4 Brentford           0.391    0.368     0.182 1      
+ 5 Brighton            0.397    0.386     0.158 1      
+ 6 Burnley             0.373    0.327     0.230 3      
+ 7 Cardiff City        0.350    0.309     0.255 3      
+ 8 Chelsea             0.454    0.374     0.110 2      
+ 9 Crystal Palace      0.413    0.361     0.164 1      
+10 Everton             0.394    0.358     0.178 1      
+# ℹ 19 more rows</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-96e8ac8a486074f0de96" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-96e8ac8a486074f0de96">{"x":{"data":[{"x":[0.3780328410678605,0.37313742950430395,0.3683499355811834,0.38637877490289707,0.36079514625363784,0.35776290048269288,0.38976578859385175,0.35133963409347091,0.38199530810694649,0.34373845585519025,0.34760582729900685,0.37674555343230925,0.33089789263933339,0.35545718501594553,0.37351608648276652,0.33586022002403626,0.35229529260600395,0.38403119209057701],"y":[0.39506933281252349,0.41110121697833185,0.3905351475348019,0.39705360773017068,0.41302224633749324,0.39440233580086709,0.39791303735768707,0.39183213387670163,0.40190899160115329,0.39291379647536889,0.43355562551876126,0.36395707775981184,0.41036169313447257,0.42203817411585509,0.3819464357400929,0.41205201688699888,0.40845111552388741,0.38827297363882729],"text":["proc.mid: 0.3780328<br />proc.short: 0.3950693<br />Cluster: 1","proc.mid: 0.3731374<br />proc.short: 0.4111012<br />Cluster: 1","proc.mid: 0.3683499<br />proc.short: 0.3905351<br />Cluster: 1","proc.mid: 0.3863788<br />proc.short: 0.3970536<br />Cluster: 1","proc.mid: 0.3607951<br />proc.short: 0.4130222<br />Cluster: 1","proc.mid: 0.3577629<br />proc.short: 0.3944023<br />Cluster: 1","proc.mid: 0.3897658<br />proc.short: 0.3979130<br />Cluster: 1","proc.mid: 0.3513396<br />proc.short: 0.3918321<br />Cluster: 1","proc.mid: 0.3819953<br />proc.short: 0.4019090<br />Cluster: 1","proc.mid: 0.3437385<br />proc.short: 0.3929138<br />Cluster: 1","proc.mid: 0.3476058<br />proc.short: 0.4335556<br />Cluster: 1","proc.mid: 0.3767456<br />proc.short: 0.3639571<br />Cluster: 1","proc.mid: 0.3308979<br />proc.short: 0.4103617<br />Cluster: 1","proc.mid: 0.3554572<br />proc.short: 0.4220382<br />Cluster: 1","proc.mid: 0.3735161<br />proc.short: 0.3819464<br />Cluster: 1","proc.mid: 0.3358602<br />proc.short: 0.4120520<br />Cluster: 1","proc.mid: 0.3522953<br />proc.short: 0.4084511<br />Cluster: 1","proc.mid: 0.3840312<br />proc.short: 0.3882730<br />Cluster: 1"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(224,0,94,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(224,0,94,1)"}},"hoveron":"points","name":"1","legendgroup":"1","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.3982818677857799,0.3741782236846532,0.37283447249103335,0.4038662041560383,0.38792042840755775,0.35622886176961083,0.390058287625209],"y":[0.42196689711696805,0.45361379709442773,0.41888576842390202,0.41473826401138353,0.45746533452995819,0.4431508237091068,0.41716281468285593],"text":["proc.mid: 0.3982819<br />proc.short: 0.4219669<br />Cluster: 2","proc.mid: 0.3741782<br />proc.short: 0.4536138<br />Cluster: 2","proc.mid: 0.3728345<br />proc.short: 0.4188858<br />Cluster: 2","proc.mid: 0.4038662<br />proc.short: 0.4147383<br />Cluster: 2","proc.mid: 0.3879204<br />proc.short: 0.4574653<br />Cluster: 2","proc.mid: 0.3562289<br />proc.short: 0.4431508<br />Cluster: 2","proc.mid: 0.3900583<br />proc.short: 0.4171628<br />Cluster: 2"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,219,116,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,219,116,1)"}},"hoveron":"points","name":"2","legendgroup":"2","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[0.32695715206185566,0.30917626973965001,0.34477314846592078,0.34093575322614034],"y":[0.37325493986254293,0.349722577891592,0.36968906582469629,0.37523290318128494],"text":["proc.mid: 0.3269572<br />proc.short: 0.3732549<br />Cluster: 3","proc.mid: 0.3091763<br />proc.short: 0.3497226<br />Cluster: 3","proc.mid: 0.3447731<br />proc.short: 0.3696891<br />Cluster: 3","proc.mid: 0.3409358<br />proc.short: 0.3752329<br />Cluster: 3"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(55,0,60,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(55,0,60,1)"}},"hoveron":"points","name":"3","legendgroup":"3","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":46.286425902864259,"r":7.9701120797011216,"b":43.835616438356169,"l":59.775840597758425},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(68,68,68,1)","family":"","size":15.940224159402243},"title":{"text":"<b> Analiza Klastrowa Drużyn <\/b>","font":{"color":"rgba(68,68,68,1)","family":"","size":19.128268991282692},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.30444177301883057,0.40860070087685774],"tickmode":"array","ticktext":["0.325","0.350","0.375","0.400"],"tickvals":[0.32500000000000007,0.35000000000000003,0.37500000000000006,0.40000000000000002],"categoryorder":"array","categoryarray":["0.325","0.350","0.375","0.400"],"nticks":null,"ticks":"outside","tickcolor":"rgba(110,110,110,1)","ticklen":3.9850560398505608,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(68,68,68,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":true,"linecolor":"rgba(110,110,110,1)","linewidth":0.66417600664176002,"showgrid":true,"gridcolor":"rgba(195,195,195,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Passes","font":{"color":"rgba(68,68,68,1)","family":"","size":15.940224159402243}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.3443354400596737,0.46285247236187649],"tickmode":"array","ticktext":["0.350","0.375","0.400","0.425","0.450"],"tickvals":[0.35000000000000003,0.37500000000000006,0.40000000000000002,0.42500000000000004,0.45000000000000007],"categoryorder":"array","categoryarray":["0.350","0.375","0.400","0.425","0.450"],"nticks":null,"ticks":"outside","tickcolor":"rgba(110,110,110,1)","ticklen":3.9850560398505608,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(68,68,68,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":true,"linecolor":"rgba(110,110,110,1)","linewidth":0.66417600664176002,"showgrid":true,"gridcolor":"rgba(195,195,195,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Long.passes.attempted","font":{"color":"rgba(68,68,68,1)","family":"","size":15.940224159402243}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"rgba(255,255,255,1)","borderwidth":1.8897637795275593,"font":{"color":"rgba(68,68,68,1)","family":"","size":12.7521793275218},"title":{"text":"Cluster","font":{"color":"rgba(68,68,68,1)","family":"","size":15.940224159402243}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"c042baf418e":{"x":{},"y":{},"colour":{},"type":"scatter"}},"cur_data":"c042baf418e","visdat":{"c042baf418e":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell page-columns page-full">
+<div class="cell-output-display column-page">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-0152946ee8259d5cfef8" style="width:100%;height:928px;"></div>
+<script type="application/json" data-for="htmlwidget-0152946ee8259d5cfef8">{"x":{"visdat":{"c041caa4e18":["function () ","plotlyVisDat"]},"cur_data":"c041caa4e18","attrs":{"c041caa4e18":{"x":{},"y":{},"z":{},"mode":"markers","name":{},"color":{},"colors":["#e0005e","#00db74","#37003c"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter3d"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"proc.short"},"yaxis":{"title":"proc.mid"},"zaxis":{"title":"proc.long"}},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[0.42196689711696805],"y":[0.3982818677857799],"z":[0.12384363782622884],"mode":"markers","name":"Arsenal","type":"scatter3d","marker":{"color":"rgba(0,219,116,1)","line":{"color":"rgba(0,219,116,1)"}},"textfont":{"color":"rgba(0,219,116,1)"},"error_y":{"color":"rgba(0,219,116,1)"},"error_x":{"color":"rgba(0,219,116,1)"},"line":{"color":"rgba(0,219,116,1)"},"frame":null},{"x":[0.39506933281252349],"y":[0.3780328410678605],"z":[0.16865225425536709],"mode":"markers","name":"Aston Villa","type":"scatter3d","marker":{"color":"rgba(224,0,94,1)","line":{"color":"rgba(224,0,94,1)"}},"textfont":{"color":"rgba(224,0,94,1)"},"error_y":{"color":"rgba(224,0,94,1)"},"error_x":{"color":"rgba(224,0,94,1)"},"line":{"color":"rgba(224,0,94,1)"},"frame":null},{"x":[0.41110121697833185],"y":[0.37313742950430395],"z":[0.16044820421490055],"mode":"markers","name":"Bournemouth","type":"scatter3d","marker":{"color":"rgba(224,0,94,1)","line":{"color":"rgba(224,0,94,1)"}},"textfont":{"color":"rgba(224,0,94,1)"},"error_y":{"color":"rgba(224,0,94,1)"},"error_x":{"color":"rgba(224,0,94,1)"},"line":{"color":"rgba(224,0,94,1)"},"frame":null},{"x":[0.3905351475348019],"y":[0.3683499355811834],"z":[0.18222669138673286],"mode":"markers","name":"Brentford","type":"scatter3d","marker":{"color":"rgba(224,0,94,1)","line":{"color":"rgba(224,0,94,1)"}},"textfont":{"color":"rgba(224,0,94,1)"},"error_y":{"color":"rgba(224,0,94,1)"},"error_x":{"color":"rgba(224,0,94,1)"},"line":{"color":"rgba(224,0,94,1)"},"frame":null},{"x":[0.39705360773017068],"y":[0.38637877490289707],"z":[0.15847887957508283],"mode":"markers","name":"Brighton","type":"scatter3d","marker":{"color":"rgba(224,0,94,1)","line":{"color":"rgba(224,0,94,1)"}},"textfont":{"color":"rgba(224,0,94,1)"},"error_y":{"color":"rgba(224,0,94,1)"},"error_x":{"color":"rgba(224,0,94,1)"},"line":{"color":"rgba(224,0,94,1)"},"frame":null},{"x":[0.37325493986254293],"y":[0.32695715206185566],"z":[0.23026739690721648],"mode":"markers","name":"Burnley","type":"scatter3d","marker":{"color":"rgba(55,0,60,1)","line":{"color":"rgba(55,0,60,1)"}},"textfont":{"color":"rgba(55,0,60,1)"},"error_y":{"color":"rgba(55,0,60,1)"},"error_x":{"color":"rgba(55,0,60,1)"},"line":{"color":"rgba(55,0,60,1)"},"frame":null},{"x":[0.349722577891592],"y":[0.30917626973965001],"z":[0.25497225778915922],"mode":"markers","name":"Cardiff City","type":"scatter3d","marker":{"color":"rgba(55,0,60,1)","line":{"color":"rgba(55,0,60,1)"}},"textfont":{"color":"rgba(55,0,60,1)"},"error_y":{"color":"rgba(55,0,60,1)"},"error_x":{"color":"rgba(55,0,60,1)"},"line":{"color":"rgba(55,0,60,1)"},"frame":null},{"x":[0.45361379709442773],"y":[0.3741782236846532],"z":[0.11006587668476761],"mode":"markers","name":"Chelsea","type":"scatter3d","marker":{"color":"rgba(0,219,116,1)","line":{"color":"rgba(0,219,116,1)"}},"textfont":{"color":"rgba(0,219,116,1)"},"error_y":{"color":"rgba(0,219,116,1)"},"error_x":{"color":"rgba(0,219,116,1)"},"line":{"color":"rgba(0,219,116,1)"},"frame":null},{"x":[0.41302224633749324],"y":[0.36079514625363784],"z":[0.16422828392443151],"mode":"markers","name":"Crystal Palace","type":"scatter3d","marker":{"color":"rgba(224,0,94,1)","line":{"color":"rgba(224,0,94,1)"}},"textfont":{"color":"rgba(224,0,94,1)"},"error_y":{"color":"rgba(224,0,94,1)"},"error_x":{"color":"rgba(224,0,94,1)"},"line":{"color":"rgba(224,0,94,1)"},"frame":null},{"x":[0.39440233580086709],"y":[0.35776290048269288],"z":[0.17824244747888834],"mode":"markers","name":"Everton","type":"scatter3d","marker":{"color":"rgba(224,0,94,1)","line":{"color":"rgba(224,0,94,1)"}},"textfont":{"color":"rgba(224,0,94,1)"},"error_y":{"color":"rgba(224,0,94,1)"},"error_x":{"color":"rgba(224,0,94,1)"},"line":{"color":"rgba(224,0,94,1)"},"frame":null},{"x":[0.39791303735768707],"y":[0.38976578859385175],"z":[0.15381231413538862],"mode":"markers","name":"Fulham","type":"scatter3d","marker":{"color":"rgba(224,0,94,1)","line":{"color":"rgba(224,0,94,1)"}},"textfont":{"color":"rgba(224,0,94,1)"},"error_y":{"color":"rgba(224,0,94,1)"},"error_x":{"color":"rgba(224,0,94,1)"},"line":{"color":"rgba(224,0,94,1)"},"frame":null},{"x":[0.39183213387670163],"y":[0.35133963409347091],"z":[0.19272233301540506],"mode":"markers","name":"Huddersfield","type":"scatter3d","marker":{"color":"rgba(224,0,94,1)","line":{"color":"rgba(224,0,94,1)"}},"textfont":{"color":"rgba(224,0,94,1)"},"error_y":{"color":"rgba(224,0,94,1)"},"error_x":{"color":"rgba(224,0,94,1)"},"line":{"color":"rgba(224,0,94,1)"},"frame":null},{"x":[0.40190899160115329],"y":[0.38199530810694649],"z":[0.14856467470138429],"mode":"markers","name":"Leeds United","type":"scatter3d","marker":{"color":"rgba(224,0,94,1)","line":{"color":"rgba(224,0,94,1)"}},"textfont":{"color":"rgba(224,0,94,1)"},"error_y":{"color":"rgba(224,0,94,1)"},"error_x":{"color":"rgba(224,0,94,1)"},"line":{"color":"rgba(224,0,94,1)"},"frame":null},{"x":[0.41888576842390202],"y":[0.37283447249103335],"z":[0.14552175678419166],"mode":"markers","name":"Leicester City","type":"scatter3d","marker":{"color":"rgba(0,219,116,1)","line":{"color":"rgba(0,219,116,1)"}},"textfont":{"color":"rgba(0,219,116,1)"},"error_y":{"color":"rgba(0,219,116,1)"},"error_x":{"color":"rgba(0,219,116,1)"},"line":{"color":"rgba(0,219,116,1)"},"frame":null},{"x":[0.41473826401138353],"y":[0.4038662041560383],"z":[0.12906800611143535],"mode":"markers","name":"Liverpool","type":"scatter3d","marker":{"color":"rgba(0,219,116,1)","line":{"color":"rgba(0,219,116,1)"}},"textfont":{"color":"rgba(0,219,116,1)"},"error_y":{"color":"rgba(0,219,116,1)"},"error_x":{"color":"rgba(0,219,116,1)"},"line":{"color":"rgba(0,219,116,1)"},"frame":null},{"x":[0.45746533452995819],"y":[0.38792042840755775],"z":[0.10030846770598689],"mode":"markers","name":"Manchester City","type":"scatter3d","marker":{"color":"rgba(0,219,116,1)","line":{"color":"rgba(0,219,116,1)"}},"textfont":{"color":"rgba(0,219,116,1)"},"error_y":{"color":"rgba(0,219,116,1)"},"error_x":{"color":"rgba(0,219,116,1)"},"line":{"color":"rgba(0,219,116,1)"},"frame":null},{"x":[0.4431508237091068],"y":[0.35622886176961083],"z":[0.12936207353376661],"mode":"markers","name":"Manchester Utd","type":"scatter3d","marker":{"color":"rgba(0,219,116,1)","line":{"color":"rgba(0,219,116,1)"}},"textfont":{"color":"rgba(0,219,116,1)"},"error_y":{"color":"rgba(0,219,116,1)"},"error_x":{"color":"rgba(0,219,116,1)"},"line":{"color":"rgba(0,219,116,1)"},"frame":null},{"x":[0.39291379647536889],"y":[0.34373845585519025],"z":[0.19127968882418131],"mode":"markers","name":"Newcastle Utd","type":"scatter3d","marker":{"color":"rgba(224,0,94,1)","line":{"color":"rgba(224,0,94,1)"}},"textfont":{"color":"rgba(224,0,94,1)"},"error_y":{"color":"rgba(224,0,94,1)"},"error_x":{"color":"rgba(224,0,94,1)"},"line":{"color":"rgba(224,0,94,1)"},"frame":null},{"x":[0.43355562551876126],"y":[0.34760582729900685],"z":[0.15607201121955408],"mode":"markers","name":"Norwich City","type":"scatter3d","marker":{"color":"rgba(224,0,94,1)","line":{"color":"rgba(224,0,94,1)"}},"textfont":{"color":"rgba(224,0,94,1)"},"error_y":{"color":"rgba(224,0,94,1)"},"error_x":{"color":"rgba(224,0,94,1)"},"line":{"color":"rgba(224,0,94,1)"},"frame":null},{"x":[0.36395707775981184],"y":[0.37674555343230925],"z":[0.19902983977656916],"mode":"markers","name":"Nott'ham Forest","type":"scatter3d","marker":{"color":"rgba(224,0,94,1)","line":{"color":"rgba(224,0,94,1)"}},"textfont":{"color":"rgba(224,0,94,1)"},"error_y":{"color":"rgba(224,0,94,1)"},"error_x":{"color":"rgba(224,0,94,1)"},"line":{"color":"rgba(224,0,94,1)"},"frame":null},{"x":[0.41036169313447257],"y":[0.33089789263933339],"z":[0.18851518628102168],"mode":"markers","name":"Sheffield Utd","type":"scatter3d","marker":{"color":"rgba(224,0,94,1)","line":{"color":"rgba(224,0,94,1)"}},"textfont":{"color":"rgba(224,0,94,1)"},"error_y":{"color":"rgba(224,0,94,1)"},"error_x":{"color":"rgba(224,0,94,1)"},"line":{"color":"rgba(224,0,94,1)"},"frame":null},{"x":[0.42203817411585509],"y":[0.35545718501594553],"z":[0.15971250416488172],"mode":"markers","name":"Southampton","type":"scatter3d","marker":{"color":"rgba(224,0,94,1)","line":{"color":"rgba(224,0,94,1)"}},"textfont":{"color":"rgba(224,0,94,1)"},"error_y":{"color":"rgba(224,0,94,1)"},"error_x":{"color":"rgba(224,0,94,1)"},"line":{"color":"rgba(224,0,94,1)"},"frame":null},{"x":[0.36968906582469629],"y":[0.34477314846592078],"z":[0.21923261720090603],"mode":"markers","name":"Stoke City","type":"scatter3d","marker":{"color":"rgba(55,0,60,1)","line":{"color":"rgba(55,0,60,1)"}},"textfont":{"color":"rgba(55,0,60,1)"},"error_y":{"color":"rgba(55,0,60,1)"},"error_x":{"color":"rgba(55,0,60,1)"},"line":{"color":"rgba(55,0,60,1)"},"frame":null},{"x":[0.3819464357400929],"y":[0.37351608648276652],"z":[0.1934965877157768],"mode":"markers","name":"Swansea City","type":"scatter3d","marker":{"color":"rgba(224,0,94,1)","line":{"color":"rgba(224,0,94,1)"}},"textfont":{"color":"rgba(224,0,94,1)"},"error_y":{"color":"rgba(224,0,94,1)"},"error_x":{"color":"rgba(224,0,94,1)"},"line":{"color":"rgba(224,0,94,1)"},"frame":null},{"x":[0.41716281468285593],"y":[0.390058287625209],"z":[0.13395215101651742],"mode":"markers","name":"Tottenham","type":"scatter3d","marker":{"color":"rgba(0,219,116,1)","line":{"color":"rgba(0,219,116,1)"}},"textfont":{"color":"rgba(0,219,116,1)"},"error_y":{"color":"rgba(0,219,116,1)"},"error_x":{"color":"rgba(0,219,116,1)"},"line":{"color":"rgba(0,219,116,1)"},"frame":null},{"x":[0.41205201688699888],"y":[0.33586022002403626],"z":[0.18124248867523343],"mode":"markers","name":"Watford","type":"scatter3d","marker":{"color":"rgba(224,0,94,1)","line":{"color":"rgba(224,0,94,1)"}},"textfont":{"color":"rgba(224,0,94,1)"},"error_y":{"color":"rgba(224,0,94,1)"},"error_x":{"color":"rgba(224,0,94,1)"},"line":{"color":"rgba(224,0,94,1)"},"frame":null},{"x":[0.37523290318128494],"y":[0.34093575322614034],"z":[0.21848043613277207],"mode":"markers","name":"West Brom","type":"scatter3d","marker":{"color":"rgba(55,0,60,1)","line":{"color":"rgba(55,0,60,1)"}},"textfont":{"color":"rgba(55,0,60,1)"},"error_y":{"color":"rgba(55,0,60,1)"},"error_x":{"color":"rgba(55,0,60,1)"},"line":{"color":"rgba(55,0,60,1)"},"frame":null},{"x":[0.40845111552388741],"y":[0.35229529260600395],"z":[0.17441498267336369],"mode":"markers","name":"West Ham","type":"scatter3d","marker":{"color":"rgba(224,0,94,1)","line":{"color":"rgba(224,0,94,1)"}},"textfont":{"color":"rgba(224,0,94,1)"},"error_y":{"color":"rgba(224,0,94,1)"},"error_x":{"color":"rgba(224,0,94,1)"},"line":{"color":"rgba(224,0,94,1)"},"frame":null},{"x":[0.38827297363882729],"y":[0.38403119209057701],"z":[0.16602932827747249],"mode":"markers","name":"Wolves","type":"scatter3d","marker":{"color":"rgba(224,0,94,1)","line":{"color":"rgba(224,0,94,1)"}},"textfont":{"color":"rgba(224,0,94,1)"},"error_y":{"color":"rgba(224,0,94,1)"},"error_x":{"color":"rgba(224,0,94,1)"},"line":{"color":"rgba(224,0,94,1)"},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
 </section>
 
 </main>

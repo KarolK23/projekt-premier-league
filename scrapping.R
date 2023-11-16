@@ -112,6 +112,8 @@ Ball.recoveries <- c()
 Aerials.won <- c()
 Aerial.lost <- c()
 Blocked.passes <- c()
+Cleansheets <- c()
+Passes.into.penalty.area <- c()
 #link <- "https://fbref.com/en/comps/9/2018-2019/2018-2019-Premier-League-Stats"
 #page <- read_html(link)
 for (i in 0:5){
@@ -253,7 +255,7 @@ Free.kick.shots <- c(Free.kick.shots,Free.kick.shotsx)
 Passes.completedx <- page %>% html_nodes("#stats_squads_passing_for .right:nth-child(4)") %>% html_text()
 Passes.completed <- c(Passes.completed, Passes.completedx)
 
-Passes.attemptedx <- page %>% html_nodes("#stats_squads_passing_for .right:nth-child(4)") %>% html_text()
+Passes.attemptedx <- page %>% html_nodes("#stats_squads_passing_for .right:nth-child(5)") %>% html_text()
 Passes.attempted <- c(Passes.attempted, Passes.attemptedx)
 
 Short.passes.completedx <- page %>% html_nodes("#stats_squads_passing_for .right:nth-child(9)") %>% html_text()
@@ -312,6 +314,9 @@ Passes.offside <- c(Passes.offside, Passes.offsidex)
 
 Passes.blockedx <- page %>% html_nodes("#stats_squads_passing_types_for .right:nth-child(18)") %>% html_text()
 Passes.blocked <- c(Passes.blocked, Passes.blockedx)
+
+Passes.into.penalty.areax <- page %>% html_nodes("#stats_squads_passing_for .right:nth-child(24)") %>% html_text()
+Passes.into.penalty.area <- c(Passes.into.penalty.area, Passes.into.penalty.areax)
 
 
 #################################################################################
@@ -408,6 +413,9 @@ Clearances <- c(Clearances, Clearancesx)
 
 Errorsx <- page %>% html_nodes("#stats_squads_defense_for .right:nth-child(18)") %>% html_text()
 Errors <- c(Errors, Errorsx)
+
+Cleansheetsx <- page %>% html_nodes("#stats_squads_keeper_for .right:nth-child(15)") %>% html_text()
+Cleansheets <- c(Cleansheets, Cleansheetsx)
 
 #####################################################################
 ######################### SQUAD POSSESSION ##########################
@@ -520,14 +528,14 @@ df1 <- data.frame(Rk, Squad, Matches.played, Wins, Draws, Loses, Goals.for,
                  Expected.goals, Expected.goals.allowed, Expected.goals.difference,
                  Expected.goals.difference.per.90.minutes, Attendance, "Season"=rev(Season))
 
-df2 <- data.frame("Squad"=Squad2, Age,
+df2 <- data.frame("Squad"=Squad2, 
                   #Passes
                   Assists,
                   Passes.completed, Passes.attempted, Short.passes.completed,
                   Short.passes.attempted, Medium.passes.completed, Medium.passes.attempted, Long.passes.completed, 
                   Long.passes.attempted, Progressive.passes, Live.ball.passes, Dead.ball.passes, Passes.from.free.kicks, Through.balls, 
                   Switches, Crosses, Throw.in.taken, Corner.kicks, Corner.kicks.in, Corner.kicks.out, Corner.kicks.straight, 
-                  Passes.offside, Passes.blocked, 
+                  Passes.offside, Passes.blocked, Passes.into.penalty.area,
                   #SHOTS#
                   Shoots.total, Shoots.on.target, Average.shot.distance, Free.kick.shots,
                   Shot.creating.actions, SCA.Live.ball.pass, SCA.Dead.ball.pass, SCA.Take.on, 
@@ -538,20 +546,20 @@ df2 <- data.frame("Squad"=Squad2, Age,
                   Tackles, Tackles.won, Tackles.def.3rd, Tackles.mid.3rd, 
                   Tackles.att.3rd, Dribblers.tackled, Dribblers.challenged, Challenges.lost, Blocks, Shots.blocked, Blocked.passes, 
                   Interceptions, Clearances, Errors, Ball.recoveries, 
-                  Fouls.commited, Yellow.cards, Second.yellow.card, Red.cards, Own.goals,
+                  Fouls.commited, Yellow.cards, Second.yellow.card, Red.cards, Own.goals, Cleansheets,
                   #POSSESION
                   Possession, Touches, Touches.def.pen, Touches.def.3rd, Touches.mid.3rd, Touches.att.3rd, 
                   Touches.att.pen, Takes.on.attempted, Takes.on.succesful, Times.tackled.during.take.on, Carries, Total.carrying.distance, 
                   Progressive.carrying.distance, Progressive.carries, Carries.into.final.third, Carreis.into.penalty.area, Miscontrols, 
                   Dispossessed, Fouls.drawn, Passes.recived, Progressive.passes.recived, Aerials.won, Aerial.lost,
                   #Rózne
-                  Substitute.apperances, Matchehs.as.unused.sub, "Season"=rev(Season))
+                  Age, Substitute.apperances, Matchehs.as.unused.sub, "Season"=rev(Season))
 
 
 df <- merge(df1, df2, by = c("Season","Squad"))
 df %>% head()
 df_order <- df %>% arrange(Season, Rk)
 df_order$Season <- rev(df_order$Season)
-df_order <- df_order[seq(1,240, by=2),]
+
 
 write.csv(df_order, "C:\\Premier League Project\\dane.csv", row.names = FALSE)

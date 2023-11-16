@@ -15,6 +15,11 @@ library(flextable)
 library(dplyr)
 library(stringr)
 library(kableExtra)
+library(plotly)
+library(reshape2)
+library(tidyr)
+library(ggthemr)
+library(cluster)
 ```
 
 ```{r}
@@ -37,6 +42,8 @@ Dane z których będziemy korzystać do analizy pozyskaliśmy ze stron [bref.com
 ```{r}
 #| column: page
 head(dane[-1], 7) %>% kable() %>% kable_material(c("striped", "hover"))
+dupa <- define_palette(swatch = c("black", "#e0005e", "#00db74", "#37003c", "blue", "orange"), gradient = c("#e0005e", "#00db74"))
+ggthemr(dupa)
 ```
 
 ::: {.callout-note collapse="true"}
@@ -76,7 +83,7 @@ head(dane[-1], 7) %>% kable() %>% kable_material(c("striped", "hover"))
 
 `Season` - Okres rozgrywek w latach.
 
-`Age` - średnia ważona (względem rozegranych minut) wieku zawodników w drużynie 
+`Age` - średnia ważona (względem rozegranych minut) wieku zawodników w drużynie
 
 `Assists` - liczba asyst
 
@@ -94,7 +101,7 @@ head(dane[-1], 7) %>% kable() %>% kable_material(c("striped", "hover"))
 
 `Long.passes.completed` - ilość celnych długich podań
 
-`Long.passes.attempted` - ilość długich podań ogółem 
+`Long.passes.attempted` - ilość długich podań ogółem
 
 `Progressive.passes` - Podania celne które przesuwają piłkę w stronę bramki przeciwnika co najmniej 10 yardów od jej najdalszego punktu przez ostatnie 6 podań, lub jakiekolwiek celne podanie w pole karne przeciwnika. Nie dotyczy podań z defensywy (40% boiska od strony własnej bramki)
 
@@ -108,13 +115,13 @@ head(dane[-1], 7) %>% kable() %>% kable_material(c("striped", "hover"))
 
 `Switches` - podania kóre przebyły co najmniej 40 yardów w poprzek boiska
 
-`Crosses` - dośrodkowania 
+`Crosses` - dośrodkowania
 
 `Throw.in.taken` - wrzuty z autu
 
 `Corner.kicks` - rzuty rożne
 
-`Corner.kicks.in` - 
+`Corner.kicks.in` -
 
 `Corner.kicks.out`
 
@@ -257,4 +264,95 @@ head(dane[-1], 7) %>% kable() %>% kable_material(c("striped", "hover"))
 
 Wszystkie dane które pobraliśmy z ww. stron były kompletne, więc nie musimy martwić się ich uzupełnianiem.
 
+## Podstawowe wykresy
 
+```{r}
+#| column: screen
+#| fig-height: 10
+
+#p <- ggplot(dane, aes(x=Season, y=Points, color=Squad))+
+#  geom_line(aes(group = Squad))+
+#  geom_point()
+
+#ggplotly(p)
+```
+
+```{r}
+avg_possession <- dane %>% group_by(Squad) %>% summarise(AvgPossession = median(Possession), NumSeasons = n_distinct(Season))
+
+avg_possession$Color <- ifelse(avg_possession$NumSeasons < 6, "#e0005e", "#00db74")
+
+
+# Narysuj wykres słupkowy
+ggplot(avg_possession, aes(x = reorder(Squad, -AvgPossession), y = AvgPossession, fill = Color)) +
+  geom_bar(stat = "identity", position = "dodge", fill = avg_possession$Color) +
+  labs(title = "Średnia Posiadania Piłki na Przez Wszystkie Sezony",
+       x = "Drużyna",
+       y = "Średnia Posiadania (%)")+
+       geom_hline(yintercept = mean(avg_possession$AvgPossession), linetype="dashed", color = "black", size = 1)+
+       theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+```{r}
+avg_rank <- dane %>% group_by(Squad) %>% summarise(AvgRank = median(Rk), AvgGoals = round(mean(Goals.for),1), AvgEg = round(mean(Expected.goals),1))
+
+selected_teams <- avg_rank %>% filter(AvgRank < 8)
+
+# Narysuj wykres słupkowy
+p <- ggplot(selected_teams, aes(x = Squad))+
+  geom_bar(stat = "identity", position = "dodge", aes(y=AvgGoals, fill="Goals"))+
+  geom_bar(stat = "identity", position = "dodge", aes(y=AvgEg, fill="Expected goals", width = 0.2))
+ggplotly(p)
+```
+
+```{r}
+avg_rank <- dane %>% group_by(Squad) %>% summarise(AvgRank = median(Rk), AvgGoals = round(mean(Goals.for),1), AvgEg = round(mean(Expected.goals),1))
+
+selected_teams <- avg_rank %>% filter(AvgRank > 15)
+
+# Narysuj wykres słupkowy
+p <- ggplot(selected_teams, aes(x = Squad))+
+  geom_bar(stat = "identity", aes(y=AvgGoals, fill="Goals"))+
+  geom_bar(stat = "identity", aes(y=AvgEg, fill="Expected goals"))
+ggplotly(p)
+```
+
+```{r}
+podania <- dane[,c("Squad","Season","Assists", "Passes.completed", "Passes.attempted", "Short.passes.completed", "Short.passes.attempted", "Medium.passes.completed", "Medium.passes.attempted", "Long.passes.completed", "Long.passes.attempted", "Progressive.passes", "Live.ball.passes", "Dead.ball.passes", "Passes.from.free.kicks", "Through.balls", "Switches", "Crosses", "Throw.in.taken", "Corner.kicks", "Corner.kicks.in", "Corner.kicks.out", "Corner.kicks.straight", "Passes.offside", "Passes.blocked","Passes.into.penalty.area")]
+
+podania_cluster <- podania %>% group_by(Squad) %>% summarise(proc.short=(sum(Short.passes.attempted)/sum(Passes.attempted)),
+                                                             proc.mid=(sum(Medium.passes.attempted)/sum(Passes.attempted)),
+                                                             proc.long=(sum(Long.passes.attempted)/sum(Passes.attempted)))
+
+# Wybierz kolumny do analizy klastrowej (usuwając kolumny nieistotne lub unikalne)
+nazwy <- podania_cluster$Squad
+data_for_clustering <- podania_cluster %>% select(-c("Squad"))
+
+# Znormalizuj dane
+scaled_data <- scale(data_for_clustering)
+
+# Przeprowadź analizę klastrową (k-means z przykładową liczbą klastrów - można dostosować)
+k_clusters <- kmeans(scaled_data, centers = 3, nstart = 25)
+k_clusters
+# Dodaj przypisanie klastrów do danych
+podania_cluster$Cluster <- as.factor(k_clusters$cluster)
+podania_cluster$Squad <- nazwy
+
+podania_cluster
+# Wizualizacja klastrów
+p <- ggplot(podania_cluster, aes(x = proc.mid, y = proc.short, color = Cluster)) +
+  geom_point() +
+  labs(title = "Analiza Klastrowa Drużyn",
+       x = "Passes",
+       y = "Long.passes.attempted")
+
+ggplotly(p)
+```
+
+```{r}
+#| column: page
+#| fig-height: 10
+
+x <- plot_ly(podania_cluster, x = ~proc.short, y = ~proc.mid, z = ~proc.long, color = ~Cluster, colors = c("#e0005e", "#00db74", "#37003c"), type = "scatter3d", mode = "markers", name = ~Squad)
+ggplotly(x)
+```
