@@ -262,9 +262,35 @@ ggthemr(dupa)
 `Matchehs.as.unused.sub` - mecze bez wykorzystania wszystkich zmian
 :::
 
-Wszystkie dane które pobraliśmy z ww. stron były kompletne, więc nie musimy martwić się ich uzupełnianiem.
+Wszystkie dane które pobraliśmy z ww. stron były kompletne, więc nie musimy martwić się ich uzupełnianiem. Ponieważ nasz zbiór jest dosyć spory, zdecydowaliśmy się podzielić go na cztery części: strzały, podania, posiadanie piłki i obrona.
 
-## Podstawowe wykresy
+## Charakterystka ligi
+
+Od lat w żargonie kibiców i ekspertów angielskiej piłki funkcjonuje "Big six" oznaczające sześć najlepszych drużyn występujących w Premier League są to: Manchester United, Arsenal, Chelsea, Liverpool, Manchester city oraz Tottenham. Poniżej znajduje się wykres przedstawiający średnią liczbę punktów zdobywanych na sezon w latach 2017-2023, pokazuje nam on, że to określenie jest wciąż aktualne.
+
+```{r}
+library(leaflet)
+leaflet() %>%
+  addTiles() %>%  # Add default OpenStreetMap map tiles
+  addMarkers(lng=-2.2912131, lat=53.4630716, popup="Old Trafford") %>% 
+  addMarkers(lng=-4.2912131, lat=53.4630716, popup="The birthplace of R")
+```
+
+```{r}
+topka <- dane %>% group_by(Squad) %>% summarise(AvgPkt = median(Points))
+
+topka <- topka %>% filter(AvgPkt >60)
+
+ggplot(topka, aes(x=Squad))+
+  geom_col(stat = "identy", aes(y=AvgPkt), fill = "#00db74", color = "#37003c", size = 1.1)
+```
+
+
+## Analiza posiadania piłki
+
+dsadsaasddsadsadas
+
+### Podstawowe wykresy
 
 ```{r}
 #| column: screen
@@ -278,31 +304,38 @@ Wszystkie dane które pobraliśmy z ww. stron były kompletne, więc nie musimy 
 ```
 
 ```{r}
-avg_possession <- dane %>% group_by(Squad) %>% summarise(AvgPossession = median(Possession), NumSeasons = n_distinct(Season))
+avg_possession <- dane %>% group_by(Squad) %>% summarise(AvgPossession = mean(Possession), NumSeasons = n_distinct(Season))
 
 avg_possession$Color <- ifelse(avg_possession$NumSeasons < 6, "#e0005e", "#00db74")
 
-
-# Narysuj wykres słupkowy
-ggplot(avg_possession, aes(x = reorder(Squad, -AvgPossession), y = AvgPossession, fill = Color)) +
+p <- ggplot(avg_possession, aes(x = reorder(Squad, -AvgPossession), y = AvgPossession, fill = Color)) +
   geom_bar(stat = "identity", position = "dodge", fill = avg_possession$Color) +
-  labs(title = "Średnia Posiadania Piłki na Przez Wszystkie Sezony",
+  labs(title = "Średnie posiadanie piłki z wszystkich sezonów",
        x = "Drużyna",
-       y = "Średnia Posiadania (%)")+
-       geom_hline(yintercept = mean(avg_possession$AvgPossession), linetype="dashed", color = "black", size = 1)+
+       y = "Średnie Posiadanie(%)")+
+       geom_hline(yintercept = mean(avg_possession$AvgPossession), linetype="dashed", color = "#37003c", size = 1)+
        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+ggplotly(p)
 ```
+Na powyższym wykresie widzimy średnie posiadanie piłki każdej drużyny ze wszystkich sezonów, na zielono zaznaczone są drużyny które przez badany okres zawsze grały w pierwszej klasie rozgrywkowej. Przerywana linia reprezentuje średnią średnich wszystkich zespołów. Widzimy, że najlepsze zespoły utrzymują się przy piłce dłużej podczas meczu, jednak nie jest to reguła 
 
 ```{r}
 avg_rank <- dane %>% group_by(Squad) %>% summarise(AvgRank = median(Rk), AvgGoals = round(mean(Goals.for),1), AvgEg = round(mean(Expected.goals),1))
 
 selected_teams <- avg_rank %>% filter(AvgRank < 8)
 
+
 # Narysuj wykres słupkowy
 p <- ggplot(selected_teams, aes(x = Squad))+
-  geom_bar(stat = "identity", position = "dodge", aes(y=AvgGoals, fill="Goals"))+
-  geom_bar(stat = "identity", position = "dodge", aes(y=AvgEg, fill="Expected goals", width = 0.2))
+  geom_col(stat = "identity", position = "dodge", aes(y=AvgGoals, fill="Goals"))+
+  geom_col(stat = "identity", position = "dodge", aes(y=AvgEg, fill="Expected goals"))
 ggplotly(p)
+
+
+ggplot(selected_teams, aes(x = Squad))+
+  geom_col(stat = "identity", position = "dodge", aes(y=AvgGoals, fill="Goals"))+
+  geom_col(stat = "identity", position = "dodge", aes(y=AvgEg, fill="Expected 1goals", just=1))
+
 ```
 
 ```{r}
@@ -310,10 +343,12 @@ avg_rank <- dane %>% group_by(Squad) %>% summarise(AvgRank = median(Rk), AvgGoal
 
 selected_teams <- avg_rank %>% filter(AvgRank > 15)
 
+
+
 # Narysuj wykres słupkowy
 p <- ggplot(selected_teams, aes(x = Squad))+
   geom_bar(stat = "identity", aes(y=AvgGoals, fill="Goals"))+
-  geom_bar(stat = "identity", aes(y=AvgEg, fill="Expected goals"))
+  geom_bar(stat = "identity", aes(y=AvgEg, fill="Expected goals", width=0.5))
 ggplotly(p)
 ```
 
