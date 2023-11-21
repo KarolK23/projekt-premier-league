@@ -285,7 +285,6 @@ ggplot(topka, aes(x=Squad))+
   geom_col(stat = "identy", aes(y=AvgPkt), fill = "#00db74", color = "#37003c", size = 1.1)
 ```
 
-
 ## Analiza posiadania piłki
 
 dsadsaasddsadsadas
@@ -317,7 +316,8 @@ p <- ggplot(avg_possession, aes(x = reorder(Squad, -AvgPossession), y = AvgPosse
        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ggplotly(p)
 ```
-Na powyższym wykresie widzimy średnie posiadanie piłki każdej drużyny ze wszystkich sezonów, na zielono zaznaczone są drużyny które przez badany okres zawsze grały w pierwszej klasie rozgrywkowej. Przerywana linia reprezentuje średnią średnich wszystkich zespołów. Widzimy, że najlepsze zespoły utrzymują się przy piłce dłużej podczas meczu, jednak nie jest to reguła 
+
+Na powyższym wykresie widzimy średnie posiadanie piłki każdej drużyny ze wszystkich sezonów, na zielono zaznaczone są drużyny które przez badany okres zawsze grały w pierwszej klasie rozgrywkowej. Przerywana linia reprezentuje średnią średnich wszystkich zespołów. Widzimy, że najlepsze zespoły utrzymują się przy piłce dłużej podczas meczu, jednak nie jest to reguła
 
 ```{r}
 avg_rank <- dane %>% group_by(Squad) %>% summarise(AvgRank = median(Rk), AvgGoals = round(mean(Goals.for),1), AvgEg = round(mean(Expected.goals),1))
@@ -353,7 +353,20 @@ ggplotly(p)
 ```
 
 ```{r}
+summary(mod_p)
+pod_mod <- podania[,-c(1,2)]
+mod_p <- lm(Assists~., pod_mod)
+summary(mod_p)
+olsrr::ols_step_forward_aic(mod_p)
+model <- lm(Assists~Passes.into.penalty.area+Through.balls+Passes.completed, pod_mod)
+summary(model)
+AIC(model)
+AIC(mod_p)
+```
+
+```{r}
 podania <- dane[,c("Squad","Season","Assists", "Passes.completed", "Passes.attempted", "Short.passes.completed", "Short.passes.attempted", "Medium.passes.completed", "Medium.passes.attempted", "Long.passes.completed", "Long.passes.attempted", "Progressive.passes", "Live.ball.passes", "Dead.ball.passes", "Passes.from.free.kicks", "Through.balls", "Switches", "Crosses", "Throw.in.taken", "Corner.kicks", "Corner.kicks.in", "Corner.kicks.out", "Corner.kicks.straight", "Passes.offside", "Passes.blocked","Passes.into.penalty.area")]
+
 
 podania_cluster <- podania %>% group_by(Squad) %>% summarise(proc.short=(sum(Short.passes.attempted)/sum(Passes.attempted)),
                                                              proc.mid=(sum(Medium.passes.attempted)/sum(Passes.attempted)),
@@ -390,4 +403,190 @@ ggplotly(p)
 
 x <- plot_ly(podania_cluster, x = ~proc.short, y = ~proc.mid, z = ~proc.long, color = ~Cluster, colors = c("#e0005e", "#00db74", "#37003c"), type = "scatter3d", mode = "markers", name = ~Squad)
 ggplotly(x)
+```
+
+radarchart( data , axistype=1 ,
+
+#custom polygon
+
+pcol=rgb(0.2,0.5,0.5,0.9) , pfcol=rgb(0.2,0.5,0.5,0.5) , plwd=4 ,
+
+#custom the grid
+
+cglcol="grey", cglty=1, axislabcol="grey", caxislabels=seq(0,20,5), cglwd=0.8,
+
+#custom labels
+
+vlcex=0.8
+
+)
+
+radarchart( data , axistype=1 ,
+
+#custom polygon
+
+pcol=rgb(0.2,0.5,0.5,0.9) , pfcol=rgb(0.2,0.5,0.5,0.5) , plwd=4 ,
+
+#custom the grid
+
+cglcol="grey", cglty=1, axislabcol="grey", cglwd=0.8,
+
+#custom labels
+
+vlcex=0.8
+
+)
+
+```{r}
+library(fmsb)
+
+radar <- podania %>% group_by(Squad) %>% 
+  summarise(proc.short=(sum(Short.passes.attempted)/sum(Passes.attempted))*100,
+            proc.mid=(sum(Medium.passes.attempted)/sum(Passes.attempted))*100,
+            proc.long=(sum(Long.passes.attempted)/sum(Passes.attempted))*100,
+            proc.cross=(sum(Crosses)/sum(Passes.attempted))*100,
+            proc.switches=(sum(Switches/sum(Passes.attempted))*100))
+mfrow=c(1,2)
+x <- radar[c(1,7,12),-1]
+x <- rbind(rep(45,5) , rep(0,5) , x)
+colors_border=c( rgb(0.2,0.5,0.5,0.9), rgb(0.8,0.2,0.5,0.9) , rgb(0.7,0.5,0.1,0.9) )
+colors_in=c( rgb(0.2,0.5,0.5,0.4), rgb(0.8,0.2,0.5,0.4) , rgb(0.7,0.5,0.1,0.4) )
+radarchart( x  , axistype=2 , 
+ 
+    #custom polygon
+    pcol=colors_border , pfcol=colors_in , plwd=4 , plty=1,
+ 
+    #custom the grid
+    cglcol="grey", cglty=1, axislabcol="grey", caxislabels=seq(0,20,5),cglwd=0.8,
+ 
+    #custom labels
+    vlcex=0.8 
+    )
+
+y <- radar[7,-1]
+y <- rbind(rep(45,5) , rep(0,5) , y)
+radarchart( y  , axistype=2 , 
+ 
+    #custom polygon
+    pcol=colors_border , pfcol=colors_in , plwd=4 , plty=1,
+ 
+    #custom the grid
+     caxislabels=seq(0,20,5), cglwd=0.8,
+ 
+    #custom labels
+    vlcex=0.8 
+    )
+
+# Znormalizuj dane
+scaled_data <- scale(data_for_clustering)
+
+x <- data_for_clustering %>% mutate(short=round(mean(proc.short),2), mid=round(mean(proc.mid),2), long=round(mean(proc.long),2))
+
+chuj <- x[4:6] %>% group_by(short, mid, long) %>% summarise()
+
+
+set.seed(12)
+# Create data: note in High school for Jonathan:
+data <- as.data.frame(matrix( sample( 2:20 , 10 , replace=T) , ncol=10))
+colnames(data) <- c("math" , "english" , "biology" , "music" , "R-coding", "data-viz" , "french" , "physic", "statistic", "sport" )
+ 
+# To use the fmsb package, I have to add 2 lines to the dataframe: the max and min of each topic to show on the plot!
+data <- rbind(c(5, 50, 20, 50, 50, 50, 50, 50, 50, 50) , rep(0,10) , data)
+ 
+# Check your data, it has to look like this!
+head(data)
+
+# Custom the radarChart !
+radarchart( data  , axistype=1 , 
+ 
+    #custom polygon
+    pcol=rgb(0.2,0.5,0.5,0.9) , pfcol=rgb(0.2,0.5,0.5,0.5) , plwd=4 , 
+ 
+    #custom the grid
+    cglcol="grey", cglty=1, axislabcol="grey", cglwd=0.8,
+ 
+    #custom labels
+    vlcex=0.8 
+    )
+```
+
+```{r}
+kox <- podania %>% group_by(Squad) %>% 
+  summarise(`Podania celne`=sum(Passes.completed),
+            `Krótkie`=sum(Short.passes.completed),
+            `Średnie`=sum(Medium.passes.completed),
+            `Długie`=sum(Long.passes.completed),
+            `Progresywne`=sum(Progressive.passes),
+            `Dośrodkowania`=sum(Crosses),
+            `Na dobieg`=sum(Through.balls),
+            `W pole karne`=sum(Passes.into.penalty.area))
+
+kox <- kox[c(1,8,15,16,17,25),-1]
+data <- rbind(c(max(kox[,1]), max(kox[,2]), max(kox[,3]), max(kox[,4]), max(kox[,5]), max(kox[,6]), max(kox[,7]), max(kox[,8]))*1.1 , c(min(kox[,1]), min(kox[,2]), min(kox[,3]), min(kox[,4]), min(kox[,5]), min(kox[,6]), min(kox[,7]), min(kox[,8]))*0.1 , kox)
+
+x <- data[c(1:2, 8),]
+
+
+```
+
+```{r}
+#| column: screen
+#| layout-nrow: 2
+
+mfrow=c(2,3)
+for (i in 3:8){
+  x <- data[c(1:2, i),]
+  radarchart( x  , axistype=0 , 
+ 
+    #custom polygon
+    pcol=rgb(0.2,0.5,0.5,0.9) , pfcol=rgb(0.2,0.5,0.5,0.5) , plwd=4 , 
+ 
+    #custom the grid
+    cglcol="grey", cglty=1, axislabcol="grey", cglwd=0.8,
+ 
+    #custom labels
+    vlcex=0.8,
+    title="gówno"
+    )
+}
+
+
+```
+
+```{r}
+kox <- dane %>% group_by(Squad) %>% 
+  summarise(`Bramki`=sum(Tackles.att.3rd)/sum(Tackles),
+            `Akcje bramkowe`=sum(Goal.creatiing.actions),
+            `Bramki z gry`=sum(GCA.Live.ball.pass),
+            `Bramki po stałym fragmencie`=sum(GCA.Dead.ball.pass),
+            `Bramki po minieciu przeciwnika`=sum(GCA.Take.on),
+            `Bramki po strzale`=sum(GCA.Shot),
+            `Bramki po faulu`=sum(GCA.Fouls.drawn),
+            `Bramki po akcji z obrony`=sum(GCA.Deffensive.action))
+
+  kox <- kox[c(1,8,15,16,17,25),-1]
+data <- rbind(c(max(kox[,1]), max(kox[,2]), max(kox[,3]), max(kox[,4]), max(kox[,5]), max(kox[,6]), max(kox[,7]), max(kox[,8]))*1.1 , c(min(kox[,1]), min(kox[,2]), min(kox[,3]), min(kox[,4]), min(kox[,5]), min(kox[,6]), min(kox[,7]), min(kox[,8]))*0.1 , kox)
+```
+
+```{r}
+#| column: screen
+#| layout-nrow: 2
+
+mfrow=c(2,3)
+for (i in 3:8){
+  x <- data[c(1:2, i),]
+  radarchart( x  , axistype=0 , 
+ 
+    #custom polygon
+    pcol=rgb(0.2,0.5,0.5,0.9) , pfcol=rgb(0.2,0.5,0.5,0.5) , plwd=4 , 
+ 
+    #custom the grid
+    cglcol="grey", cglty=1, axislabcol="grey", cglwd=0.8,
+ 
+    #custom labels
+    vlcex=0.8,
+    title="gówno"
+    )
+}
+
 ```
