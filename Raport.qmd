@@ -274,6 +274,12 @@ leaflet() %>%
   addTiles() %>%  # Add default OpenStreetMap map tiles
   addMarkers(lng=-2.2912131, lat=53.4630716, popup="Old Trafford") %>% 
   addMarkers(lng=-4.2912131, lat=53.4630716, popup="The birthplace of R")
+  addMarkers(lng=-0.1108867, lat=51.5557331, popup="Emirates Stadium") %>% 
+  addMarkers(lng=-0.1935314, lat=51.4816663, popup="Stamford Bridge") %>% 
+  addMarkers(lng=-0.068798, lat=51.6042238, popup="Tottenham Hotspur Stadium") %>% 
+  addMarkers(lng=-2.9633923, lat=53.4308467, popup="Anfield") %>% 
+  addMarkers(lng=-2.2029676, lat=53.4831357, popup="Etihad Stadium") %>% 
+  addMarkers(lng=-4.2912131, lat=53.4630716, popup="King Power Stadium")  
 ```
 
 ```{r}
