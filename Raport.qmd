@@ -1,10 +1,16 @@
 ---
 title: "Projekt z zakresu analizy danych"
-author: Karol Kowal, Marcin Kamiński
-execute: 
-  echo: false
-  warning: false
-format: html
+authors: Karol Kowal, Marcin Kamiński
+date: today
+date-format: 29 [Stycznia] 2024 [r.]
+language: polski.yml
+format: 
+  html:
+    self-contained: true
+    echo: false
+    message: false 
+    warning: false
+toc: true
 editor: visual
 ---
 
@@ -20,30 +26,40 @@ library(reshape2)
 library(tidyr)
 library(ggthemr)
 library(cluster)
+library(gridExtra)
+library(knitr)
+
 ```
 
 ```{r}
 # WCZYTANIE DANYCH
-dane <- read.csv("C:\\Premier League Project\\dane.csv")
+dane <- read.csv("dane\\dane.csv")
 ```
 
 ```{r}
 knitr::include_graphics("figures\\Baner.png")
 ```
 
-## Wstęp
+# Wstęp
 
-Tematem projektu jest analiza wybranych statystyk drużyn piłkarskich uczestniczących w rozgrywkach Premier League, czyli na najwyższym poziomie w angielskiej piłce w latach 2017-2022.
+Tematem projektu jest analiza wybranych statystyk drużyn piłkarskich uczestniczących w rozgrywkach Premier League, czyli na najwyższym poziomie w angielskiej piłce w latach 2017-2023.
+
+## Pytania badawcze
+
+-   Czy określenie Big Six jest dalej aktualne?
+
+-   Jakie statystyki definiują najlepsze drużyny ligi?
 
 ## Dane
 
-Dane z których będziemy korzystać do analizy pozyskaliśmy ze stron [bref.com](https://fbref.com/) oraz [espn.com](https://www.espn.com/). Strony ta nie mają opcji pobierania gotowych zestawień, więc użyliśmy metod web scrappingu poznanych podczas studiów. Poniżej znajduje się część całego zestawienia oraz objaśnienie zmiennych.
+Dane z których będziemy korzystać do analizy pozyskaliśmy ze stron [bref.com](https://fbref.com/) oraz [espn.com](https://www.espn.com/). Strony te nie mają opcji pobierania gotowych zestawień, więc użyliśmy metod web scrappingu poznanych podczas studiów. Poniżej znajduje się część całego zestawienia oraz objaśnienie zmiennych.
 
 ```{r}
 #| column: page
-head(dane[-1], 7) %>% kable() %>% kable_material(c("striped", "hover"))
-dupa <- define_palette(swatch = c("black", "#e0005e", "#00db74", "#37003c", "blue", "orange"), gradient = c("#e0005e", "#00db74"))
-ggthemr(dupa)
+head(dane[-1], 10) %>% kable() %>% kable_material(c("striped", "hover"))
+ 
+kolorki <- define_palette(swatch = c("black", "#e0005e", "#00db74", "#37003c", "blue", "orange"), gradient = c("#e0005e", "#00db74"))
+ggthemr(kolorki)
 ```
 
 ::: {.callout-note collapse="true"}
@@ -113,7 +129,7 @@ ggthemr(dupa)
 
 `Through.balls` - celne podania między obrońcami na wolne pole
 
-`Switches` - podania kóre przebyły co najmniej 40 yardów w poprzek boiska
+`Switches` - podania które przebyły co najmniej 40 yardów w poprzek boiska
 
 `Crosses` - dośrodkowania
 
@@ -121,11 +137,11 @@ ggthemr(dupa)
 
 `Corner.kicks` - rzuty rożne
 
-`Corner.kicks.in` -
+`Corner.kicks.in` - rzuty rożne dochodzące
 
-`Corner.kicks.out`
+`Corner.kicks.out` - rzuty rożne odchodzące
 
-`Corner.kicks.straight`
+`Corner.kicks.straight` - krótkie rozegranie rzutu rożnego
 
 `Passes.offside` - spalone
 
@@ -264,335 +280,563 @@ ggthemr(dupa)
 
 Wszystkie dane które pobraliśmy z ww. stron były kompletne, więc nie musimy martwić się ich uzupełnianiem. Ponieważ nasz zbiór jest dosyć spory, zdecydowaliśmy się podzielić go na cztery części: strzały, podania, posiadanie piłki i obrona.
 
-## Charakterystka ligi
+# Charakterystyka ligi
 
-Od lat w żargonie kibiców i ekspertów angielskiej piłki funkcjonuje "Big six" oznaczające sześć najlepszych drużyn występujących w Premier League są to: Manchester United, Arsenal, Chelsea, Liverpool, Manchester city oraz Tottenham. Poniżej znajduje się wykres przedstawiający średnią liczbę punktów zdobywanych na sezon w latach 2017-2023, pokazuje nam on, że to określenie jest wciąż aktualne.
+Od lat w żargonie kibiców i ekspertów angielskiej piłki funkcjonuje Big Six oznaczające sześć najlepszych drużyn występujących w Premier League są to: Manchester United, Arsenal, Chelsea, Liverpool, Tottenham oraz Manchester city.
 
 ```{r}
 library(leaflet)
 leaflet() %>%
   addTiles() %>%  # Add default OpenStreetMap map tiles
   addMarkers(lng=-2.2912131, lat=53.4630716, popup="Old Trafford") %>% 
-  addMarkers(lng=-4.2912131, lat=53.4630716, popup="The birthplace of R")
   addMarkers(lng=-0.1108867, lat=51.5557331, popup="Emirates Stadium") %>% 
   addMarkers(lng=-0.1935314, lat=51.4816663, popup="Stamford Bridge") %>% 
-  addMarkers(lng=-0.068798, lat=51.6042238, popup="Tottenham Hotspur Stadium") %>% 
+  addMarkers(lng=-0.068798, lat=51.6042238, popup="Tottenham Hotspur Stadium")%>% 
   addMarkers(lng=-2.9633923, lat=53.4308467, popup="Anfield") %>% 
-  addMarkers(lng=-2.2029676, lat=53.4831357, popup="Etihad Stadium") %>% 
-  addMarkers(lng=-4.2912131, lat=53.4630716, popup="King Power Stadium")  
+  addMarkers(lng=-2.2029676, lat=53.4831357, popup="Etihad Stadium")
 ```
 
-```{r}
-topka <- dane %>% group_by(Squad) %>% summarise(AvgPkt = median(Points))
+Na mapie powyżej zaznaczyliśmy stadiony drużyn zaliczających się do Big Six. Aż trzy ekipy są z Londynu, dwie z Manchesteru i jedna z Liverpoolu.
 
-topka <- topka %>% filter(AvgPkt >60)
-
-ggplot(topka, aes(x=Squad))+
-  geom_col(stat = "identy", aes(y=AvgPkt), fill = "#00db74", color = "#37003c", size = 1.1)
-```
-
-## Analiza posiadania piłki
-
-dsadsaasddsadsadas
-
-### Podstawowe wykresy
+### Postawowe wykresy/wizualizacje
 
 ```{r}
-#| column: screen
-#| fig-height: 10
+#| label: fig-Punkty
+#| fig-cap: Średnia liczba punktów na sezon
 
-#p <- ggplot(dane, aes(x=Season, y=Points, color=Squad))+
-#  geom_line(aes(group = Squad))+
-#  geom_point()
 
-#ggplotly(p)
-```
-
-```{r}
-avg_possession <- dane %>% group_by(Squad) %>% summarise(AvgPossession = mean(Possession), NumSeasons = n_distinct(Season))
+avg_possession <- dane %>% dplyr::group_by(Squad) %>% dplyr::summarise(AvgPoints = mean(Points), NumSeasons = dplyr::n_distinct(Season))
 
 avg_possession$Color <- ifelse(avg_possession$NumSeasons < 6, "#e0005e", "#00db74")
 
-p <- ggplot(avg_possession, aes(x = reorder(Squad, -AvgPossession), y = AvgPossession, fill = Color)) +
+ggplot(avg_possession, aes(x = reorder(Squad, -AvgPoints), y = AvgPoints, fill = Color)) +
+  geom_bar(stat = "identity", position = "dodge", fill = avg_possession$Color) +
+  labs(title = "Średnie liczba punktów na sezon",
+       x = "Drużyna",
+       y = "Liczba punktów")+
+       geom_hline(yintercept = mean(avg_possession$AvgPoints), linetype="dashed", color = "#37003c", size = 1)+
+       theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+Na powyższym wykresie ( @fig-Punkty ) widzimy średnią liczbę punktów ze wszystkich sezonów, na zielono zaznaczone są drużyny które przez badany okres zawsze grały w pierwszej klasie rozgrywkowej. Przerywana linia reprezentuje średnią liczbę punktów wszystkich zespołów. Widzimy, że Bix Six zawsze utrzymują wysoki poziom, podczas gdy reszta ligi ma wahania formy.
+
+```{r}
+#| label: fig-Punkty2
+#| fig-cap: Wykres kołowy
+
+
+krajtam <- dane %>% group_by(Squad) %>% summarise(Punkty = sum(Points)) %>% arrange(desc(Punkty)) %>%
+  mutate(Big6 = ifelse(Squad %in% c("Manchester Utd", "Arsenal", "Manchester City", "Chelsea", "Liverpool", "Tottenham"), "Big six", "Reszta")) %>% group_by(Big6) %>% summarise(Punkty = sum(Punkty))
+
+
+ggplot(krajtam, aes(x="", y=Punkty, fill=Big6)) +
+  geom_bar(stat="identity", width=1, color="white") +
+  coord_polar("y", start=0)+
+  scale_fill_manual(values = c("#00db74","#37003c"))+
+  theme_void()
+
+```
+
+Na wykresie kołowym ( @fig-Punkty2 ) widzimy, że Bix Six zdobyło ponad jedną trzecią wszystkich możliwych punktów do zdobycia w przeciągu ostatnich 5 lat. Warto zaznaczyć, że pozostałych zespołów w każdym sezonie jest ponad dwa razy więcej bo aż 14.
+
+```{r}
+#| label: fig-Posiadanie
+#| fig-cap: Średnia posiadanie piłki
+
+
+avg_possession <- dane %>% dplyr::group_by(Squad) %>% dplyr::summarise(AvgPossession = mean(Possession), NumSeasons = dplyr::n_distinct(Season))
+
+avg_possession$Color <- ifelse(avg_possession$NumSeasons < 6, "#e0005e", "#00db74")
+
+ggplot(avg_possession, aes(x = reorder(Squad, -AvgPossession), y = AvgPossession, fill = Color)) +
   geom_bar(stat = "identity", position = "dodge", fill = avg_possession$Color) +
   labs(title = "Średnie posiadanie piłki z wszystkich sezonów",
        x = "Drużyna",
        y = "Średnie Posiadanie(%)")+
        geom_hline(yintercept = mean(avg_possession$AvgPossession), linetype="dashed", color = "#37003c", size = 1)+
        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-ggplotly(p)
 ```
 
-Na powyższym wykresie widzimy średnie posiadanie piłki każdej drużyny ze wszystkich sezonów, na zielono zaznaczone są drużyny które przez badany okres zawsze grały w pierwszej klasie rozgrywkowej. Przerywana linia reprezentuje średnią średnich wszystkich zespołów. Widzimy, że najlepsze zespoły utrzymują się przy piłce dłużej podczas meczu, jednak nie jest to reguła
+Na powyższym wykresie ( @fig-Posiadanie ) widzimy średnie posiadanie piłki każdej drużyny ze wszystkich sezonów, na zielono zaznaczone są drużyny które przez badany okres zawsze grały w pierwszej klasie rozgrywkowej. Przerywana linia reprezentuje średnią średnich wszystkich zespołów. Widzimy, że najlepsze zespoły utrzymują się przy piłce dłużej podczas meczu, jednak nie jest to reguła.
 
 ```{r}
 avg_rank <- dane %>% group_by(Squad) %>% summarise(AvgRank = median(Rk), AvgGoals = round(mean(Goals.for),1), AvgEg = round(mean(Expected.goals),1))
 
-selected_teams <- avg_rank %>% filter(AvgRank < 8)
+selected_teams1 <- avg_rank %>% filter(AvgRank < 8)
 
 
-# Narysuj wykres słupkowy
-p <- ggplot(selected_teams, aes(x = Squad))+
-  geom_col(stat = "identity", position = "dodge", aes(y=AvgGoals, fill="Goals"))+
-  geom_col(stat = "identity", position = "dodge", aes(y=AvgEg, fill="Expected goals"))
-ggplotly(p)
+plot1 <- ggplot(selected_teams1, aes(x = Squad))+
+  geom_bar(stat = "identity", aes(y=AvgGoals, fill="Goals"))+
+  geom_bar(stat = "identity", aes(y=AvgEg, fill="Expected goals", width=0.5))+
+  theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 20),
+        axis.title = element_text(size = 20),
+        axis.text.y = element_text(size = 20),
+        legend.position = "None")
 
-
-ggplot(selected_teams, aes(x = Squad))+
-  geom_col(stat = "identity", position = "dodge", aes(y=AvgGoals, fill="Goals"))+
-  geom_col(stat = "identity", position = "dodge", aes(y=AvgEg, fill="Expected 1goals", just=1))
 
 ```
 
 ```{r}
+#| layout-nrow: 1
+#| column: page
+#| label: fig-ex2
+#| fig-cap: 
+#| - "Expected Goals"
+#| - "Expected Goals"
+#| fig-cap-location: bottom
+#| fig-width: 20
+#| fig-height: 10
+
+
 avg_rank <- dane %>% group_by(Squad) %>% summarise(AvgRank = median(Rk), AvgGoals = round(mean(Goals.for),1), AvgEg = round(mean(Expected.goals),1))
 
 selected_teams <- avg_rank %>% filter(AvgRank > 15)
 
-
-
-# Narysuj wykres słupkowy
-p <- ggplot(selected_teams, aes(x = Squad))+
+plot2 <- ggplot(selected_teams, aes(x = Squad))+
   geom_bar(stat = "identity", aes(y=AvgGoals, fill="Goals"))+
-  geom_bar(stat = "identity", aes(y=AvgEg, fill="Expected goals", width=0.5))
-ggplotly(p)
+  geom_bar(stat = "identity", aes(y=AvgEg, fill="Expected goals", width=0.5))+
+  theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 20),
+        axis.title = element_text(size = 20),
+        axis.text.y = element_text(size = 20),
+        legend.title = element_text(size = 20),
+        legend.text = element_text(size = 20))
+
+grid.arrange(plot1, plot2, ncol=2)
+
 ```
+
+Na @fig-ex2 porównaliśmy Przewidywane Bramki do faktycznie zdobytych goli. Po lewej przedstawiliśmy drużyny z Big Six, a po prawej drużyny, które przynajmniej raz spały z ligi. Widzimy, że drużyny z Big Six strzelają więcej bramek niż stwarzają dogodnych sytuacji, czyli zawodnicy zdobywają bramki nawet w trudnych sytuacjach. Drużyny z drugiego wykresu mają odwrotną sytuację - więcej przewidywanych bramek niż faktycznie strzelonych. Oznacza to, że zawodnicy tych ekip marnują nawet dogodne sytuacje. Może to świadczyć o poziomie zawodników, przez który kluby te nie są w stanie utrzymać się w lidze.
 
 ```{r}
-summary(mod_p)
-pod_mod <- podania[,-c(1,2)]
-mod_p <- lm(Assists~., pod_mod)
-summary(mod_p)
-olsrr::ols_step_forward_aic(mod_p)
-model <- lm(Assists~Passes.into.penalty.area+Through.balls+Passes.completed, pod_mod)
-summary(model)
-AIC(model)
-AIC(mod_p)
+#| label: fig-wiek
+#| fig-cap: Wiek 
+
+
+filtr <- dane[dane$Squad %in% c("Manchester Utd", "Arsenal", "Manchester City", "Chelsea", "Liverpool", "Tottenham"),]
+boxplot(filtr$Age ~ filtr$Squad, main = "Wykres wieku zawodników", xlab = "Drużyna", ylab = "Wiek", las = 2, col=c("#00db74")) 
 ```
+
+Na wykresie pudełkowym @fig-wiek widzimy średni wiek zawodników drużyn Bix Six w ciągu ostatnich 6 lat. Najmłodszą kadrą może pochwalić się Arsenal, z kolei najstarszą Manchester City, który stawia na doświadczenie. Oprócz tego możemy wywnioskować, że w Manchester City oraz Tottenham większość stawia raczej na tych samych graczy ponieważ ich wykres jest "najmniej rozciągnięty". Z kolei w Arsenalu przewinęło się sporo rożnych graczy ponieważ dane z ostatnich 5 lat są najbardziej rozbieżne.
 
 ```{r}
-podania <- dane[,c("Squad","Season","Assists", "Passes.completed", "Passes.attempted", "Short.passes.completed", "Short.passes.attempted", "Medium.passes.completed", "Medium.passes.attempted", "Long.passes.completed", "Long.passes.attempted", "Progressive.passes", "Live.ball.passes", "Dead.ball.passes", "Passes.from.free.kicks", "Through.balls", "Switches", "Crosses", "Throw.in.taken", "Corner.kicks", "Corner.kicks.in", "Corner.kicks.out", "Corner.kicks.straight", "Passes.offside", "Passes.blocked","Passes.into.penalty.area")]
+#| label: fig-kontakty
+#| fig-cap: Konatkty z piłką w różnych częściach boiska
+
+dotkniecia <-  dane  %>% group_by(Squad) %>% dplyr::select(Squad, Touches.def.3rd, Touches.mid.3rd, Touches.att.3rd) %>% summarise( Touches.def.3rd = sum(Touches.def.3rd), Touches.mid.3rd = sum(Touches.mid.3rd), Touches.att.3rd = sum(Touches.att.3rd)) %>% filter(Squad %in% c("Manchester Utd", "Arsenal", "Manchester City", "Chelsea", "Liverpool", "Tottenham"))
 
 
-podania_cluster <- podania %>% group_by(Squad) %>% summarise(proc.short=(sum(Short.passes.attempted)/sum(Passes.attempted)),
-                                                             proc.mid=(sum(Medium.passes.attempted)/sum(Passes.attempted)),
-                                                             proc.long=(sum(Long.passes.attempted)/sum(Passes.attempted)))
+df_long <-  reshape2::melt(dotkniecia, id.vars = "Squad")
 
-# Wybierz kolumny do analizy klastrowej (usuwając kolumny nieistotne lub unikalne)
-nazwy <- podania_cluster$Squad
-data_for_clustering <- podania_cluster %>% select(-c("Squad"))
 
-# Znormalizuj dane
-scaled_data <- scale(data_for_clustering)
+plt1 <- ggplot(df_long, aes(x = variable, y = value, color = Squad)) +
+  geom_point(position = position_dodge(width = 0.8), size = 3) +
+    scale_color_manual(values = c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2"))+
+  labs(title = "",
+       x = "Category",
+       y = "Touches") +
+  theme_minimal()+
+  theme(legend.position = "bottom")
 
-# Przeprowadź analizę klastrową (k-means z przykładową liczbą klastrów - można dostosować)
-k_clusters <- kmeans(scaled_data, centers = 3, nstart = 25)
-k_clusters
-# Dodaj przypisanie klastrów do danych
-podania_cluster$Cluster <- as.factor(k_clusters$cluster)
-podania_cluster$Squad <- nazwy
+plt2 <- ggplot(df_long, aes(x = variable, y = value, group = Squad, color = Squad)) +
+  geom_line(size = 1) +
+  geom_point(size = 3) +
+  scale_color_manual(values = c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2"))+
+  labs(title = "",
+       x = "Category",
+       y = "Touches",
+       color = "Squad") +
+  theme_minimal()+
+   theme(legend.position = "bottom")
 
-podania_cluster
-# Wizualizacja klastrów
-p <- ggplot(podania_cluster, aes(x = proc.mid, y = proc.short, color = Cluster)) +
-  geom_point() +
-  labs(title = "Analiza Klastrowa Drużyn",
-       x = "Passes",
-       y = "Long.passes.attempted")
-
-ggplotly(p)
+grid.arrange(plt1, plt2, ncol=2)
 ```
+
+Na powyższym wykresie @fig-kontakty przedstawiliśmy dotknięcia piłek przez zawodników drużyn z Big Six w różnych miejscach boiska. Boisko zostało podzielone na trzy części: okolice własnego pola karnego, środek boiska oraz okolice pola karnego przeciwnika. Widzimy, że każda z najlepszych ekip najwięcej kontaktów z piłką ma w środkowej części boiska - to tam budowane są akcje. Możemy zaobserwować, że w przypadku najlepszej z drużyn czyli Manchesteru City różnica pomiędzy kontaktami pod polem karnym przeciwnika jest zdecydowanie większa niż w okolicach własnego pola karnego. Zupełnie odwrotnie ma Tottenham, a pozostałe ekipy mają podobną ilość zarówno pod jedną jak i drugą bramką.
+
+```{r}
+#| label: fig-odbiory
+#| fig-cap: Odbiory piłki w różnych częściach boiska
+
+
+odbiory <-  dane  %>% group_by(Squad) %>% dplyr::select(Squad, Tackles.def.3rd, Tackles.mid.3rd, Tackles.att.3rd) %>% summarise(Tackles.def.3rd = sum(Tackles.def.3rd), Tackles.mid.3rd = sum(Tackles.mid.3rd), Tackles.att.3rd = sum(Tackles.att.3rd)) %>% filter(Squad %in% c("Manchester Utd", "Arsenal", "Manchester City", "Chelsea", "Liverpool", "Tottenham"))
+
+df_long1 <-  reshape2::melt(odbiory, id.vars = "Squad")
+
+plt3 <- ggplot(df_long1, aes(x = variable, y = value, color = Squad)) +
+  geom_point(position = position_dodge(width = 0.8), size = 3) +
+    scale_color_manual(values = c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2"))+
+  labs(title = "",
+       x = "Category",
+       y = "Touches") +
+  theme_minimal()+
+  theme(legend.position = "bottom")
+
+plt4 <- ggplot(df_long1, aes(x = variable, y = value, group = Squad, color = Squad)) +
+  geom_line(size = 1) +
+  geom_point(size = 3) +
+  scale_color_manual(values = c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2"))+
+  labs(title = "",
+       x = "Category",
+       y = "Touches",
+       color = "Squad") +
+  theme_minimal()+
+   theme(legend.position = "bottom")
+
+grid.arrange(plt3, plt4, ncol=2)
+```
+
+Na wykresie odbiorów @fig-odbiory obserwujemy, że Liverpool odbiera zdecydowanie więcej piłek w środkowej części boiska, przez co nie dopuszcza przeciwników pod swoje pole karne. Manchester City podobnie, ale nie jest aż tak skuteczny w środku jak Liverpool. Oznacza to, że te dwie drużyny grają wysokim pressingiem i mają między innymi dzięki temu najlepsze wyniki. Reszta drużyn z wielkiej szóstki dopuszcza przeciwników na swoją połowę i tak odbiera piłkę
+
+# Analiza głównych składowych
+
+W naszej analizie, skoncentrowaliśmy się wyłącznie na zmiennych reprezentujących zachowania piłkarzy na boisku. Wybór ten był podyktowany chęcią zrozumienia kluczowych strategii, taktyk i stylów gry, które charakteryzują różne drużyny. Wierzymy, że te zmienne mogą dostarczyć cennych informacji o dynamice gry i pomóc w identyfikacji czynników, które przyczyniają się do sukcesu drużyn w Premier League.
+
+```{r}
+library(FactoMineR)
+library(factoextra)
+dane_d1 <- dane %>% dplyr::select(-Matches.played, -Wins, -Draws, -Loses, -Goals.for, -Goals.against, -Goal.difference, -Rk, -Points.per.match, -Expected.goals, -Expected.goals, -Expected.goals.allowed, -Expected.goals.difference, -Expected.goals.difference.per.90.minutes, -Assists, -Season, -Attendance) %>% group_by(Squad) %>% summarise_all(~mean(.)) %>% as.data.frame()
+
+ 
+row.names(dane_d1) <- dane_d1$Squad
+do_lm <- dane_d1$Points
+dane_d1 <- dane_d1 %>% dplyr::select(-Squad, -Points) %>% scale() %>% as.data.frame()
+ 
+model_pca <- PCA(X=dane_d1, scale.unit = F, ncp=91, graph = F)
+ 
+dane_b6 <- dane_d1 %>%
+  mutate(Big6 = ifelse(row.names(dane_d1) %in% c("Manchester Utd", "Arsenal", "Manchester City", "Chelsea", "Liverpool", "Tottenham"), "Big six", "Reszta"))
+dane_b6$Big6 <- as.factor(dane_b6$Big6)
+ 
+head(round(model_pca$eig[,2:3],2),8) %>% as.data.frame() %>% kable() %>% kable_material(c("striped", "hover"))
+ 
+
+
+```
+
+Na podstawie przeprowadzonej analizy głównych składowych (PCA) na naszych danych, można zauważyć, że pierwsza składowa główna (Dim.1) wyjaśnia 47% całkowitej wariancji. Sugeruje to, że Dim.1 ma największy wpływ na model.
 
 ```{r}
 #| column: page
-#| fig-height: 10
 
-x <- plot_ly(podania_cluster, x = ~proc.short, y = ~proc.mid, z = ~proc.long, color = ~Cluster, colors = c("#e0005e", "#00db74", "#37003c"), type = "scatter3d", mode = "markers", name = ~Squad)
-ggplotly(x)
+pca_ind <- model_pca$ind %>% as.data.frame()
+pca_ind[,1:6] %>% round(2) %>% arrange(desc(coord.Dim.1))%>% head(8) %>% kable() %>% kable_material(c("striped", "hover"))
 ```
 
-radarchart( data , axistype=1 ,
-
-#custom polygon
-
-pcol=rgb(0.2,0.5,0.5,0.9) , pfcol=rgb(0.2,0.5,0.5,0.5) , plwd=4 ,
-
-#custom the grid
-
-cglcol="grey", cglty=1, axislabcol="grey", caxislabels=seq(0,20,5), cglwd=0.8,
-
-#custom labels
-
-vlcex=0.8
-
-)
-
-radarchart( data , axistype=1 ,
-
-#custom polygon
-
-pcol=rgb(0.2,0.5,0.5,0.9) , pfcol=rgb(0.2,0.5,0.5,0.5) , plwd=4 ,
-
-#custom the grid
-
-cglcol="grey", cglty=1, axislabcol="grey", cglwd=0.8,
-
-#custom labels
-
-vlcex=0.8
-
-)
+Jeżeli posortujemy drużyny względem tego jak są wyjaśniane przez pierwszy wymiar, możemy zauważyć ciekawą zależność - mianowicie pierwsze sześć drużyn to wspomniane wcześniej Big six, dodatkowo na pierwszym miejscu widzimy Manchester City który w ostatnich latach dominował angielską piłkę. Możemy potraktować to jako swojego rodzaju ranking.
 
 ```{r}
-library(fmsb)
 
-radar <- podania %>% group_by(Squad) %>% 
-  summarise(proc.short=(sum(Short.passes.attempted)/sum(Passes.attempted))*100,
-            proc.mid=(sum(Medium.passes.attempted)/sum(Passes.attempted))*100,
-            proc.long=(sum(Long.passes.attempted)/sum(Passes.attempted))*100,
-            proc.cross=(sum(Crosses)/sum(Passes.attempted))*100,
-            proc.switches=(sum(Switches/sum(Passes.attempted))*100))
-mfrow=c(1,2)
-x <- radar[c(1,7,12),-1]
-x <- rbind(rep(45,5) , rep(0,5) , x)
-colors_border=c( rgb(0.2,0.5,0.5,0.9), rgb(0.8,0.2,0.5,0.9) , rgb(0.7,0.5,0.1,0.9) )
-colors_in=c( rgb(0.2,0.5,0.5,0.4), rgb(0.8,0.2,0.5,0.4) , rgb(0.7,0.5,0.1,0.4) )
-radarchart( x  , axistype=2 , 
- 
-    #custom polygon
-    pcol=colors_border , pfcol=colors_in , plwd=4 , plty=1,
- 
-    #custom the grid
-    cglcol="grey", cglty=1, axislabcol="grey", caxislabels=seq(0,20,5),cglwd=0.8,
- 
-    #custom labels
-    vlcex=0.8 
-    )
-
-y <- radar[7,-1]
-y <- rbind(rep(45,5) , rep(0,5) , y)
-radarchart( y  , axistype=2 , 
- 
-    #custom polygon
-    pcol=colors_border , pfcol=colors_in , plwd=4 , plty=1,
- 
-    #custom the grid
-     caxislabels=seq(0,20,5), cglwd=0.8,
- 
-    #custom labels
-    vlcex=0.8 
-    )
-
-# Znormalizuj dane
-scaled_data <- scale(data_for_clustering)
-
-x <- data_for_clustering %>% mutate(short=round(mean(proc.short),2), mid=round(mean(proc.mid),2), long=round(mean(proc.long),2))
-
-chuj <- x[4:6] %>% group_by(short, mid, long) %>% summarise()
-
-
-set.seed(12)
-# Create data: note in High school for Jonathan:
-data <- as.data.frame(matrix( sample( 2:20 , 10 , replace=T) , ncol=10))
-colnames(data) <- c("math" , "english" , "biology" , "music" , "R-coding", "data-viz" , "french" , "physic", "statistic", "sport" )
- 
-# To use the fmsb package, I have to add 2 lines to the dataframe: the max and min of each topic to show on the plot!
-data <- rbind(c(5, 50, 20, 50, 50, 50, 50, 50, 50, 50) , rep(0,10) , data)
- 
-# Check your data, it has to look like this!
-head(data)
-
-# Custom the radarChart !
-radarchart( data  , axistype=1 , 
- 
-    #custom polygon
-    pcol=rgb(0.2,0.5,0.5,0.9) , pfcol=rgb(0.2,0.5,0.5,0.5) , plwd=4 , 
- 
-    #custom the grid
-    cglcol="grey", cglty=1, axislabcol="grey", cglwd=0.8,
- 
-    #custom labels
-    vlcex=0.8 
-    )
+fviz_pca_ind(model_pca, label="none", habillage = as.factor(dane_b6$Big6),
+             addEllipses = TRUE, ellipse.level=0.95,
+             palette = c("#00db74", "#37003c"))
 ```
 
+Tak dwa pierwsze wymiary prezentują się na płaszczyźnie PCA. Możemy już tutaj zauważyć, że pierwszy wymiar podzielił nam drużyny na z Big six i resztę.
+
+Spójrzmy teraz jaki poszczególne zmienne mają wpływ na pierwszy - najważniejszy wymiar, pomoże nam to zrozumieć jakimi elementami gry wyróżniają się lepsze zespoły na tle tych gorszych.
+
+### Podania
+
 ```{r}
-kox <- podania %>% group_by(Squad) %>% 
-  summarise(`Podania celne`=sum(Passes.completed),
-            `Krótkie`=sum(Short.passes.completed),
-            `Średnie`=sum(Medium.passes.completed),
-            `Długie`=sum(Long.passes.completed),
-            `Progresywne`=sum(Progressive.passes),
-            `Dośrodkowania`=sum(Crosses),
-            `Na dobieg`=sum(Through.balls),
-            `W pole karne`=sum(Passes.into.penalty.area))
+pca_var <- model_pca$var %>% as.data.frame()# %>% arrange(desc(abs(coord.Dim.1)))
+ 
+# podania
+pca_var_pass <- pca_var[c(4,6,8,14,15),1:2][1] %>%  kable() %>% kable_material(c("striped", "hover"))
 
-kox <- kox[c(1,8,15,16,17,25),-1]
-data <- rbind(c(max(kox[,1]), max(kox[,2]), max(kox[,3]), max(kox[,4]), max(kox[,5]), max(kox[,6]), max(kox[,7]), max(kox[,8]))*1.1 , c(min(kox[,1]), min(kox[,2]), min(kox[,3]), min(kox[,4]), min(kox[,5]), min(kox[,6]), min(kox[,7]), min(kox[,8]))*0.1 , kox)
-
-x <- data[c(1:2, 8),]
-
-
+pca_var_pass
 ```
 
-```{r}
-#| column: screen
-#| layout-nrow: 2
+Analiza korelacji między Dim.1 a różnymi typami podań pokazuje, że najlepsze drużyny wykonują dużą liczbę krótkich i średnich podań, które mają silną dodatnią korelację z Dim.1. Z drugiej strony, te drużyny wykazują ujemną korelację z długimi podaniami, co sugeruje, że ten typ podań jest częściej stosowany przez słabsze drużyny.
 
-mfrow=c(2,3)
-for (i in 3:8){
-  x <- data[c(1:2, i),]
-  radarchart( x  , axistype=0 , 
+### Gra w defensywie
+
+```{r}
+# gra w defensywie
+pca_var_def <- pca_var[c(46:48, 52, 59),1:2][1] %>% kable() %>% kable_material(c("striped", "hover"))
  
-    #custom polygon
-    pcol=rgb(0.2,0.5,0.5,0.9) , pfcol=rgb(0.2,0.5,0.5,0.5) , plwd=4 , 
- 
-    #custom the grid
-    cglcol="grey", cglty=1, axislabcol="grey", cglwd=0.8,
- 
-    #custom labels
-    vlcex=0.8,
-    title="gówno"
-    )
+pca_var_def
+
+#Substitute.apperances
+```
+
+W kontekście strategii obronnych, najlepsze drużyny często odbierają piłkę na połowie przeciwnika, podczas gdy inne drużyny często bronią się na swojej połowie, blokują strzały i uciekają się do fauli. Wszystkie drużyny wykazują zbliżoną częstotliwość odbioru piłki w środkowej części boiska.
+
+### Rzuty rożne
+
+```{r}
+# rzuty rożne
+pca_var_corner <- pca_var[18:20,1:2][1] %>% kable() %>% kable_material(c("striped", "hover"))
+pca_var_corner
+```
+
+Co ciekawe najlepsze drużyny rozgrywają swoje rzuty rożne najczęściej w sposób odchodzący od bramki, czyli z prawej strony rzut rożny wykonuje zawodnik prawonożny a z lewej lewonożny. Raczej unikają krótkich rozegrań i dośrodkowań dochodzących do bramki.
+
+### Gra z piłką
+
+```{r}
+# gra z piłką przy nodze
+pca_var_touch <- pca_var[67:71,1:2][1] %>% kable() %>% kable_material(c("striped", "hover"))
+pca_var_touch
+```
+
+Zawodnicy najlepszych zespołów najwięcej kontaktów z piłką mają w środkowej części i na połowie przeciwnika. Widać, że przeciwnicy często zamykani są w swoim polu karnym, najlepsze drużyny mają dużą korelację z kontaktami w polu karnym przeciwnika, natomiast ujemną we własnym. We własnym polu karnym dużo kontaktów mają słabsze drużyny ponieważ muszą piłkę odbierać i wybijać aby nie stracić bramki.
+
+# Analiza skupień
+
+```{r}
+dane_ak2 <- dane %>% dplyr::select(Squad, Possession, Carries, Touches,
+                                Short.passes.attempted, Medium.passes.attempted, Long.passes.attempted, Switches, Crosses,
+                                Tackles.def.3rd, Tackles.mid.3rd, Tackles.att.3rd, Cleansheets,
+                                Corner.kicks.in, Corner.kicks.out, Corner.kicks.straight,
+                                Touches.def.pen, Touches.def.3rd, Touches.mid.3rd, Touches.att.3rd, Touches.att.pen, Interceptions) %>% group_by(Squad) %>% summarise_all(~mean(.)) %>% as.data.frame()
+rownames(dane_ak2) <- dane_ak2$Squad
+dane_ak2 <- dane_ak2 %>% dplyr::select(-Squad) %>% scale() %>% as.data.frame()
+```
+
+Podczas analizy modelu PCA mogliśmy zauważyć już pewne różnice pomiędzy wielką szóstką a resztą zestawienia. Przyjrzyjmy się teraz temu dokładniej.
+
+### Statystyka Hopkinsa
+
+Po pierwsze musimy sprawdzić czy nasz zbiór posiada tendencje do grupowania się, aby to zbadać użyjemy statystyki Hopkinsa.
+
+```{r}
+library(clustertend)
+hopkins(dane_ak2, n = nrow(dane_ak2)-1)
+```
+
+Otrzymana wartość statystyki jest mniejsza niż 0.5 możemy uznać, że zbiór posiada tendencje do grupowania się
+
+## Podejście niehierarchiczne
+
+### Dobór odpowiedniej liczby klastrów
+
+Do wyznaczenia odpowiedniej liczby klastrów przyda nam się macierz odległości stworzona z naszych danych. Wszystkie zmienne w naszym zbiorze są ilościowe zatem do wyznaczenia tej macierzy zastosujemy metodę euklidesową.
+
+```{r}
+library(NbClust)
+set.seed(123)
+d2 <- get_dist(dane_ak2)
+fviz_dist(d2)
+```
+
+Na heatmapie utworzonej na podstawie macierzy odległości możemy zauważyć dwa skupiska:
+
+-   Jedno mniejsze zawierające 6 drużyn z wcześniej wspomnianego "Big six"
+
+-   Drugie większe zawierające pozostałe drużyny ligi
+
+Sprawdźmy teraz co na ten temat mówią inne sposoby estymowania najlepszej liczby klastrów
+
+```{r}
+#fviz_nbclust(dane_ak2, FUNcluster = hcut, method = "wss", k.max = 10)
+#fviz_nbclust(dane_ak2, FUNcluster = hcut, method = "silhouette", k.max = 10)
+#fviz_nbclust(dane_ak2, FUNcluster = hcut, method = "gap_stat", k.max = 10)
+
+res.nb <- NbClust(dane_ak2, distance = "euclidean",
+                  min.nc = 2, max.nc = 10,
+                  method = "ward.D2", index = "kl")
+
+df <- as.data.frame(res.nb$Best.nc[1])
+rownames(df) <- "kl"
+
+for (i in c("ch", "hartigan", "cindex", "db", "silhouette", "duda", "pseudot2", "beale", "ratkowsky", "ball", "ptbiserial", "gap", "frey", "mcclain", "gamma", "gplus", "tau", "dunn", "sdbw")) {
+  res.nb <- NbClust(dane_ak2, distance = "euclidean",
+                  min.nc = 2, max.nc = 10,
+                  method = "ward.D2", index = i)
+  df2 <- as.data.frame(res.nb$Best.nc[1])
+  rownames(df2) <- i
+  df <- rbind(df, df2)
 }
 
+colnames(df) <- "Optymalna liczba klastrów"
+df %>% kable() %>% kable_material(c("striped", "hover"))
+```
 
+Większość metod również sugeruje nam podział zbioru na dwie grupy co też uczynimy w dalszej analizie.
+
+Do podziału naszego zbioru zdecydowaliśmy się użyć metody k-średnich.
+
+```{r}
+mod.km <- kmeans(dane_ak2, centers = 2, nstart = 25)
+fviz_cluster(mod.km, data = dane_ak2) # metoda k-srednich
+```
+
+## Podejście hierarchiczne
+
+Najlepszym sposobem na wizualizację hierarchicznego podziału zbioru jest dendrogram. Do budowy naszego zdecydowaliśmy się metody complete linkeage.
+
+```{r}
+mod.hc <- hcut(dane_ak2, k = 2, stand = TRUE, hc_method = "complete")
+fviz_dend(mod.hc, rect = TRUE, cex = 0.5, k_colors =  c("#00db74","#37003c"))
+```
+
+Jak widzimy dendrogram również wyodrębnił dwie grupy takie same jak w podejściu niehierarchicznym.
+
+# Analiza dyskryminacyjna
+
+```{r}
+library(tidyverse)
+library(candisc)
+library(MASS)
+
+dane_dysk <- dane %>% dplyr::select(Squad, Possession, Carries, Touches,
+                                Short.passes.attempted, Medium.passes.attempted, Long.passes.attempted, Switches, Crosses,
+                                Tackles.def.3rd, Tackles.mid.3rd, Tackles.att.3rd, Cleansheets,
+                                Corner.kicks.in, Corner.kicks.out, Corner.kicks.straight,
+                                Touches.def.pen, Touches.def.3rd, Touches.mid.3rd, Touches.att.3rd, Touches.att.pen, Interceptions) %>%
+  mutate(Big6 = ifelse(Squad %in% c("Manchester Utd", "Arsenal", "Manchester City", "Chelsea", "Liverpool", "Tottenham"), "yes", "no")) %>%
+  #dplyr::select(-Squad) %>% 
+  mutate_if(is.numeric, scale) %>% as.data.frame()
+
+#dane_dysk
+
+#dane_dysk <- dane_d1 %>% select(Attendance, Possession, Carries, Touches,
+#                                Short.passes.attempted, Medium.passes.attempted, Long.passes.attempted, Switches, Crosses,
+#                                Tackles.def.3rd, Tackles.mid.3rd, Tackles.att.3rd, Cleansheets,
+#                                Corner.kicks.in, Corner.kicks.out, Corner.kicks.straight,
+#                                Touches.def.pen, Touches.def.3rd, Touches.mid.3rd, Touches.att.3rd, Touches.att.pen, Interceptions) %>% 
+#                                mutate(Squad = rownames(dane_dysk))
+
+dane_dysk <- dane_dysk %>% mutate(Big6 = ifelse(Squad %in% c("Manchester Utd", "Arsenal", "Manchester City", "Chelsea", "Liverpool", "Tottenham"), "yes", "no")) %>% dplyr::select(-Squad)
+dane_dysk$Big6 <- as.factor(dane_dysk$Big6)
+```
+
+Aby czy określenie big six jest dalej aktualne stworzymy model analizy dyskryminacyjnej a następnie zrobimy predykcję na zbiorze danych z obecnie trwającego sezonu. Do stworzenia modelu posłużymy się zmiennymi utworzonymi za pomocą modelu PCA
+
+### Założenia
+
+#### Brak współliniowości
+
+Jednym z głównych założeń budowy modelu funkcji dyskryminacyjnej jest brak silnej korelacji między zmiennymi, do wykrycia i pozbycia się ich posłużyliśmy się funkcją `vif`. Zobaczmy jakie zmienne nam zostały i jak teraz wyglądają ich korelacje.
+
+```{r}
+#| column: page
+#| fig-width: 40
+#| fig-height: 30
+df <- dane_dysk %>% dplyr::select(-Big6)
+
+do_spr <- df %>% dplyr::select(colnames(df[faraway::vif(df)<5]))
+
+library(GGally)
+
+
+ggpairs(dane[colnames(do_spr)])+
+  theme(strip.text.x = element_text(size = 30),
+        strip.text.y = element_text(size = 30))
+```
+
+#### Liczebność próby i równoliczność grup
+
+Zakłada się, że w modelach analizy dyskryminacyjnej obserwacji było co najmniej 4-5 razy więcej niż zmiennych użytych w modelu, zaleca się również, żeby wszystkie grupy w analizie dyskryminacyjnej były równoliczne w naszym przypadku w każdym sezonie Big six to jedynie 30% wszystkich drużyn w tabeli co tworzy dosyć sporą dysproporcję. Pozbędziemy się zatem losowo kilku obserwacji drużyn spoza tego grona aby zachować równowagę.
+
+```{r}
+#| layout-nrow: 1
+#| column: page
+#| label: fig-licz
+#| fig-cap: 
+#| - "Przed wyrównaniem"
+#| - "Po wyrównaniu"
+#| fig-cap-location: bottom
+#| fig-width: 20
+#| fig-height: 20
+
+# Ustalamy ziarno losowości dla powtarzalności wyników
+set.seed(123)
+not_big_six <- do_spr %>% mutate(Big6 = dane_dysk$Big6) %>% filter(Big6=="no")
+big_six <- do_spr %>% mutate(Big6 = dane_dysk$Big6) %>% filter(Big6=="yes")
+
+indeksy <- sample(nrow(not_big_six), 48)
+
+not_big_six_50 <- not_big_six[-indeksy,]
+
+nowe_dane <- rbind(big_six, not_big_six_50)
+
+dane_dysk %>% ggplot(aes(x=Big6, fill=Big6))+geom_bar()+
+  theme(axis.text.x = element_text(hjust = 1, size = 30),
+        axis.title = element_text(size = 30),
+        axis.text.y = element_text(size = 30),
+        legend.position = "None")
+
+nowe_dane %>% ggplot(aes(x=Big6, fill=Big6))+geom_bar()+
+  theme(axis.text.x = element_text(hjust = 1, size = 30),
+        axis.title = element_text(size = 30),
+        axis.text.y = element_text(size = 30),
+        legend.title = element_text(size = 30),
+        legend.text = element_text(size = 30))
+```
+
+Teraz w naszym zbiorze pozostały 72 drużyny to w dalszym ciągu wystarczająco.
+
+#### Rozkład normalny
+
+```{r}
+library(rstatix)
+x <- rstatix::mshapiro_test(nowe_dane[-11]) %>% as.data.frame() %>% mutate(method = "multivariate Shapiro-Wilk normality test", p.value = as.character(p.value)) 
+x[c(3,2)] %>% kable() %>% kable_material(c("striped", "hover"))
+```
+
+Na podstawie testu Shapiro-Wilka odrzucamy również hipotezę o wielowymiarowej normalności. Jednak wielu analityków pomija badanie tego założenia, więc nie będziemy się tym przejmować. Jedziemy dalej!
+
+#### Równość macierzy kowariancji
+
+```{r}
+box_m(nowe_dane[-11], nowe_dane$Big6)[c(4,2)] %>% as.data.frame() %>% kable %>% kable_material(c("striped", "hover"))
+```
+
+Hipotezę o równości macierzy kowariancji również odrzucamy, ale dzięki temu, że obie grupy są równoliczne możemy przymknąć na to oko ;)
+
+### Budowa modelu predykcyjnego
+
+Jednym z naszych głównych celów analizy było sprawdzenie czy określenie Big six jest dalej aktualne. Do wytrenowania modelu analizy dyskryminacyjnej posłużymy się całym zbiorem danych a następnie przetestujemy go na danych z aktualnego sezonu (na dzień 28 Stycznia 2024r). Warto zaznaczyć, że jesteśmy dopiero na półmetku sezonu i mimo ustandaryzowania zmiennych wyniki mogą nie być adekwatne.
+
+### Weryfikacja modelu
+
+```{r}
+dane2 <- read.csv("dane\\dane2.csv")
+rownames(dane2) <- dane2$Squad
+dane2 <- dane2 %>% dplyr::select(colnames(df[faraway::vif(df)<5])) %>% scale() %>% as.data.frame()
+
+dane_testowe <- dane2 %>% dplyr::select(colnames(df[faraway::vif(df)<5])) %>% scale() %>% as.data.frame() %>% mutate(Big6 = as.factor(ifelse(rownames(dane2) %in% c("Manchester Utd", "Arsenal", "Manchester City", "Chelsea", "Liverpool", "Tottenham"), "yes", "no")))
+
+dane_treningowe <- dane %>% dplyr::select(colnames(df[faraway::vif(df)<5]) )%>% scale() %>% as.data.frame() %>%
+  mutate(Big6 = as.factor(ifelse(dane$Squad %in% c("Manchester Utd", "Arsenal", "Manchester City", "Chelsea", "Liverpool", "Tottenham"), "yes", "no")))
+
+
+model_lda <- lda(Big6~., data = dane_treningowe)
+pred <- predict(model_lda, newdata = dane_testowe)
+
+tabela <- table(pred = pred$class, obs = dane_testowe$Big6)
+#tabela
+prop <- prop.table(tabela)
 ```
 
 ```{r}
-kox <- dane %>% group_by(Squad) %>% 
-  summarise(`Bramki`=sum(Tackles.att.3rd)/sum(Tackles),
-            `Akcje bramkowe`=sum(Goal.creatiing.actions),
-            `Bramki z gry`=sum(GCA.Live.ball.pass),
-            `Bramki po stałym fragmencie`=sum(GCA.Dead.ball.pass),
-            `Bramki po minieciu przeciwnika`=sum(GCA.Take.on),
-            `Bramki po strzale`=sum(GCA.Shot),
-            `Bramki po faulu`=sum(GCA.Fouls.drawn),
-            `Bramki po akcji z obrony`=sum(GCA.Deffensive.action))
-
-  kox <- kox[c(1,8,15,16,17,25),-1]
-data <- rbind(c(max(kox[,1]), max(kox[,2]), max(kox[,3]), max(kox[,4]), max(kox[,5]), max(kox[,6]), max(kox[,7]), max(kox[,8]))*1.1 , c(min(kox[,1]), min(kox[,2]), min(kox[,3]), min(kox[,4]), min(kox[,5]), min(kox[,6]), min(kox[,7]), min(kox[,8]))*0.1 , kox)
+ggplot(as.data.frame(tabela), aes(x=obs, y=pred)) +
+  geom_tile(aes(fill = Freq), colour = "white") +
+  geom_text(aes(label = sprintf("%1.0f", Freq)), vjust = 1) +
+  scale_fill_gradient(low = "white", high = "#00db74") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, size = 12, hjust = 1)) +
+  coord_fixed()
 ```
+
+**Miary macierzy pomyłek**
+
+-   Accuracy = `r 15/20*100`%
+-   Error rate = `r (1-(15/20))*100`%
+-   Sensitivity = `r (3/6)*100`%
+-   Specificity = `r round((12/14)*100,2)`%
+
+Widzimy, że ogólnie nasz model poradził sobie nienajgorzej z klasyfikacją ponieważ miał rację w 75%, natomiast nam najbardziej zależało aby 'odnaleźć' drużyny z Big six to zadanie udało mu się połowicznie. Zobaczmy teraz jakie drużyny zostały zaklasyfikowane do tego grona.
 
 ```{r}
-#| column: screen
-#| layout-nrow: 2
-
-mfrow=c(2,3)
-for (i in 3:8){
-  x <- data[c(1:2, i),]
-  radarchart( x  , axistype=0 , 
- 
-    #custom polygon
-    pcol=rgb(0.2,0.5,0.5,0.9) , pfcol=rgb(0.2,0.5,0.5,0.5) , plwd=4 , 
- 
-    #custom the grid
-    cglcol="grey", cglty=1, axislabcol="grey", cglwd=0.8,
- 
-    #custom labels
-    vlcex=0.8,
-    title="gówno"
-    )
-}
-
+dane2 <- read.csv("dane\\dane2.csv")
+wyniki <- data.frame(Drużyna=dane2$Squad, Predykcja = pred$class)
+wyniki %>% kable %>% kable_material(c("striped", "hover")) %>% row_spec(c(1,2,6,8,10), background = "#00db74")
 ```
+
+# Podsumowanie
+
+-   Styl gry jaki wyróżnia najlepsze zespoły można podsumować jako krótkie podania głównie na połowie przeciwnika, wysoki pressing czyli odbiór piłki jeszcze na połowie rywala, nie czekając na rozwój akcji. Lepsze drużyny również wyróżniają się na tle wykonywania stałych fragmentów gry.
+
+-   Można wyraźnie zaobserwować odrębność Big six na tle reszty zestawienia, ale możemy podejrzewać, że z czasem ta różnica się zaciera patrząc na wyniki tych drużyn w obecnym sezonie i nasz model predykcyjny.

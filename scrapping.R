@@ -2,8 +2,6 @@ library(rvest)
 library(dplyr)
 library(stringr)
 
-setwd("C:\\Premier League Project")
-
 Rk <- c()
 Squad <- c()
 Matches.played <- c()
@@ -562,4 +560,4 @@ df_order <- df %>% arrange(Season, Rk)
 df_order$Season <- rev(df_order$Season)
 
 
-write.csv(df_order, "C:\\Premier League Project\\dane.csv", row.names = FALSE)
+write.csv(df_order, "dane\\dane.csv", row.names = FALSE)
